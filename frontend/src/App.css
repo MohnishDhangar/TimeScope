@@ -403,13 +403,13 @@ body:has(.observatory-app) { overflow: hidden; }
 .evidence-toolbar .evidence-actions button {
   font-size: 11px; padding: 9px 11px; min-height: 34px;
 }
-.evidence-toolbar .evidence-actions button:first-child {
-  background: transparent; border-color: #67676b; color: #eee; order: 2;
+.evidence-toolbar .evidence-actions .copy-evidence-link {
+  background: transparent; border-color: #67676b; color: #eee;
 }
-.evidence-toolbar .evidence-actions button:last-child {
-  background: var(--accent); border-color: var(--accent); color: white; order: 1;
+.evidence-toolbar .evidence-actions .download-evidence {
+  background: var(--accent); border-color: var(--accent); color: white;
 }
-.evidence-toolbar .evidence-actions button:last-child:hover:not(:disabled) { background: #bb1821; }
+.evidence-toolbar .evidence-actions .download-evidence:hover:not(:disabled) { background: #bb1821; }
 .evidence-toolbar .share-help { font-size: 10px; line-height: 1.4; }
 .control-column .offline, .control-column .alert {
   font-size: 11px; line-height: 1.5; padding: 9px 11px; margin: 8px 0;
