@@ -11,7 +11,7 @@ export default function App() {
  const [initialLink]=useState(()=>readLink(location.search))
  const [screen,setScreen]=useState<'search'|'viewer'|'library'>(()=>initialLink.id?'viewer':'search')
  const controlPanel=useRef<HTMLDivElement>(null)
- useEffect(()=>{controlPanel.current?.scrollTo({top:0,behavior:'instant'})},[screen])
+ useEffect(()=>{controlPanel.current?.scrollTo({top:0,behavior:'auto'})},[screen])
  const [ra,setRa]=useState(String(initialLink.query.ra)), [dec,setDec]=useState(String(initialLink.query.dec)), [fov,setFov]=useState(String(initialLink.query.fov))
  const [session,setSession]=useState<Session|null>(null),[index,setIndex]=useState(0),[playing,setPlaying]=useState(false),[speed,setSpeed]=useState(800),[zoom,setZoom]=useState(1)
  const [pan,setPan]=useState({x:0,y:0}),[error,setError]=useState(initialLink.invalidId?'Invalid session link. Check the coordinates and run a new search.':''),[busy,setBusy]=useState(false),[examples,setExamples]=useState<{id:string;query?:{ra:number;dec:number;fov:number};frames?:number;partial?:boolean;label?:string;description?:string;preview?:string;start?:string;end?:string}[]>([])
@@ -48,7 +48,7 @@ export default function App() {
  }
  useEffect(()=>{
   const {id,params}=initialLink
-  if(id)load(id,++generation.current,params).catch(e=>setError(String(e)))
+  if(id)load(id,++generation.current,params).catch(e=>{setError(String(e));setScreen('search')})
   // Stale requests are ignored using their generation token.
  },[initialLink])
  const view={index,reference,compare,smooth,zoom,pan,speed}
@@ -89,7 +89,7 @@ export default function App() {
      <div className="section-heading analysis-heading"><h1>Observation analysis</h1><p>{frame?'Acquisition times, wavelengths and source metadata.':'Select a field to begin.'}</p></div>
   {session?.status==='ready'&&frame&&<section className="evidence-toolbar" aria-label="Investigation evidence">
    <div className="evidence-title"><strong>Investigation evidence</strong></div>
-   <div className="evidence-actions"><button onClick={share}>Copy view link</button><button disabled={exporting} onClick={downloadEvidence}>{exporting?'Preparing evidence…':'Download evidence card'}</button></div>
+   <div className="evidence-actions"><button className="download-evidence" disabled={exporting} onClick={downloadEvidence}>{exporting?'Preparing evidence…':'Download evidence card'}</button><button className="copy-evidence-link" onClick={share}>Copy view link</button></div>
    <p className="share-help">Links may expire. Evidence cards embed preview images for offline reading.</p>
    {shareUrl&&<label className="share-link">View link<input aria-label="View link" readOnly value={shareUrl} onFocus={e=>e.target.select()}/></label>}
    {shareMessage&&<p role="status">{shareMessage}</p>}
