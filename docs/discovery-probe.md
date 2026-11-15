@@ -26,3 +26,7 @@ All five SIA variants and TAP failed on both repeats. There is no measured advan
 Full per-attempt UTC times, URLs, HTTP statuses, durations, payload hashes, environment labels and release acceptance evidence have one source of truth: [discovery-repair-validation.json](discovery-repair-validation.json). Local diagnostic response files remain outside Git. The script can reproduce the diagnostic but should not be repeatedly run against a failing service.
 
 Source for the TAP join, point containment and timing caveat: [official IRSA SPHEREx cutouts tutorial](https://caltech-ipac.github.io/irsa-tutorials/spherex-cutouts/) (accessed November 15, 2026). Point containment alone does not establish full-field coverage. No untested TAP adapter was added.
+
+## Repair deployment acceptance
+
+Revision `timescope-00003-t87` was deployed once and checked publicly. The original query recovered with bundled historical metadata and four fresh FITS; the changed-declination query failed with four 502s and one timeout. Fresh arbitrary-coordinate discovery remains unverified because the official archive returned errors during validation. The first original-field browser polling attempt failed; reopening the same retained session passed. No further archive probes were issued. All exact results, IDs and elapsed times are in the central validation JSON.

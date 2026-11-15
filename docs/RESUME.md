@@ -1,18 +1,24 @@
-# Resume checkpoint
+# Resume checkpoint — discovery repair
 
-## Master-task Stage A checkpoint (November 15, ~16:55 IST)
+Updated November 15, 2026. Read FINAL-STATUS.md and discovery-repair-validation.json before changing code. Deadline 23:59 IST; feature cutoff 20:30 IST. No autonomous work or monitoring is scheduled after the current turn ends.
 
-Master task supersedes earlier hosting choices: Google Cloud Run primary, ephemeral live sessions, one CPU/4 GiB/gen2/instance-based/min1/max1/concurrency10/timeout300. Actual primary URL https://timescope-331427520592.us-central1.run.app . Independent static fallback remains unchanged.
+## Two worktrees — preserve both
 
-Repository main was clean at 91edb20 on entry. New implementation commits d8472e6 (aggregate storage/API hardening) and e304f03 (Cloud Run source configuration). Cloud Build succeeded using committed source e304f03, dedicated builder with roles/run.builder and a separate runtime identity. Serving revision timescope-00001-v78. Full source/image mapping is in cloud-deployment-record.json. gcloud is installed under the user's local lib; signed-in identity and project access work. Project timescope-spaceapps-2026, trial screenshot ₹28,569 remaining before deployment, user confirms expiry90days fromtoday (~Feb13). No billing upgrade. Project gross budget ₹25k, alerts at₹5k steps configured; delivery not tested.
+- `timescope-discovery-repair`, branch `release/discovery-repair`: stable repair, deployed source a11ae4e35c0b44aa118e1ab8ebf2987108fa072b; subsequent evidence/document edits left uncommitted at the owner's request. Owner will manually commit/push.
+- Original `timescope`, branch `main`: unfinished wavelength-selection work was preserved, including spectral.py, detector/mode controls and its real-data validation artifacts. None of it is in the current cloud image. Do not discard it, blindly copy files over it or deploy it as though it contains the repair.
 
-Current checks reproduced:45Python tests,18frontend checks (17browser +1logic),build and lint passed. Storage defaults512MiB aggregate,6h TTL,leases,atomicmetadata,12newjobs/hour,oneactivejob,publicPNG/manifest allowlist. Internal artifacts not exposed. New frame-count form/link recovery and temporary-session disclosure. Existing raw local data preserved outside disposable runtime before cleanup testing. Five offline real-FITS jobs measured ~0.30–0.38s and peakRSS~231MiB; not network benchmarks.
+## Verified repair
 
-Public all-three-bundle browser checks passed, including comparison/zoom/sharing/export/mobile. Both real public search attempts failed with IRSA502. Health correctly distinguishes archive failure. NO successful public live retrieval, cloud Busy gate on an actual successfuljob, or controlled cloud restart established. Cloud memory sampled~110–112MiB near failedjobs; not full-processing peak. No secrets in committed records.
+Separate commits 84f86d3 (historical metadata), 8f2c727 (bounded discovery) and a11ae4e (judging docs/MIT). 106 Python tests, 20 frontend checks, lint and production build passed. Actual Cloud Build succeeded; revision timescope-00003-t87 serves 100% traffic with unchanged resources. Deployed source/image/revision recorded in cloud-deployment-record.json. No submission tag or official NASA submission yet.
 
-NEXT: StageB wavelength-aware selection and detector constraint, using preserved realFITS to validate offline while archive is unreliable; then StageC exploratory residuals if before20:30IST. Do not duplicate hardening or provisioning. Do not mark cloudlive acceptance complete. No submission tag yet; later freeze at22:30 with fullchecks. Official challenge page still returned502 during this review. See authoritative docs/CLOUD-DEPLOYMENT.md and docs/FINAL-STATUS.md. Historical paragraphs above are superseded by this checkpoint.
+One requests-only local probe: 12/12 HTTP 502s, no successful SIA/TAP response. No underlying cause established. No unvalidated new adapter added. Exactly two fresh public scientific searches: original field recovered with historical metadata and four fresh FITS; Dec −2.24514722 failed with four 502s and a timeout. No substituted observations. Initial original-field browser polling failed; same-session reopening passed viewer/disclosure/export. All three bundles and separate static fallback were verified.
 
+## User decisions
 
-## Superseding recovery checkpoint
+The owner approved MIT and confirmed no earlier project code was reused. The owner will manually commit further changes; do not create additional commits unless asked. Shell GitHub push failed for missing credentials; use the owner's authenticated Git client. Do not print/request credentials or use destructive Git commands.
 
-Current revision timescope-00002-8kk, code commit d7516b97baa8df8df0020b6149558b76a1e71386. Public original-field live cutout retrieval now VERIFIED: 4 fresh FITS files, correct field, complete processing 16.634s, comparison and evidence export. Discovery metadata was reused from the exact successful query at 12:28:44UTC today; viewer/export explicitly disclose this. Do NOT claim fresh public discovery or arbitrary sky availability. Snapshot max age 24h, exact coords/FOV/collections/geometry only. Per-frame FITS cache hits separately recorded. Real cloud job proved progress without polling, Busy 429, examples 200. Tests 52 Python,19 frontend+lint/build passed. See docs/discovery-recovery*. No need rerun this retrieval. Primary URL unchanged. Next Stage B remains wavelength selection. Git push authentication still unresolved unless user configured it separately. No submission tag yet.
+## Next work
+
+Finish/publish the current evidence commit through the owner. Then inspect the already preserved wavelength milestone rather than re-implementing it. If integrating it, combine this repair's discovery/cache/error/provenance policies with the wavelength settings, bump the processing version and test cache isolation and real-field selection. Keep the stable cloud version while working; deploy only a validated milestone. No new optional features after 20:30 IST.
+
+README/SETUP/THIRD_PARTY/LICENSE are updated. Submission text, a 30-second script/captions and a seven-slide outline are drafted. PPT/PDF artifact, recorded/uploaded video, final AI-tool confirmation, exact immutable release tag, trial balance/expiry verification and official submission remain pending. Do not claim them completed. Aim to submit by 23:15 IST.

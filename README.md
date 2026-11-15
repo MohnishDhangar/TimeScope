@@ -6,7 +6,7 @@ Built for NASA Space Apps 2026, **Planet X and SPHEREx**. Planet X motivates exp
 
 **[Open the application](https://timescope-331427520592.us-central1.run.app/)** · **[Independent real-data showcase](https://timescope-spherex.roanpaste16.chatgpt.site/)** · [Source](https://github.com/MohnishDhangar/TimeScope)
 
-![Actual TimeScope viewer with genuine SPHEREx observations](docs/img/cloudrun-showcase.png)
+![Actual TimeScope viewer with genuine SPHEREx observations](docs/img/discovery-repair-original-field.png)
 
 ## Explore a field
 

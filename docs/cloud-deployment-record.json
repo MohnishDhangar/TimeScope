@@ -1,31 +1,36 @@
 {
-  "service_url": "https://timescope-i5f5ud46pa-uc.a.run.app",
-  "revision": "timescope-00001-v78",
-  "service_annotations": {
-    "run.googleapis.com/maxScale": "1",
-    "run.googleapis.com/minScale": "1"
-  },
-  "revision_annotations": {
-    "run.googleapis.com/client-name": "gcloud",
-    "run.googleapis.com/client-version": "593.0.0",
-    "run.googleapis.com/cpu-throttling": "false",
-    "run.googleapis.com/execution-environment": "gen2",
-    "run.googleapis.com/startup-cpu-boost": "true"
-  },
+  "service_url": "https://timescope-331427520592.us-central1.run.app",
+  "project": "timescope-spaceapps-2026",
+  "region": "us-central1",
+  "service": "timescope",
+  "revision": "timescope-00003-t87",
+  "image_digest": "us-central1-docker.pkg.dev/timescope-spaceapps-2026/cloud-run-source-deploy/timescope@sha256:e31cddca734514acb9280bcce981dfc4e01ac9b2626e9a67b13929a46f50dcfa",
+  "source_commit": "a11ae4e35c0b44aa118e1ab8ebf2987108fa072b",
+  "source_branch": "release/discovery-repair",
+  "source_worktree_clean_at_deployment": true,
+  "deployment_timestamp_utc": "2026-11-15T13:29:54.221985Z",
+  "deployment_timestamp_source": "Cloud Run revision Ready condition",
+  "build_status": "SUCCESS",
+  "build_id": "5c660eae-bc54-4a2a-a723-9ffe907a4afa",
+  "build_finished_utc": "2026-11-15T13:29:01.936706Z",
   "resources": {
     "limits": {
       "cpu": "1",
       "memory": "4Gi"
     }
   },
+  "service_annotations": {
+    "run.googleapis.com/minScale": "1",
+    "run.googleapis.com/maxScale": "1"
+  },
+  "revision_annotations": {
+    "run.googleapis.com/cpu-throttling": "false",
+    "run.googleapis.com/execution-environment": "gen2"
+  },
+  "billing_mode": "instance-based (CPU throttling disabled)",
   "concurrency": 10,
   "timeout": 300,
-  "port": [
-    {
-      "containerPort": 8000,
-      "name": "http1"
-    }
-  ],
+  "port": 8000,
   "environment": [
     {
       "name": "TIMESCOPE_DATA_DIR",
@@ -44,17 +49,16 @@
       "value": "12"
     }
   ],
-  "runtime_identity": "timescope-runtime@timescope-spaceapps-2026.iam.gserviceaccount.com",
   "traffic": [
     {
       "latestRevision": true,
       "percent": 100,
-      "revisionName": "timescope-00001-v78"
+      "revisionName": "timescope-00003-t87"
     }
   ],
-  "image_digest": "us-central1-docker.pkg.dev/timescope-spaceapps-2026/cloud-run-source-deploy/timescope@sha256:780c5730a072c8d5fda05b52e1fbf8e04cb083eaef1d971bf18c3c2a2f35623d",
-  "build_status": "SUCCESS",
-  "source_commit": "e304f036088963376bddde6538cbf85b8673931e",
-  "build_id": "06026b3f-36e1-4bbe-8193-9c8a6a2cc449",
-  "deployment_timestamp_utc": "2026-11-15T11:20:26Z"
+  "retained_rollback_revision": "timescope-00002-8kk",
+  "deployment_count_this_repair": 1,
+  "competition_tag": null,
+  "competition_submission_completed": false,
+  "note": "Later edits are documentation/evidence only and are left uncommitted for the owner. No second deployment is needed for these documents; this is not the final competition freeze."
 }
