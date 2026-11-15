@@ -119,7 +119,7 @@ The verified Cloud Run deployment is revision `timescope-00008-s5w`, built from 
 
 TimeScope acknowledges NASA funding, the joint JPL/Caltech SPHEREx mission, NASA/IPAC IRSA and the instrument, calibration and archive teams. NASA affiliation or endorsement is not implied.
 
-**Development disclosure:** OpenAI ChatGPT and Codex were used in planning, research, documentation and debugging. Scientific claims are supported by the recorded observations and validation evidence, not by generated text. The project owner confirmed that no earlier personal-project code was reused.
+**Development disclosure:** OpenAI ChatGPT and Codex were used in planning, research, documentation and debugging. Scientific claims are supported by the recorded observations and validation evidence, not by generated text.
 
 ## License
 
