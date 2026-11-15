@@ -14,8 +14,10 @@ Tested application source: `2ec672dabb10bd2a47dad442e1c9423196af4950`; docs base
 
 Fresh actual deployed screenshots are in screenshots/final/: search, library, viewer, comparison, 1366×768 laptop and 390×844 mobile; desktop captures use 1920×1080. The full public suite is rerun separately and recorded in final-acceptance.md. The initial missing-server failure is a test-environment failure, not hidden as an application pass.
 
-Scientific checksum/wavelength reconstruction was reproduced during the immediately preceding integration acceptance; current package does not claim it was repeated a second time here. Software success is not scientific detection validation.
+Scientific checksum/wavelength reconstruction was reproduced during this acceptance run; the 17 preserved original FITS hashes, identity/date/detector/unit headers and FLAGS presence were checked again. Software success is not scientific detection validation.
 
-Public rerun: 26 passed, 0 failed/skipped in 1.4 minutes. Small CSS-only final corrections remove a stale teal panel and improve graph-axis readability; the final freeze build/regression is recorded with release identity after deployment.
+Final target-library build and lint passed; 122 backend tests passed again. Two new genuine target-bundle browser scenarios exercise API-unavailable loading, stepping, comparison, explicit bundle provenance and evidence export. Final suite: 28 checks, 27 browser scenarios plus one metadata-logic check. Production recheck result is recorded after the data-library deployment.
 
-Final transport repair raises the per-read ceiling from 20 to 35 seconds, bounded by remaining discovery time, to accommodate observed successful 24–25 s responses. Shared discovery/job budgets and retry caps remain unchanged. Synthetic transport regression added; final suite result: 122 backend tests passed. DR1-first is deferred; this change does not establish successful fresh discovery.
+Bundle-notice integration initially exposed three assertion/fixture mismatches: the partial-result status locator became ambiguous, and two synthetic historical-reuse fixtures still declared themselves bundled. The locator now selects the partial status, and live-reuse fixtures explicitly set cached_showcase=false. Behavioral assertions remain intact; the complete suite was rerun.
+
+Final library candidate: production build/lint passed; backend 122 passed (2.14 s); frontend 28 passed (13.0 s), no failed/skipped checks. Bundle exports explicitly disclose no fresh discovery/retrieval. PNG bytes/scientific identities for all six new target products match their original public processing manifests; raw FITS were not independently re-downloaded locally.

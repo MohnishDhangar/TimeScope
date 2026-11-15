@@ -11,3 +11,5 @@
 - [ ] Monitor cloud credit/usage and actual trial expiry; preserve the submitted version through judging.
 
 No official competition submission has been performed by the assistant. No organizer waiver of named-target testing was verified.
+
+If the annotated tag is local only, publish it from the release worktree using `git push origin submission-v1` in an authenticated Git client. Do not force or overwrite it. The exact commit and source/image mapping are in the final handoff.

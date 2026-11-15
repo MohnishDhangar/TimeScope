@@ -1,6 +1,6 @@
 # Scientific and operational limitations
 
-Fresh arbitrary-coordinate discovery remains unverified because the official archive returned errors during validation. A historical-inventory recovery is distinct from fresh discovery. Bundled data are distinct from a new retrieval. Five-target outcomes must be read individually; a field sequence does not establish detection of its named target.
+Fresh public discovery succeeded for one previously failing field after the read allowance was extended; other targets still encountered timeouts. This is not a guarantee of general archive availability. A historical-inventory recovery is distinct from fresh discovery. Bundled data are distinct from a new retrieval. Five-target outcomes must be read individually; a field sequence does not establish detection of its named target.
 
 Wavelength, PSF, calibration, background, masking and registration can change apparent source structure. Shared display scaling is not flux calibration. Bright-peak matches are preliminary, not catalog-validated astrometric accuracy. The time–wavelength plot is not a spectrum or light curve. Approximate local bandwidth is not propagated uncertainty. No quantitative motion, variability, validated subtraction, spectrum or candidate detection is claimed.
 

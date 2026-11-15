@@ -1,0 +1,780 @@
+{
+  "started_utc": "2026-11-15T16:50:26.253070+00:00",
+  "environment": "Public Cloud Run existing production API",
+  "source_commit": "2ec672dabb10bd2a47dad442e1c9423196af4950",
+  "revision": "timescope-00004-q59",
+  "targets": [
+    {
+      "target": "Barnard's Star",
+      "canonical_reference_position": "17 57 48.4984700685 +04 41 36.113879676",
+      "coordinate_source": "https://simbad.cds.unistra.fr/simbad/sim-id?Ident=BD%2B043561a",
+      "reference_epoch": "J2000",
+      "frame": "ICRS",
+      "proper_motion": null,
+      "epoch_caveat": "Reference-position field test only; no source position measurement or propagated detection claimed.",
+      "query": {
+        "ra": 269.45207695861876,
+        "dec": 4.693364966576667,
+        "fov": 10,
+        "frames": 4,
+        "detector": null,
+        "selection_mode": "temporal"
+      },
+      "reason": "High proper motion; wide field includes displacement from reference epoch",
+      "status": "BLOCKED",
+      "attempt_utc": "2026-11-15T16:50:26.944132+00:00",
+      "submission_http_status": 202,
+      "submission": {
+        "id": "7c2dde8f7bc74042b53e2a740c627ba6",
+        "reused": false
+      },
+      "session_id": "7c2dde8f7bc74042b53e2a740c627ba6",
+      "result": {
+        "status": "failed",
+        "id": "7c2dde8f7bc74042b53e2a740c627ba6",
+        "message": "IRSA did not respond within the time limit; your coordinates have been preserved. Please retry in a few minutes.",
+        "code": "archive_timeout",
+        "retryable": true,
+        "query": {
+          "ra": 269.45207695861876,
+          "dec": 4.693364966576667,
+          "fov": 10.0,
+          "frames": 4,
+          "detector": null,
+          "selection_mode": "temporal"
+        },
+        "http_status": null,
+        "discovery_attempts": 3,
+        "discovery_failures": [
+          {
+            "attempt": 1,
+            "route": "Astroquery SIA (explicit query endpoint)",
+            "code": "archive_timeout",
+            "http_status": null,
+            "exception_class": "ReadTimeout",
+            "elapsed_seconds": 20.137
+          },
+          {
+            "attempt": 2,
+            "route": "direct SIA",
+            "code": "archive_timeout",
+            "http_status": null,
+            "exception_class": "ReadTimeout",
+            "elapsed_seconds": 20.136
+          },
+          {
+            "attempt": 3,
+            "route": "Astroquery SIA (explicit query endpoint)",
+            "code": "archive_timeout",
+            "http_status": null,
+            "exception_class": "ReadTimeout",
+            "elapsed_seconds": 9.063
+          }
+        ],
+        "discovery_elapsed_seconds": 55.658
+      },
+      "elapsed_seconds": 56.68,
+      "visibility": "Not assessed: discovery/retrieval unavailable",
+      "usable_frames": 0
+    },
+    {
+      "target": "Epsilon Indi B",
+      "canonical_reference_position": "22 04 10.97 -56 47 00.4",
+      "coordinate_source": "https://adsabs.harvard.edu/pdf/2008MNRAS.383..831P",
+      "reference_epoch": "Position epoch not established from retrieved table; no propagation",
+      "frame": "ICRS",
+      "proper_motion": null,
+      "epoch_caveat": "Reference-position field test only; no source position measurement or propagated detection claimed.",
+      "query": {
+        "ra": 331.04570833333327,
+        "dec": -56.78344444444444,
+        "fov": 10,
+        "frames": 4,
+        "detector": null,
+        "selection_mode": "temporal"
+      },
+      "reason": "Brown dwarf system Ba/Bb; not the primary star",
+      "status": "BLOCKED",
+      "attempt_utc": "2026-11-15T16:51:24.119004+00:00",
+      "submission_http_status": 202,
+      "submission": {
+        "id": "ce412eb55deb4d18862a35e573a50875",
+        "reused": false
+      },
+      "session_id": "ce412eb55deb4d18862a35e573a50875",
+      "result": {
+        "status": "failed",
+        "id": "ce412eb55deb4d18862a35e573a50875",
+        "message": "IRSA did not respond within the time limit; your coordinates have been preserved. Please retry in a few minutes.",
+        "code": "archive_timeout",
+        "retryable": true,
+        "query": {
+          "ra": 331.04570833333327,
+          "dec": -56.78344444444444,
+          "fov": 10.0,
+          "frames": 4,
+          "detector": null,
+          "selection_mode": "temporal"
+        },
+        "http_status": null,
+        "discovery_attempts": 3,
+        "discovery_failures": [
+          {
+            "attempt": 1,
+            "route": "Astroquery SIA (explicit query endpoint)",
+            "code": "archive_timeout",
+            "http_status": null,
+            "exception_class": "ReadTimeout",
+            "elapsed_seconds": 20.14
+          },
+          {
+            "attempt": 2,
+            "route": "direct SIA",
+            "code": "archive_timeout",
+            "http_status": null,
+            "exception_class": "ReadTimeout",
+            "elapsed_seconds": 20.135
+          },
+          {
+            "attempt": 3,
+            "route": "Astroquery SIA (explicit query endpoint)",
+            "code": "archive_timeout",
+            "http_status": null,
+            "exception_class": "ReadTimeout",
+            "elapsed_seconds": 9.554
+          }
+        ],
+        "discovery_elapsed_seconds": 55.415
+      },
+      "elapsed_seconds": 56.81,
+      "visibility": "Not assessed: discovery/retrieval unavailable",
+      "usable_frames": 0
+    },
+    {
+      "target": "RW Aurigae",
+      "canonical_reference_position": "05 07 49.5662483 +30 24 05.177426",
+      "coordinate_source": "https://simbad.cds.unistra.fr/simbad/sim-id?Ident=RW+Aur",
+      "reference_epoch": "J2000",
+      "frame": "ICRS",
+      "proper_motion": {
+        "pm_ra_cosdec_mas_per_year": 7.23,
+        "pm_dec_mas_per_year": -20.33,
+        "source": "https://simbad.cds.unistra.fr/simbad/sim-id?Ident=RW+Aur",
+        "propagated": false
+      },
+      "epoch_caveat": "Reference-position field test only; no source position measurement or propagated detection claimed.",
+      "query": {
+        "ra": 76.95652603458332,
+        "dec": 30.401438173888888,
+        "fov": 5,
+        "frames": 4,
+        "detector": null,
+        "selection_mode": "temporal"
+      },
+      "reason": "Variable young stellar system; visual changes confounded by wavelength",
+      "status": "BLOCKED",
+      "attempt_utc": "2026-11-15T16:52:21.431580+00:00",
+      "submission_http_status": 202,
+      "submission": {
+        "id": "1e4dcf627c99437491f07bbc9e358633",
+        "reused": false
+      },
+      "session_id": "1e4dcf627c99437491f07bbc9e358633",
+      "result": {
+        "status": "failed",
+        "id": "1e4dcf627c99437491f07bbc9e358633",
+        "message": "IRSA did not respond within the time limit; your coordinates have been preserved. Please retry in a few minutes.",
+        "code": "archive_timeout",
+        "retryable": true,
+        "query": {
+          "ra": 76.95652603458332,
+          "dec": 30.401438173888888,
+          "fov": 5.0,
+          "frames": 4,
+          "detector": null,
+          "selection_mode": "temporal"
+        },
+        "http_status": null,
+        "discovery_attempts": 3,
+        "discovery_failures": [
+          {
+            "attempt": 1,
+            "route": "Astroquery SIA (explicit query endpoint)",
+            "code": "archive_timeout",
+            "http_status": null,
+            "exception_class": "ReadTimeout",
+            "elapsed_seconds": 20.134
+          },
+          {
+            "attempt": 2,
+            "route": "direct SIA",
+            "code": "archive_timeout",
+            "http_status": null,
+            "exception_class": "ReadTimeout",
+            "elapsed_seconds": 20.13
+          },
+          {
+            "attempt": 3,
+            "route": "Astroquery SIA (explicit query endpoint)",
+            "code": "archive_timeout",
+            "http_status": null,
+            "exception_class": "ReadTimeout",
+            "elapsed_seconds": 9.302
+          }
+        ],
+        "discovery_elapsed_seconds": 55.54
+      },
+      "elapsed_seconds": 56.881,
+      "visibility": "Not assessed: discovery/retrieval unavailable",
+      "usable_frames": 0
+    },
+    {
+      "target": "R Draconis",
+      "canonical_reference_position": "16 32 40.2265999080 +66 45 17.925901992",
+      "coordinate_source": "https://simbad.cds.unistra.fr/simbad/sim-id?Ident=%40376084&Name=V%2A+R+Dra&submit=submit",
+      "reference_epoch": "J2000",
+      "frame": "ICRS",
+      "proper_motion": {
+        "pm_ra_cosdec_mas_per_year": -20.643,
+        "pm_dec_mas_per_year": 6.149,
+        "source": "https://simbad.cds.unistra.fr/simbad/sim-id?Ident=%40376084&Name=V%2A+R+Dra&submit=submit",
+        "propagated": false
+      },
+      "epoch_caveat": "Reference-position field test only; no source position measurement or propagated detection claimed.",
+      "query": {
+        "ra": 248.16761083294998,
+        "dec": 66.75497941722,
+        "fov": 5,
+        "frames": 4,
+        "detector": null,
+        "selection_mode": "temporal"
+      },
+      "reason": "Mira variable; no quantitative photometry",
+      "status": "BLOCKED",
+      "attempt_utc": "2026-11-15T16:53:18.824889+00:00",
+      "submission_http_status": 202,
+      "submission": {
+        "id": "81998a2e57834c70b0e4b4ddb9b3c6bb",
+        "reused": false
+      },
+      "session_id": "81998a2e57834c70b0e4b4ddb9b3c6bb",
+      "result": {
+        "status": "failed",
+        "id": "81998a2e57834c70b0e4b4ddb9b3c6bb",
+        "message": "IRSA did not respond within the time limit; your coordinates have been preserved. Please retry in a few minutes.",
+        "code": "archive_timeout",
+        "retryable": true,
+        "query": {
+          "ra": 248.16761083294998,
+          "dec": 66.75497941722,
+          "fov": 5.0,
+          "frames": 4,
+          "detector": null,
+          "selection_mode": "temporal"
+        },
+        "http_status": null,
+        "discovery_attempts": 3,
+        "discovery_failures": [
+          {
+            "attempt": 1,
+            "route": "Astroquery SIA (explicit query endpoint)",
+            "code": "archive_timeout",
+            "http_status": null,
+            "exception_class": "ReadTimeout",
+            "elapsed_seconds": 20.141
+          },
+          {
+            "attempt": 2,
+            "route": "direct SIA",
+            "code": "archive_timeout",
+            "http_status": null,
+            "exception_class": "ReadTimeout",
+            "elapsed_seconds": 20.134
+          },
+          {
+            "attempt": 3,
+            "route": "Astroquery SIA (explicit query endpoint)",
+            "code": "archive_timeout",
+            "http_status": null,
+            "exception_class": "ReadTimeout",
+            "elapsed_seconds": 9.526
+          }
+        ],
+        "discovery_elapsed_seconds": 55.429
+      },
+      "elapsed_seconds": 56.786,
+      "visibility": "Not assessed: discovery/retrieval unavailable",
+      "usable_frames": 0
+    },
+    {
+      "target": "WISE 0855",
+      "coordinate_source": "https://hackathlone.com/challenges/planet-x-and-spherex",
+      "reference_epoch": "Not specified in challenge",
+      "query": {
+        "ra": 133.79512917,
+        "dec": -7.24514722,
+        "fov": 5,
+        "frames": 4,
+        "detector": null,
+        "selection_mode": "temporal"
+      },
+      "status": "PASS",
+      "visibility": "A \u2014 field processed; target visibility unverified",
+      "previous_verified_run": {
+        "started_utc": "2026-11-15T16:36:01.977Z",
+        "fresh_submissions": 1,
+        "query": {
+          "ra": 133.79512917,
+          "dec": -7.24514722,
+          "fov": 5,
+          "frames": 4,
+          "detector": null,
+          "selection_mode": "temporal"
+        },
+        "progress": [
+          {
+            "elapsed_s": 0.319,
+            "status": "running",
+            "message": "Trying Astroquery SIA (explicit query endpoint) (attempt 1 of 6)"
+          },
+          {
+            "elapsed_s": 5.644,
+            "status": "running",
+            "message": "Trying Astroquery SIA (explicit query endpoint) (attempt 1 of 6)"
+          },
+          {
+            "elapsed_s": 11.019,
+            "status": "running",
+            "message": "Trying Astroquery SIA (explicit query endpoint) (attempt 1 of 6)"
+          },
+          {
+            "elapsed_s": 16.336,
+            "status": "running",
+            "message": "Trying Astroquery SIA (explicit query endpoint) (attempt 1 of 6)"
+          },
+          {
+            "elapsed_s": 21.648,
+            "status": "running",
+            "message": "IRSA did not respond within the time limit; your coordinates have been preserved. Please retry in a few minutes. Retrying discovery in 1.9 s (attempt 2 of 6)"
+          },
+          {
+            "elapsed_s": 26.96,
+            "status": "running",
+            "message": "Trying direct SIA (attempt 2 of 6)"
+          },
+          {
+            "elapsed_s": 32.286,
+            "status": "running",
+            "message": "Trying direct SIA (attempt 2 of 6)"
+          },
+          {
+            "elapsed_s": 37.612,
+            "status": "running",
+            "message": "Trying direct SIA (attempt 2 of 6)"
+          },
+          {
+            "elapsed_s": 42.937,
+            "status": "running",
+            "message": "IRSA did not respond within the time limit; your coordinates have been preserved. Please retry in a few minutes. Retrying discovery in 3.9 s (attempt 3 of 6)"
+          },
+          {
+            "elapsed_s": 48.248,
+            "status": "running",
+            "message": "Trying Astroquery SIA (explicit query endpoint) (attempt 3 of 6)"
+          },
+          {
+            "elapsed_s": 53.564,
+            "status": "running",
+            "message": "Trying Astroquery SIA (explicit query endpoint) (attempt 3 of 6)"
+          },
+          {
+            "elapsed_s": 58.942,
+            "status": "running",
+            "message": "Downloading and aligning 2/4 \u00b7 1 usable \u00b7 0 skipped"
+          },
+          {
+            "elapsed_s": 64.35,
+            "status": "ready"
+          }
+        ],
+        "page_errors": [],
+        "health_before": {
+          "status": "ok",
+          "mode": "full_application",
+          "live_search": "available",
+          "processing": "idle",
+          "archive": {
+            "status": "not_checked",
+            "checked_utc": null
+          },
+          "storage_limit_bytes": 536870912,
+          "session_ttl_seconds": 21600,
+          "notice": "Application health does not establish current IRSA availability."
+        },
+        "submission_status": 202,
+        "submission": {
+          "id": "8caa38ba3b5e4341af5fbeb90d77a014",
+          "reused": false
+        },
+        "terminal": {
+          "schema_version": 1,
+          "processor_version": "observatory-wavelength-repair-v1",
+          "status": "ready",
+          "id": "8caa38ba3b5e4341af5fbeb90d77a014",
+          "query": {
+            "ra": 133.79512917,
+            "dec": -7.24514722,
+            "fov": 5,
+            "frames": 4,
+            "detector": null,
+            "selection_mode": "temporal"
+          },
+          "discovery_limited": false,
+          "discovery_cached": true,
+          "inventory_kind": "bundled-historical",
+          "discovery_provenance": {
+            "discovery_method": "exact-query-cached-inventory",
+            "discovery_cached": true,
+            "inventory_kind": "bundled-historical",
+            "inventory_retrieved_utc": "2026-11-15T12:28:44.186124+00:00",
+            "inventory_age_seconds": 14898.5,
+            "original_discovery_method": "direct-sia-v2-get-cache-revalidation",
+            "query_overflow": false,
+            "inventory_snapshot_sha256": "c3f5bc428b99818180e17c02b78401a9ddb0e9234fee17f10ca1287b76b48419",
+            "discovery_failures": [
+              {
+                "attempt": 1,
+                "route": "Astroquery SIA (explicit query endpoint)",
+                "code": "archive_timeout",
+                "http_status": null,
+                "exception_class": "ReadTimeout",
+                "elapsed_seconds": 20.224
+              },
+              {
+                "attempt": 2,
+                "route": "direct SIA",
+                "code": "archive_timeout",
+                "http_status": null,
+                "exception_class": "ReadTimeout",
+                "elapsed_seconds": 20.13
+              },
+              {
+                "attempt": 3,
+                "route": "Astroquery SIA (explicit query endpoint)",
+                "code": "archive_timeout",
+                "http_status": null,
+                "exception_class": "ReadTimeout",
+                "elapsed_seconds": 10.323
+              }
+            ],
+            "discovery_attempts": 3,
+            "discovery_elapsed_seconds": 56.566
+          },
+          "discovery_method": "exact-query-cached-inventory",
+          "created_utc": "2026-11-15T16:37:08.952073+00:00",
+          "rows_found": 289,
+          "failed_frames": [],
+          "requested_frames": 4,
+          "partial": false,
+          "possibly_truncated": false,
+          "frames": [
+            {
+              "obs_id": "2025W19_1B_0181_1",
+              "date": "2025-05-06T02:33:29.930",
+              "detector": 2,
+              "unit": "MJy / sr",
+              "collection": "spherex_dr1",
+              "pipeline_version": "7.0.5",
+              "source_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/level2/2025W19_1B/l2b-v27-2026-197/2/level2_2025W19_1B_0181_1D2_spx_l2b-v27-2026-197.fits",
+              "cutout_parameters": {
+                "center": "133.79512917,-7.24514722d",
+                "size": 0.125
+              },
+              "sha256": "c6116edb6dcf5808e78ee9a491af45602d1510e327f1003d8e658ff6b906b75d",
+              "cutout_cached": false,
+              "wavelength_um_at_center": 1.5164516364644198,
+              "coverage": 0.882548937942524,
+              "bandwidth_um_at_center": 0.03756311500124517,
+              "spectral_metadata": "Approximate WCS-WAVE visualization lookup; not a full spectral response",
+              "wcs_roundtrip_pixels": 3.3943522705194715e-08,
+              "image": "/artifacts/8caa38ba3b5e4341af5fbeb90d77a014/0.png"
+            },
+            {
+              "obs_id": "2025W45_2A_0278_3",
+              "date": "2025-11-07T18:51:31.958",
+              "detector": 2,
+              "unit": "MJy / sr",
+              "collection": "spherex_dr1",
+              "pipeline_version": "7.0.5",
+              "source_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/level2/2025W45_2A/l2b-v27-2026-247/2/level2_2025W45_2A_0278_3D2_spx_l2b-v27-2026-247.fits",
+              "cutout_parameters": {
+                "center": "133.79512917,-7.24514722d",
+                "size": 0.125
+              },
+              "sha256": "eb8887e93af7ba93057f3907d4d46f303bce9807fbfb2a7c8ff32b1f6142a2ca",
+              "cutout_cached": false,
+              "wavelength_um_at_center": 1.3157511039684566,
+              "coverage": 0.8738025822573927,
+              "bandwidth_um_at_center": 0.03157567988034217,
+              "spectral_metadata": "Approximate WCS-WAVE visualization lookup; not a full spectral response",
+              "wcs_roundtrip_pixels": 7.807241240832847e-08,
+              "image": "/artifacts/8caa38ba3b5e4341af5fbeb90d77a014/1.png"
+            },
+            {
+              "obs_id": "2025W50_2A_0479_1",
+              "date": "2025-12-13T05:32:45.700",
+              "detector": 2,
+              "unit": "MJy / sr",
+              "collection": "spherex_dr1",
+              "pipeline_version": "7.0.5",
+              "source_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/level2/2025W50_2A/l2b-v27-2026-210/2/level2_2025W50_2A_0479_1D2_spx_l2b-v27-2026-210.fits",
+              "cutout_parameters": {
+                "center": "133.79512917,-7.24514722d",
+                "size": 0.125
+              },
+              "sha256": "350697ead585ec7edba8c5e4a85ddb50be060ce033de16f266523bd730f7e302",
+              "cutout_cached": false,
+              "wavelength_um_at_center": 1.4110642348955802,
+              "coverage": 0.8792169929196169,
+              "bandwidth_um_at_center": 0.03416848593198357,
+              "spectral_metadata": "Approximate WCS-WAVE visualization lookup; not a full spectral response",
+              "wcs_roundtrip_pixels": 4.108407665529467e-08,
+              "image": "/artifacts/8caa38ba3b5e4341af5fbeb90d77a014/2.png"
+            },
+            {
+              "obs_id": "2026W20_1A_1166_1",
+              "date": "2026-05-14T06:53:35.614",
+              "detector": 2,
+              "unit": "MJy / sr",
+              "collection": "spherex_dr1",
+              "pipeline_version": "7.0.5",
+              "source_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/level2/2026W20_1A/l2b-v27-2026-246/2/level2_2026W20_1A_1166_1D2_spx_l2b-v27-2026-246.fits",
+              "cutout_parameters": {
+                "center": "133.79512917,-7.24514722d",
+                "size": 0.125
+              },
+              "sha256": "65464c40b69ce9af9756131e5406673142bb09212a1a6aca6630403a2b6aadb5",
+              "cutout_cached": false,
+              "wavelength_um_at_center": 1.5911141183870146,
+              "coverage": 0.8946272386505623,
+              "bandwidth_um_at_center": 0.03851697733049296,
+              "spectral_metadata": "Approximate WCS-WAVE visualization lookup; not a full spectral response",
+              "wcs_roundtrip_pixels": 1.0760343973966459e-07,
+              "image": "/artifacts/8caa38ba3b5e4341af5fbeb90d77a014/3.png"
+            }
+          ],
+          "reference_wcs": {
+            "WCSAXES": 2,
+            "CRPIX1": 25,
+            "CRPIX2": 25,
+            "CDELT1": -0.0017006802721088,
+            "CDELT2": 0.0017006802721088,
+            "CUNIT1": "deg",
+            "CUNIT2": "deg",
+            "CTYPE1": "RA---TAN",
+            "CTYPE2": "DEC--TAN",
+            "CRVAL1": 133.79512917,
+            "CRVAL2": -7.24514722,
+            "LONPOLE": 180,
+            "LATPOLE": -7.24514722,
+            "MJDREF": 0,
+            "RADESYS": "ICRS"
+          },
+          "display_range": [
+            0.19681474215411968,
+            1.6506494965275387
+          ],
+          "warnings": [
+            "Qualitative viewing only: wavelength and PSF matching have not been validated.",
+            "No motion or variability detection is claimed. Bright-peak checks are preliminary, not catalog-confirmed stationary-source residuals.",
+            "Preview excludes all flagged pixels except SOURCE and FULLSAMPLE; originals are preserved.",
+            "Archive metadata snapshot retrieved 2026-11-15T12:28:44.186124+00:00. Observations released after that date may be missing. This is not a fresh archive discovery query."
+          ],
+          "diagnostics": {
+            "method": "bright-peak-centroids-v1",
+            "pairs": [
+              {
+                "peaks_a": 20,
+                "peaks_b": 15,
+                "matched_peaks": 13,
+                "match_radius_pixels": 2,
+                "overlap_fraction": 0.7830070803831737,
+                "status": "preliminary",
+                "median_separation_pixels": 0.19070014712893799,
+                "median_separation_arcsec": 1.1675519211975796,
+                "note": "Mutual nearest bright-peak matches within 2 pixels; not catalog-confirmed stationary stars. Masking, blending, wavelength and PSF differences can bias results. Large offsets may be missed by the matching radius.",
+                "median_dx_pixels": -0.015682380127785223,
+                "median_dy_pixels": -0.12368596291288014,
+                "a": 0,
+                "b": 1,
+                "quantitative_comparison_allowed": false
+              },
+              {
+                "peaks_a": 20,
+                "peaks_b": 16,
+                "matched_peaks": 13,
+                "match_radius_pixels": 2,
+                "overlap_fraction": 0.7880049979175343,
+                "status": "preliminary",
+                "median_separation_pixels": 0.16240439294531897,
+                "median_separation_arcsec": 0.9943126098692998,
+                "note": "Mutual nearest bright-peak matches within 2 pixels; not catalog-confirmed stationary stars. Masking, blending, wavelength and PSF differences can bias results. Large offsets may be missed by the matching radius.",
+                "median_dx_pixels": -0.09587556198166736,
+                "median_dy_pixels": 0.007359262972258307,
+                "a": 0,
+                "b": 2,
+                "quantitative_comparison_allowed": false
+              },
+              {
+                "peaks_a": 20,
+                "peaks_b": 17,
+                "matched_peaks": 13,
+                "match_radius_pixels": 2,
+                "overlap_fraction": 0.8004997917534361,
+                "status": "preliminary",
+                "median_separation_pixels": 0.11275910821843439,
+                "median_separation_arcsec": 0.6903618870516391,
+                "note": "Mutual nearest bright-peak matches within 2 pixels; not catalog-confirmed stationary stars. Masking, blending, wavelength and PSF differences can bias results. Large offsets may be missed by the matching radius.",
+                "median_dx_pixels": 0.009369533052591805,
+                "median_dy_pixels": -0.018785317114389244,
+                "a": 0,
+                "b": 3,
+                "quantitative_comparison_allowed": false
+              },
+              {
+                "peaks_a": 15,
+                "peaks_b": 16,
+                "matched_peaks": 11,
+                "match_radius_pixels": 2,
+                "overlap_fraction": 0.7700957934194086,
+                "status": "preliminary",
+                "median_separation_pixels": 0.15328811755385258,
+                "median_separation_arcsec": 0.9384986789011381,
+                "note": "Mutual nearest bright-peak matches within 2 pixels; not catalog-confirmed stationary stars. Masking, blending, wavelength and PSF differences can bias results. Large offsets may be missed by the matching radius.",
+                "median_dx_pixels": -0.00972495473077073,
+                "median_dy_pixels": 0.07261434291107349,
+                "a": 1,
+                "b": 2,
+                "quantitative_comparison_allowed": false
+              },
+              {
+                "peaks_a": 15,
+                "peaks_b": 17,
+                "matched_peaks": 10,
+                "match_radius_pixels": 2,
+                "overlap_fraction": 0.7984173261141191,
+                "status": "preliminary",
+                "median_separation_pixels": 0.17737816865527054,
+                "median_separation_arcsec": 1.0859887876853298,
+                "note": "Mutual nearest bright-peak matches within 2 pixels; not catalog-confirmed stationary stars. Masking, blending, wavelength and PSF differences can bias results. Large offsets may be missed by the matching radius.",
+                "median_dx_pixels": 0.11100221735681615,
+                "median_dy_pixels": 0.08549431859551748,
+                "a": 1,
+                "b": 3,
+                "quantitative_comparison_allowed": false
+              },
+              {
+                "peaks_a": 16,
+                "peaks_b": 17,
+                "matched_peaks": 9,
+                "match_radius_pixels": 2,
+                "overlap_fraction": 0.7917534360683048,
+                "status": "preliminary",
+                "median_separation_pixels": 0.16203221520329064,
+                "median_separation_arcsec": 0.9920339706323916,
+                "note": "Mutual nearest bright-peak matches within 2 pixels; not catalog-confirmed stationary stars. Masking, blending, wavelength and PSF differences can bias results. Large offsets may be missed by the matching radius.",
+                "median_dx_pixels": 0.0940037972474066,
+                "median_dy_pixels": -0.03786035070406224,
+                "a": 2,
+                "b": 3,
+                "quantitative_comparison_allowed": false
+              }
+            ],
+            "limitations": "Exploratory geometry; wavelength and PSF compatibility not established."
+          },
+          "selection": {
+            "mode": "temporal",
+            "detector_requested": null,
+            "candidate_limit": 4,
+            "candidate_attempts": 4,
+            "processed_candidates": 4,
+            "selected_frames": 4,
+            "method": "Even spacing across discovery times in one detector; DR1 preferred for duplicated acquisitions.",
+            "recommendations": [
+              {
+                "a": 0,
+                "b": 3,
+                "time_separation_days": 373.1806213425926,
+                "absolute_wavelength_difference_um": 0.07466248192259473,
+                "fractional_wavelength_difference": 0.048052068926318935,
+                "approximate_bandwidth_separation": 1.9627337358382249,
+                "spectral_metadata": "Approximate field-center WCS-WAVE values, intended for visualization",
+                "quantitative_comparison_allowed": false,
+                "common_coverage": 0.8004997917534361
+              },
+              {
+                "a": 0,
+                "b": 2,
+                "time_separation_days": 221.1244880787037,
+                "absolute_wavelength_difference_um": 0.10538740156883963,
+                "fractional_wavelength_difference": 0.07199783447792624,
+                "approximate_bandwidth_separation": 2.9383814162168034,
+                "spectral_metadata": "Approximate field-center WCS-WAVE values, intended for visualization",
+                "quantitative_comparison_allowed": false,
+                "common_coverage": 0.7880049979175343
+              },
+              {
+                "a": 2,
+                "b": 3,
+                "time_separation_days": 152.0561332638889,
+                "absolute_wavelength_difference_um": 0.18004988349143436,
+                "fractional_wavelength_difference": 0.11994616062338004,
+                "approximate_bandwidth_separation": 4.954219878636561,
+                "spectral_metadata": "Approximate field-center WCS-WAVE values, intended for visualization",
+                "quantitative_comparison_allowed": false,
+                "common_coverage": 0.7917534360683048
+              },
+              {
+                "a": 0,
+                "b": 1,
+                "time_separation_days": 185.6791901388889,
+                "absolute_wavelength_difference_um": 0.2007005324959632,
+                "fractional_wavelength_difference": 0.14172751804151418,
+                "approximate_bandwidth_separation": 5.80572840008852,
+                "spectral_metadata": "Approximate field-center WCS-WAVE values, intended for visualization",
+                "quantitative_comparison_allowed": false,
+                "common_coverage": 0.7830070803831737
+              },
+              {
+                "a": 1,
+                "b": 3,
+                "time_separation_days": 187.5014312037037,
+                "absolute_wavelength_difference_um": 0.2753630144185579,
+                "fractional_wavelength_difference": 0.18945702215627847,
+                "approximate_bandwidth_separation": 7.857114436117897,
+                "spectral_metadata": "Approximate field-center WCS-WAVE values, intended for visualization",
+                "quantitative_comparison_allowed": false,
+                "common_coverage": 0.7984173261141191
+              }
+            ],
+            "limitations": "WCS-WAVE is approximate visualization metadata; full CWAVE/CBAND calibration and response/PSF matching are not performed. No quantitative comparison is authorized."
+          },
+          "temporary_session": true,
+          "expires_utc": "2026-11-15T22:37:08.997501+00:00"
+        },
+        "elapsed_s": 64.35,
+        "browser_alert": [],
+        "fresh_fits": 4,
+        "cached_fits": 0,
+        "automatic_viewer": true,
+        "evidence_downloaded": true,
+        "finished_utc": "2026-11-15T16:37:11.344Z"
+      },
+      "usable_frames": 4,
+      "bundle": "frontend/public/showcase/23577cd786a24f24bedec59e7c5366ae",
+      "bundled_frames": 6
+    }
+  ],
+  "shared_budget_seconds": 720,
+  "finished_utc": "2026-11-15T16:54:15.612435+00:00"
+}

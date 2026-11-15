@@ -1,21 +1,46 @@
-# Final competition acceptance
+# Final competition acceptance and handoff
 
-Started 2026-11-15 22:18 IST. Current worktree release/final-integration, HEAD 1f7f435; GitHub main matched at audit. Original timescope checkout has preserved uncommitted historical work; it is not the release source. Approved redesign is already integrated in 2ec672d. Production revision timescope-00004-q59, same source; full digest in cloud-deployment-record.json. No code redeployment is needed for documentation-only acceptance.
+## Executive result
 
-Implemented: public viewer, coordinates/FOV/count/detector controls, temporal/wavelength-prioritized selection, playback/blinking, synchronized comparison, graph and metadata, evidence export/sharing, exact-query historical recovery and resource controls. AWS adapter, DR1-first route, full response matching, spectra, residuals, catalogs and measured source motion are absent.
+The public temporal viewer meets the implemented coordinate/image/playback workflow and has a genuine fresh discovery/retrieval PASS for one arbitrary-coordinate field. Named-target field validation: three usable sequences, two archive-timeout blocks. No target detection, measured motion or photometric variability is established. Competition assets are review-ready; official submission requires the owner.
 
-Final tests and five-target outcomes are recorded in their dedicated reports. Submission materials are in submission/. The owner records the demo. Official form limits and organizer waiver remain unverified. No official submission is claimed.
+## Repository and production
 
-## Final outcomes
+Release worktree: `timescope-final`, branch `release/final-integration`. Original `timescope` and repair worktrees retain their prior work. The latest source/revision/digest are recorded in `cloud-deployment-record.json` after each verified deployment. Current data-library update is published only after checks; no second warm service or resource/billing change is permitted. The independent static showcase is preserved.
 
-Five named targets were individually addressed: Barnard, Epsilon Indi B, RW Aurigae and R Draconis each received a fresh public job and were BLOCKED by archive timeouts. WISE 0855 reference-field PASS relies on the earlier verified public recovery (four fresh FITS; historical metadata) and the six-frame bundled sequence. No target identification is claimed. Coordinates, epochs, query settings and server failures are in challenge-target-validation.json.
+## Five targets
 
-Fresh uncached field RA 133.79512917°, Dec −2.24514722°, 5′, six frames: archive_timeout, observed terminal time 56.129 s. No historical inventory or unrelated images substituted.
+| Target | Requested RA, Dec (degrees) | Usable frames | Visibility | Outcome |
+|---|---|---|---|---|
+| Barnard's Star | 269.45207696, 4.69336497 | 0 | Field only; source unverified | BLOCKED |
+| Epsilon Indi B | 331.04570833, -56.78344444 | 0 | Field only; source unverified | BLOCKED |
+| RW Aurigae | 76.95652603, 30.40143817 | 2 | Field only; source unverified | PASS |
+| R Draconis | 248.16761083, 66.75497942 | 4 | Field only; source unverified | PASS |
+| WISE 0855 | 133.79512917, -7.24514722 | 4 | Field only; source unverified | PASS |
 
-Current rerun: 121 backend tests; 26 frontend checks locally and publicly; clean npm ci, production build and lint passed. Initial browser test run failed because the local server was absent; its successful rerun and exact commands are recorded. Source dependencies are unchanged.
+RW Aurigae has two usable frames out of four attempted and retains partial-sequence disclosure. R Draconis has four usable frames. WISE reference field has six bundled frames and a separately documented four-frame historical recovery. Barnard/Epsilon had bounded attempts before and after the read-timeout repair; all evidence remains in the two target JSON reports. Target positions/epochs and proper-motion limitations are explicit.
 
-Submission files include project/technical/scientific descriptions, attribution, limitations, manual demo storyboard, seven-slide PPTX and checklist. PPTX XML structure checked; owner must visually review it in PowerPoint and upload. Authenticated form and team-specific media constraints remain unverified. No organizer waiver or official submission claimed. MIT is already authorized; owner confirms no earlier code reuse.
+## Scientific evidence
 
-Freeze/tag publication: Git CLI lacks push credentials and the connected GitHub tools do not expose annotated-tag creation. A local annotated submission-v1 tag can be prepared after committing; owner must push it using an authenticated Git client. Do not overwrite a prior tag.
+Five bundled sequences contain 23 frames. Detailed dates, wavelengths, coverage and original provenance are in `final-field-audit.json` and each manifest. Original 17 FITS hashes/identities/dates/detectors/units/FLAGS and all three reference grids were rechecked; wavelength and overlap results reproduced exactly. Six newly bundled target previews preserve server-computed FITS checksums, not independently downloaded local raw FITS. Preliminary bright-peak diagnostics are not independent astrometric accuracy. Source visibility is unverified for every named target.
 
-Final transport repair raises the per-read ceiling from 20 to 35 seconds, bounded by remaining discovery time, to accommodate observed successful 24–25 s responses. Shared discovery/job budgets and retry caps remain unchanged. Synthetic transport regression added; final suite result: 122 backend tests passed. DR1-first is deferred; this change does not establish successful fresh discovery.
+Fresh public field RA 133.79512917°, Dec −2.24514722°, 5′, six requested frames: no retained session, no historical metadata, first-attempt live discovery returned 290 rows; six fresh FITS; readiness observed at 44.799 s. Correct field, actual previews, comparison and evidence export were verified in Chromium. Full data: `final-fresh-search.json`. Earlier timeout remains in `final-fresh-search-before-timeout-repair.json`. Success for one field does not guarantee universal archive availability.
+
+## Engineering evidence
+
+Clean npm ci, production build and lint passed. Final backend suite: 122 passed, no failures/skips, one dependency deprecation warning. Target-library suite: 28 checks (27 Chromium scenarios, one metadata-logic check). Final public recheck is recorded in the deployment handoff. Original first browser run failed because its local server was absent; subsequent running-server checks passed. No tests were removed. Screenshots show actual 1920×1080, 1366×768 and mobile layouts. Fixed viewer/scroll/axis readability/invalid form/navigation checks passed.
+
+## Remaining limitations and cuts
+
+DR1-first route and AWS adapter are not implemented. Current combined-collection discovery uses a 35-second read ceiling constrained by the shared discovery/job budgets. No change to query radius or MAXREC was made. No spectra, calibrated residuals, catalog overlays, source inspector, candidate detector, quantitative photometry or motion claim. No organizer waiver was established. Actual authenticated submission form and team-specific media limits were not inspected; seven slides/30 seconds are conservative drafts supported by some 2026 local-event pages, not verified team-wide requirements.
+
+## Assets and owner actions
+
+Presentation: `../submission/TimeScope-presentation.pptx` (seven slides; XML structure checked; owner must inspect the actual rendered deck). Project, technical, scientific, sources and limitations documents, manual demo storyboard and checklist are in `../submission/`. Owner records the demo; no automated video is part of this release. MIT approved and no previous code reused per owner. Confirm AI-use wording, public media links and actual billing credit/expiry.
+
+1. Review/open the deck and descriptions; confirm local form/media rules and AI disclosure.
+2. Record and upload the demo manually; upload deck and verify both public URLs.
+3. Publish the prepared local annotated tag with an authenticated Git client if CLI credentials remain unavailable.
+4. Review and complete the official submission before 23:59 IST; preserve the confirmation.
+
+No official submission has been performed. Budget notifications are not spending caps. Keep the frozen application/image through judging; future features belong on a separate branch.

@@ -46,5 +46,41 @@
     "preview": "/showcase/d943f95d272546aa8a2a01e656fc3c32/0.png",
     "start": "2025-05-10T17:04:37.742",
     "end": "2026-05-23T16:52:04.655"
+  },
+  {
+    "id": "2af3251746ec498ea3d371439fb37f0e",
+    "query": {
+      "ra": 76.95652603458332,
+      "dec": 30.401438173888888,
+      "fov": 5.0,
+      "frames": 4,
+      "detector": null,
+      "selection_mode": "temporal"
+    },
+    "frames": 2,
+    "partial": true,
+    "label": "RW Aurigae reference field",
+    "description": "Genuine target-field test. Source visibility and variability unverified. Partial sequence: 2 usable frames.",
+    "preview": "/showcase/2af3251746ec498ea3d371439fb37f0e/0.png",
+    "start": "2025-09-01T10:04:17.466",
+    "end": "2026-09-09T21:42:13.876"
+  },
+  {
+    "id": "9225223ed7814c4a871594729d92ef00",
+    "query": {
+      "ra": 248.16761083294998,
+      "dec": 66.75497941722,
+      "fov": 5.0,
+      "frames": 4,
+      "detector": null,
+      "selection_mode": "temporal"
+    },
+    "frames": 4,
+    "partial": false,
+    "label": "R Draconis reference field",
+    "description": "Genuine target-field test. Source visibility and variability unverified.",
+    "preview": "/showcase/9225223ed7814c4a871594729d92ef00/0.png",
+    "start": "2025-05-16T22:56:23.637",
+    "end": "2026-06-12T20:39:42.160"
   }
 ]

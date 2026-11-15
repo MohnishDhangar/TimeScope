@@ -7,7 +7,7 @@ Basis: https://hackathlone.com/challenges/planet-x-and-spherex . Official NASA p
 | Public tool | Cloud Run HTTPS | cloud-deployment-record.json; public browser suite | PASS | Archive dependency remains |
 | Genuine SPHEREx images | DR1/QR3 FITS-derived previews | manifests and reproduced checksums | PASS | PNGs are visualization products |
 | RA/Dec inputs | Validated coordinate form | API and browser tests | PASS | Fresh discovery can fail |
-| Requested sky region | Shared centered TAN grid; no substitute field | WCS tests, original-field public recovery | PARTIAL | Fresh arbitrary field search blocked |
+| Requested sky region | Shared centered TAN grid; no substitute field | WCS tests, original-field public recovery | PASS for verified fields | One fresh arbitrary-coordinate field verified; universal coverage not guaranteed |
 | Multiple epochs | Dated chronological frames | Three manifests; 17 frames | PASS | Different wavelengths/confounders |
 | Video-like playback | Timeline/play/pause/step/blink | Chromium tests | PASS | No source detection implied |
 | Assist moving-object inspection | Synchronized visual comparisons | chart/blink/comparison browser tests | PASS for workflow | No measured motion validated |

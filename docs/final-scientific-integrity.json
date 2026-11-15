@@ -1,0 +1,214 @@
+{
+  "application_source": "71a09ee7c832160c60e0cb1ba6cf887f68f3aa60",
+  "original_fits_sha256_verified": 17,
+  "wavelength_and_coverage_reproduction_matches": true,
+  "fields": [
+    {
+      "id": "23577cd786a24f24bedec59e7c5366ae",
+      "checks": [
+        {
+          "obs_id": "2025W19_1B_0181_1",
+          "identity_matches": true,
+          "date_matches": true,
+          "detector_matches": true,
+          "units_match": true,
+          "flags_extension_present": true
+        },
+        {
+          "obs_id": "2025W45_2A_0164_2",
+          "identity_matches": true,
+          "date_matches": true,
+          "detector_matches": true,
+          "units_match": true,
+          "flags_extension_present": true
+        },
+        {
+          "obs_id": "2025W45_2A_0292_2",
+          "identity_matches": true,
+          "date_matches": true,
+          "detector_matches": true,
+          "units_match": true,
+          "flags_extension_present": true
+        },
+        {
+          "obs_id": "2025W50_2A_0164_1",
+          "identity_matches": true,
+          "date_matches": true,
+          "detector_matches": true,
+          "units_match": true,
+          "flags_extension_present": true
+        },
+        {
+          "obs_id": "2026W18_2A_0441_2",
+          "identity_matches": true,
+          "date_matches": true,
+          "detector_matches": true,
+          "units_match": true,
+          "flags_extension_present": true
+        },
+        {
+          "obs_id": "2026W20_1A_1166_1",
+          "identity_matches": true,
+          "date_matches": true,
+          "detector_matches": true,
+          "units_match": true,
+          "flags_extension_present": true
+        }
+      ],
+      "reference_center_matches_query": true,
+      "north_up_east_left_axes": true,
+      "chronological": true
+    },
+    {
+      "id": "57b2c1c4360a4ca8a2486e8b6c97077f",
+      "checks": [
+        {
+          "obs_id": "2025W19_1B_0181_1",
+          "identity_matches": true,
+          "date_matches": true,
+          "detector_matches": true,
+          "units_match": true,
+          "flags_extension_present": true
+        },
+        {
+          "obs_id": "2025W19_1B_0231_4",
+          "identity_matches": true,
+          "date_matches": true,
+          "detector_matches": true,
+          "units_match": true,
+          "flags_extension_present": true
+        },
+        {
+          "obs_id": "2025W45_2A_0278_1",
+          "identity_matches": true,
+          "date_matches": true,
+          "detector_matches": true,
+          "units_match": true,
+          "flags_extension_present": true
+        },
+        {
+          "obs_id": "2025W50_2A_0086_1",
+          "identity_matches": true,
+          "date_matches": true,
+          "detector_matches": true,
+          "units_match": true,
+          "flags_extension_present": true
+        },
+        {
+          "obs_id": "2026W18_2A_0519_1",
+          "identity_matches": true,
+          "date_matches": true,
+          "detector_matches": true,
+          "units_match": true,
+          "flags_extension_present": true
+        },
+        {
+          "obs_id": "2026W20_1A_1166_1",
+          "identity_matches": true,
+          "date_matches": true,
+          "detector_matches": true,
+          "units_match": true,
+          "flags_extension_present": true
+        }
+      ],
+      "reference_center_matches_query": true,
+      "north_up_east_left_axes": true,
+      "chronological": true
+    },
+    {
+      "id": "d943f95d272546aa8a2a01e656fc3c32",
+      "checks": [
+        {
+          "obs_id": "2025W19_2B_0346_1",
+          "identity_matches": true,
+          "date_matches": true,
+          "detector_matches": true,
+          "units_match": true,
+          "flags_extension_present": true
+        },
+        {
+          "obs_id": "2025W20_2D_0176_4",
+          "identity_matches": true,
+          "date_matches": true,
+          "detector_matches": true,
+          "units_match": true,
+          "flags_extension_present": true
+        },
+        {
+          "obs_id": "2025W49_2A_0707_1",
+          "identity_matches": true,
+          "date_matches": true,
+          "detector_matches": true,
+          "units_match": true,
+          "flags_extension_present": true
+        },
+        {
+          "obs_id": "2025W50_2A_0129_1",
+          "identity_matches": true,
+          "date_matches": true,
+          "detector_matches": true,
+          "units_match": true,
+          "flags_extension_present": true
+        },
+        {
+          "obs_id": "2026W21_2A_0361_3",
+          "identity_matches": true,
+          "date_matches": true,
+          "detector_matches": true,
+          "units_match": true,
+          "flags_extension_present": true
+        }
+      ],
+      "reference_center_matches_query": true,
+      "north_up_east_left_axes": true,
+      "chronological": true
+    }
+  ],
+  "limitation": "Axis/WCS consistency and peak agreement do not establish independent measured astrometric accuracy.",
+  "new_target_products": [
+    {
+      "target": "RW Aurigae",
+      "frames": [
+        {
+          "obs_id": "2025W36_1A_0095_1",
+          "preview_sha256": "09e2d5e695d7b096aefef3a52a3f0320ee1a0fa425aa45fba68010052038e78a",
+          "metadata_matches_public_processing_result": true
+        },
+        {
+          "obs_id": "2026W37_1A_0524_1",
+          "preview_sha256": "0358847d28c35a48d3927c5f0a0c394e2da1b665de80522da99779b0c79048dc",
+          "metadata_matches_public_processing_result": true
+        }
+      ],
+      "raw_fits_hash_independently_recomputed_locally": false,
+      "limitation": "Preserves hashes produced by deployed processing; raw FITS not re-downloaded locally."
+    },
+    {
+      "target": "R Draconis",
+      "frames": [
+        {
+          "obs_id": "2025W20_2D_0243_1",
+          "preview_sha256": "d53484a4d57b34e895b87c6bd64a5634767183b18a18a1cc54e50fb6393bc02b",
+          "metadata_matches_public_processing_result": true
+        },
+        {
+          "obs_id": "2025W52_2A_0161_2",
+          "preview_sha256": "b554a43782aaabc6058e8d247ddf3196801d3464141d9f25239606c5fa66f404",
+          "metadata_matches_public_processing_result": true
+        },
+        {
+          "obs_id": "2026W17_2A_0255_2",
+          "preview_sha256": "8867a2f408b6ebb66c8343d779ec2d3c9dbe7732a1d050a8712a762b4fbcd6c3",
+          "metadata_matches_public_processing_result": true
+        },
+        {
+          "obs_id": "2026W24_2B_0242_4",
+          "preview_sha256": "1f504ae25293126b1aad56b7f16d771728c93b55ce8ea09d72012ddea82c3afd",
+          "metadata_matches_public_processing_result": true
+        }
+      ],
+      "raw_fits_hash_independently_recomputed_locally": false,
+      "limitation": "Preserves hashes produced by deployed processing; raw FITS not re-downloaded locally."
+    }
+  ]
+}

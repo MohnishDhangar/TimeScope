@@ -1,0 +1,61 @@
+{
+  "started_utc": "2026-11-15T16:54:24.904778+00:00",
+  "query": {
+    "ra": 133.79512917,
+    "dec": -2.24514722,
+    "fov": 5,
+    "frames": 6,
+    "detector": null,
+    "selection_mode": "temporal"
+  },
+  "submission_status": 202,
+  "submission": {
+    "id": "9df2585738194a8c8c382348d0e20860",
+    "reused": false
+  },
+  "result": {
+    "status": "failed",
+    "id": "9df2585738194a8c8c382348d0e20860",
+    "message": "IRSA did not respond within the time limit; your coordinates have been preserved. Please retry in a few minutes.",
+    "code": "archive_timeout",
+    "retryable": true,
+    "query": {
+      "ra": 133.79512917,
+      "dec": -2.24514722,
+      "fov": 5.0,
+      "frames": 6,
+      "detector": null,
+      "selection_mode": "temporal"
+    },
+    "http_status": null,
+    "discovery_attempts": 3,
+    "discovery_failures": [
+      {
+        "attempt": 1,
+        "route": "Astroquery SIA (explicit query endpoint)",
+        "code": "archive_timeout",
+        "http_status": null,
+        "exception_class": "ReadTimeout",
+        "elapsed_seconds": 20.141
+      },
+      {
+        "attempt": 2,
+        "route": "direct SIA",
+        "code": "archive_timeout",
+        "http_status": null,
+        "exception_class": "ReadTimeout",
+        "elapsed_seconds": 20.13
+      },
+      {
+        "attempt": 3,
+        "route": "Astroquery SIA (explicit query endpoint)",
+        "code": "archive_timeout",
+        "http_status": null,
+        "exception_class": "ReadTimeout",
+        "elapsed_seconds": 9.523
+      }
+    ],
+    "discovery_elapsed_seconds": 55.421
+  },
+  "elapsed_s": 56.129
+}

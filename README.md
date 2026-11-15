@@ -21,7 +21,7 @@ Built for NASA Space Apps 2026, **Planet X and SPHEREx**. Planet X motivates exp
 | Southern comparison field | 134.4 | −8.5 | 10′ | 6 |
 | M101 | 210.80227 | +54.34895 | 6′ | 5 of 6 attempted |
 
-The southern sequence uses a saved-inventory subset. M101 retains its partial-sequence disclosure. The original field does not establish a detection of WISE 0855. All 17 bundled previews are derived from real observations; synthetic fixtures are used only in software tests.
+The southern sequence uses a saved-inventory subset. M101 retains its partial-sequence disclosure. The original field does not establish a detection of WISE 0855. The original 17 bundled previews are derived from real observations; synthetic fixtures are used only in software tests.
 
 ## Judging notes
 
@@ -98,4 +98,6 @@ Original TimeScope source is [MIT licensed](LICENSE), approved by the project ow
 
 ## Competition acceptance package
 
-[Final acceptance](docs/final-acceptance.md) · [Five-target evidence](docs/challenge-target-validation.md) · [Challenge compliance](docs/challenge-compliance.md) · [Final tests](docs/final-test-report.md) · [Submission assets](submission/final-submission-checklist.md). Three bundled real sequences contain 17 frames. Four further named-target requests were blocked by archive timeouts; the WISE 0855 reference field is verified without confirming the object. No target requirement waiver or official submission is claimed. The owner records and uploads the demo manually.
+Five bundled fields contain 23 genuine frames, including new RW Aurigae (two usable frames; partial) and R Draconis (four frames) reference fields. Named-source visibility and variability remain unverified. Barnard and Epsilon Indi B requests remain blocked by archive timeouts. Fresh public discovery was verified for RA 133.79512917°, Dec −2.24514722°, 5′: 290 records and six fresh FITS frames; no historical metadata used. Archive availability remains intermittent.
+
+[Final acceptance](docs/final-acceptance.md) · [Target evidence](docs/challenge-target-validation.md) · [Compliance](docs/challenge-compliance.md) · [Tests](docs/final-test-report.md) · [Submission checklist](submission/final-submission-checklist.md). The owner records the demo. No organizer waiver or official submission is claimed.

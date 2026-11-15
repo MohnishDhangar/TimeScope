@@ -86,7 +86,7 @@ test('partial sequence is clearly labeled',async({page,request})=>{
  manifest.partial=true;manifest.frames=manifest.frames.slice(0,2);manifest.failed_frames=[{reason:'IRSA returned HTTP 503'}]
  await page.route('**/api/sessions/*',route=>route.fulfill({json:manifest}))
  await page.goto('http://127.0.0.1:8000?session=23577cd786a24f24bedec59e7c5366ae')
- await expect(page.getByRole('status')).toContainText('Partial sequence: 2 observations loaded; 1 skipped')
+ await expect(page.getByRole('status').filter({hasText:'Partial sequence:'})).toContainText('Partial sequence: 2 observations loaded; 1 skipped')
  await expect(page.getByRole('img',{name:/Current: SPHEREx/})).toBeVisible()
 })
 
@@ -272,7 +272,7 @@ test('expired live link retains frame count and allows an explicit retry',async(
 for(const kind of ['runtime-cache','bundled-historical'])test(`${kind} metadata reuse and original timestamp persist in evidence`,async({page,request})=>{
  const id='23577cd786a24f24bedec59e7c5366ae'
  const manifest=await (await request.get(`http://127.0.0.1:8000/showcase/${id}/manifest.json`)).json()
- manifest.discovery_cached=true
+ manifest.cached_showcase=false;manifest.discovery_cached=true
  manifest.inventory_kind=kind
  manifest.discovery_provenance={inventory_retrieved_utc:'2026-11-15T12:28:44Z',inventory_kind:kind}
  manifest.frames[0].cutout_cached=false
@@ -316,4 +316,46 @@ for(const viewport of [{width:1366,height:768},{width:390,height:844},{width:360
  await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true)
  await panel.evaluate(el=>el.scrollTop=0)
  await expect(page.getByRole('button',{name:'Download evidence card'})).toBeVisible()
+})
+
+
+test('RW Aurigae reference field works with API unavailable',async({page})=>{
+ await page.route('**/api/**',route=>route.abort())
+ await page.goto('http://127.0.0.1:8000?session=2af3251746ec498ea3d371439fb37f0e')
+ const image=page.getByRole('img',{name:/Current: SPHEREx/})
+ await expect(image).toBeVisible()
+ await expect.poll(()=>image.evaluate((el:HTMLImageElement)=>el.complete&&el.naturalWidth>0)).toBe(true)
+ await expect(page.getByText('Bundled genuine SPHEREx observations. Opening this sequence did not perform fresh archive discovery.')).toBeVisible()
+ await expect(page.getByLabel('Observation timeline')).toHaveAttribute('max','1')
+ await page.getByRole('button',{name:'Next frame'}).click()
+ await expect(page.getByLabel('Observation timeline')).toHaveValue('1')
+ await page.getByLabel('View mode').selectOption('compare')
+ await expect(page.getByRole('img',{name:/Reference: SPHEREx/})).toBeVisible()
+ const download=page.waitForEvent('download')
+ await page.getByRole('button',{name:'Download evidence card'}).click()
+ const result=await download
+ expect(result.suggestedFilename()).toMatch(/html$/)
+ const {readFile}=await import('node:fs/promises')
+ expect(await readFile((await result.path())!,'utf8')).toContain('This export did not trigger archive discovery or FITS retrieval.')
+})
+
+
+test('R Draconis reference field works with API unavailable',async({page})=>{
+ await page.route('**/api/**',route=>route.abort())
+ await page.goto('http://127.0.0.1:8000?session=9225223ed7814c4a871594729d92ef00')
+ const image=page.getByRole('img',{name:/Current: SPHEREx/})
+ await expect(image).toBeVisible()
+ await expect.poll(()=>image.evaluate((el:HTMLImageElement)=>el.complete&&el.naturalWidth>0)).toBe(true)
+ await expect(page.getByText('Bundled genuine SPHEREx observations. Opening this sequence did not perform fresh archive discovery.')).toBeVisible()
+ await expect(page.getByLabel('Observation timeline')).toHaveAttribute('max','3')
+ await page.getByRole('button',{name:'Next frame'}).click()
+ await expect(page.getByLabel('Observation timeline')).toHaveValue('1')
+ await page.getByLabel('View mode').selectOption('compare')
+ await expect(page.getByRole('img',{name:/Reference: SPHEREx/})).toBeVisible()
+ const download=page.waitForEvent('download')
+ await page.getByRole('button',{name:'Download evidence card'}).click()
+ const result=await download
+ expect(result.suggestedFilename()).toMatch(/html$/)
+ const {readFile}=await import('node:fs/promises')
+ expect(await readFile((await result.path())!,'utf8')).toContain('This export did not trigger archive discovery or FITS retrieval.')
 })

@@ -1,0 +1,148 @@
+{
+  "schema_version": 1,
+  "processor_version": "observatory-wavelength-repair-v1",
+  "status": "ready",
+  "id": "2af3251746ec498ea3d371439fb37f0e",
+  "query": {
+    "ra": 76.95652603458332,
+    "dec": 30.401438173888888,
+    "fov": 5.0,
+    "frames": 4,
+    "detector": null,
+    "selection_mode": "temporal"
+  },
+  "discovery_limited": false,
+  "discovery_cached": false,
+  "inventory_kind": null,
+  "discovery_provenance": {
+    "discovery_method": "astroquery-sia-v2",
+    "discovery_transport": "One GET per attempt; redirects and transport retries disabled",
+    "query_overflow": false,
+    "discovery_attempts": 1,
+    "discovery_failures": [],
+    "discovery_elapsed_seconds": 21.477
+  },
+  "discovery_method": "astroquery-sia-v2",
+  "created_utc": "2026-11-15T17:06:50.313151+00:00",
+  "rows_found": 348,
+  "failed_frames": [
+    {
+      "obs_id": "2025W36_2B_0378_1",
+      "source_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/level2/2025W36_2B/l2b-v27-2026-234/1/level2_2025W36_2B_0378_1D1_spx_l2b-v27-2026-234.fits",
+      "reason": "Less than 10% valid output coverage."
+    },
+    {
+      "obs_id": "2026W11_1A_0285_4",
+      "source_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/level2/2026W11_1A/l2b-v27-2026-232/1/level2_2026W11_1A_0285_4D1_spx_l2b-v27-2026-232.fits",
+      "reason": "IRSA returned HTTP 503 for this observation.",
+      "http_status": 503
+    }
+  ],
+  "requested_frames": 4,
+  "partial": true,
+  "possibly_truncated": false,
+  "frames": [
+    {
+      "obs_id": "2025W36_1A_0095_1",
+      "date": "2025-09-01T10:04:17.466",
+      "detector": 1,
+      "unit": "MJy / sr",
+      "collection": "spherex_dr1",
+      "pipeline_version": "7.0.5",
+      "source_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/level2/2025W36_1A/l2b-v27-2026-232/1/level2_2025W36_1A_0095_1D1_spx_l2b-v27-2026-232.fits",
+      "cutout_parameters": {
+        "center": "76.95652603458332,30.401438173888888d",
+        "size": 0.125
+      },
+      "sha256": "9c93535e60b40bc747fcf956d607844e0df05ecc80951d84fb331c92fbfe25cc",
+      "cutout_cached": false,
+      "wavelength_um_at_center": 1.068315135460045,
+      "coverage": 0.8833819241982507,
+      "bandwidth_um_at_center": 0.02826338130767417,
+      "spectral_metadata": "Approximate WCS-WAVE visualization lookup; not a full spectral response",
+      "wcs_roundtrip_pixels": 1.1303559624782809e-07,
+      "image": "/artifacts/2af3251746ec498ea3d371439fb37f0e/0.png"
+    },
+    {
+      "obs_id": "2026W37_1A_0524_1",
+      "date": "2026-09-09T21:42:13.876",
+      "detector": 1,
+      "unit": "MJy / sr",
+      "collection": "spherex_qr3",
+      "pipeline_version": "7.0.5",
+      "source_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/qr3/level2/2026W37_1A/l2b-v27-2026-255/1/level2_2026W37_1A_0524_1D1_spx_l2b-v27-2026-255.fits",
+      "cutout_parameters": {
+        "center": "76.95652603458332,30.401438173888888d",
+        "size": 0.125
+      },
+      "sha256": "965b4a2931f7eb8e4bff0c27793f6e15a08c3d4a99cc06518cf9ec67d8a6fdfc",
+      "cutout_cached": false,
+      "wavelength_um_at_center": 0.9743631648072931,
+      "coverage": 0.807996668054977,
+      "bandwidth_um_at_center": 0.025391653643064373,
+      "spectral_metadata": "Approximate WCS-WAVE visualization lookup; not a full spectral response",
+      "wcs_roundtrip_pixels": 1.1647763230149859e-07,
+      "image": "/artifacts/2af3251746ec498ea3d371439fb37f0e/3.png"
+    }
+  ],
+  "reference_wcs": {
+    "WCSAXES": 2,
+    "CRPIX1": 25.0,
+    "CRPIX2": 25.0,
+    "CDELT1": -0.0017006802721088,
+    "CDELT2": 0.0017006802721088,
+    "CUNIT1": "deg",
+    "CUNIT2": "deg",
+    "CTYPE1": "RA---TAN",
+    "CTYPE2": "DEC--TAN",
+    "CRVAL1": 76.956526034583,
+    "CRVAL2": 30.401438173889,
+    "LONPOLE": 180.0,
+    "LATPOLE": 30.401438173889,
+    "MJDREF": 0.0,
+    "RADESYS": "ICRS"
+  },
+  "display_range": [
+    0.37072779469572426,
+    7.020474049113023
+  ],
+  "warnings": [
+    "Qualitative viewing only: wavelength and PSF matching have not been validated.",
+    "No motion or variability detection is claimed. Bright-peak checks are preliminary, not catalog-confirmed stationary-source residuals.",
+    "Preview excludes all flagged pixels except SOURCE and FULLSAMPLE; originals are preserved.",
+    "Fewer frames than requested were available after retrieval and selection constraints."
+  ],
+  "diagnostics": {
+    "method": "bright-peak-centroids-v1",
+    "pairs": [
+      {
+        "peaks_a": 3,
+        "peaks_b": 12,
+        "matched_peaks": 2,
+        "match_radius_pixels": 2.0,
+        "overlap_fraction": 0.7380258225739276,
+        "status": "insufficient_matches",
+        "median_separation_pixels": null,
+        "median_separation_arcsec": null,
+        "note": "Mutual nearest bright-peak matches within 2 pixels; not catalog-confirmed stationary stars. Masking, blending, wavelength and PSF differences can bias results. Large offsets may be missed by the matching radius.",
+        "a": 0,
+        "b": 1,
+        "quantitative_comparison_allowed": false
+      }
+    ],
+    "limitations": "Exploratory geometry; wavelength and PSF compatibility not established."
+  },
+  "selection": {
+    "mode": "temporal",
+    "detector_requested": null,
+    "candidate_limit": 4,
+    "candidate_attempts": 4,
+    "processed_candidates": 2,
+    "selected_frames": 2,
+    "method": "Even spacing across discovery times in one detector; DR1 preferred for duplicated acquisitions.",
+    "recommendations": [],
+    "limitations": "WCS-WAVE is approximate visualization metadata; full CWAVE/CBAND calibration and response/PSF matching are not performed. No quantitative comparison is authorized."
+  },
+  "temporary_session": true,
+  "expires_utc": "2026-11-15T23:06:50.317336+00:00"
+}
