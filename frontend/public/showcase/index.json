@@ -1,0 +1,50 @@
+[
+  {
+    "id": "23577cd786a24f24bedec59e7c5366ae",
+    "query": {
+      "ra": 133.79512917,
+      "dec": -7.24514722,
+      "fov": 5,
+      "frames": 6
+    },
+    "frames": 6,
+    "partial": false,
+    "label": "Original comparison field",
+    "description": "A compact star field for learning playback and paired views.",
+    "preview": "/showcase/23577cd786a24f24bedec59e7c5366ae/0.png",
+    "start": "2025-05-06T02:33:29.930",
+    "end": "2026-05-14T06:53:35.614"
+  },
+  {
+    "id": "57b2c1c4360a4ca8a2486e8b6c97077f",
+    "query": {
+      "ra": 134.4,
+      "dec": -8.5,
+      "fov": 10.0,
+      "frames": 6
+    },
+    "frames": 6,
+    "partial": false,
+    "label": "Southern comparison field",
+    "description": "A wider, distinct field at RA 134.4\u00b0, Dec \u22128.5\u00b0. Six dates from a saved-inventory subset.",
+    "preview": "/showcase/57b2c1c4360a4ca8a2486e8b6c97077f/0.png",
+    "start": "2025-05-06T02:33:29.930",
+    "end": "2026-05-14T06:53:35.614"
+  },
+  {
+    "id": "d943f95d272546aa8a2a01e656fc3c32",
+    "query": {
+      "ra": 210.80227,
+      "dec": 54.34895,
+      "fov": 6.0,
+      "frames": 6
+    },
+    "frames": 5,
+    "partial": true,
+    "label": "M101 field",
+    "description": "Diffuse infrared structure across five dates. Wavelengths differ; changes are not proof of variability.",
+    "preview": "/showcase/d943f95d272546aa8a2a01e656fc3c32/0.png",
+    "start": "2025-05-10T17:04:37.742",
+    "end": "2026-05-23T16:52:04.655"
+  }
+]

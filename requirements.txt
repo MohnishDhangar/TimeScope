@@ -1,0 +1,11 @@
+# Bootstrap dependencies, not a validated lockfile. Freeze after successful tests.
+fastapi
+uvicorn
+pydantic
+numpy
+scipy
+astropy
+astroquery
+reproject
+pillow
+httpx
