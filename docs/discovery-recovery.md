@@ -18,3 +18,12 @@ November 15, 2026. IRSA capabilities, direct GET/POST SIA and TAP routes intermi
 Public recovery acceptance is recorded separately after deployment. The original endpoint failure remains an upstream dependency; this is a bounded, disclosed resilience mechanism.
 
 Sources: https://irsa.ipac.caltech.edu/ibe/sia.html and https://caltech-ipac.github.io/spherex-archive-documentation/spherex-data-access/ (retrieved November 15).
+
+
+## Public acceptance completed
+
+Revision `timescope-00002-8kk`, source `d7516b97baa8df8df0020b6149558b76a1e71386`, build `040249c9-5fbd-4702-8c80-b0bdf99da300` succeeded. The public browser form requested the original field with four frames. It downloaded four genuine FITS cutouts (all `cutout_cached: false`), aligned and displayed them in 16.634 seconds. Metadata came from the exact-query inventory retrieved at 12:28:44 UTC; fresh discovery remains unreliable and is not claimed. Correct coordinates and image dimensions, side-by-side comparison and offline evidence export passed. The export retained the metadata warning and per-frame download status.
+
+Background progress advanced from “Retrying discovery through direct SIA” to “Downloading and aligning 4/4 · 3 usable · 0 skipped” during 12 seconds with no polling. A simultaneous second search returned HTTP 429; the examples endpoint returned HTTP 200. A repeated identical completed query reused its retained session and was labeled as reuse. Raw evidence and image/source identities are in discovery-recovery-cloud.json; exact deployment identity is in discovery-recovery-deployment.json. The screenshot in docs/img/public-live-recovery.png shows the working real session.
+
+All 52 Python tests and 19 frontend checks passed before deployment, together with lint and production build. No additional Cloud Run resource was provisioned. Other coordinates need their own matching inventory or successful live discovery. This recovery is intentionally limited rather than presenting arbitrary cached observations as a different field.

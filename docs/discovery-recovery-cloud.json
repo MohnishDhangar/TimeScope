@@ -120,5 +120,11 @@
     "original_discovery_method": "direct-sia-v2-get-cache-revalidation",
     "query_overflow": false,
     "inventory_snapshot_sha256": "c3f5bc428b99818180e17c02b78401a9ddb0e9234fee17f10ca1287b76b48419"
-  }
+  },
+  "warm_response": {
+    "id": "2d33f65874614c1e8607967f9e6e1e84",
+    "reused": true,
+    "message": "Reusing a retained exact-query session; no new archive retrieval."
+  },
+  "public_viewer_verified": true
 }

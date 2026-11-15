@@ -2,6 +2,10 @@
 
 This is an incremental Stage A report, not a final submission or completed scientific release. Deadline: November 15, 2026, 23:59 IST; feature cutoff 20:30 IST.
 
+## Current recovery update
+
+The active revision is now `timescope-00002-8kk`, source d7516b97baa8df8df0020b6149558b76a1e71386. A genuine public form search of the original field with four frames successfully downloaded and processed four new FITS files in 16.634 seconds. It used explicitly disclosed exact-query metadata reuse during the discovery outage; it is not a successful fresh discovery query. Background processing, Busy response, reader availability, comparison and evidence export passed on that live job. 52 Python tests and 19 frontend checks passed. Full records are in discovery-recovery.md and discovery-recovery-deployment.json. Historical StageA details below describe the first revision and its failed live attempts. Wavelength-selection and residual-imaging stages remain pending.
+
 ## Repository and release
 
 Branch: main. Entry baseline: 91edb2014e4ae0203fc220aff2034fc574b1fc1d, clean. Implementation commits: d8472e6 (bounded ephemeral storage and public artifacts), e304f03 (Cloud Run source deployment configuration). Exact deployed source and image are in `cloud-deployment-record.json`. Documentation/evidence added after that fixed source are a separate documentation-only commit. Competition tag/release: not created; freeze is a later stage.

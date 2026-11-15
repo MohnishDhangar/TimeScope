@@ -1,0 +1,16 @@
+{
+  "revision": "timescope-00002-8kk",
+  "source_commit": "d7516b97baa8df8df0020b6149558b76a1e71386",
+  "url": "https://timescope-331427520592.us-central1.run.app",
+  "build_status": "SUCCESS",
+  "build_id": "040249c9-5fbd-4702-8c80-b0bdf99da300",
+  "image_digest": "us-central1-docker.pkg.dev/timescope-spaceapps-2026/cloud-run-source-deploy/timescope@sha256:5ae24494e80d83eaeff6002aad6284ff6e762d10a3c5caa2e5b4e00719269490",
+  "build_finished_utc": "2026-11-15T12:37:49.790984Z",
+  "public_recovery_seconds": 16.634,
+  "frames": 4,
+  "discovery_cached": true,
+  "concurrent_post_status": 429,
+  "examples_during_job": 200,
+  "before_no_poll": "Retrying discovery through direct SIA",
+  "after_no_poll": "Downloading and aligning 4/4 \u00b7 3 usable \u00b7 0 skipped"
+}

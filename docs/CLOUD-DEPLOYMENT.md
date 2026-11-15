@@ -71,3 +71,12 @@ A fresh unauthenticated Chromium browser verified all three real-data bundles, c
 `cloud-memory-observation.json` preserves Cloud Monitoring samples around the failed jobs (approximately 110–112 MiB). These are sampled distribution means, not a measured peak for a completed scientific workload. Actual paid usage/remaining credit after deployment has not yet been measured; the screenshot credit balance predates deployment. No automatic asynchronous monitoring is promised.
 
 The competition tag has not been created; this is the initial release milestone, not the final competition freeze. Future scientific changes require their own tests and a verified deployment update.
+
+
+## Current revision — discovery recovery
+
+Revision `timescope-00002-8kk` now serves all traffic. Source `d7516b97baa8df8df0020b6149558b76a1e71386`. See discovery-recovery-deployment.json for the new image digest and actual build record. The resource/scaling configuration is retained.
+
+Public form verification downloaded and processed four fresh original-field FITS cutouts in 16.634 seconds using a matching discovery inventory. Metadata reuse is explicit; fresh IRSA discovery was not successful. The same test verified background progress without polling, HTTP 429 on a simultaneous job, examples HTTP 200 and viewer/evidence export. This supersedes the prior unsuccessful-retrieval status for that supported field; arbitrary uncached-region live discovery remains subject to IRSA availability.
+
+A successful original-field metadata snapshot, retrieved 2026-11-15T12:28:44UTC, is intentionally packaged for exact-region outage recovery with a 24-hour maximum age. Runtime metadata cache files are included in aggregate storage accounting. They contain no image arrays. Per-frame exact-request FITS-cache reuse is recorded separately. See discovery-recovery.md.
