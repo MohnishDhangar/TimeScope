@@ -1,72 +1,88 @@
 # TimeScope
 
-Explore the same patch of sky through time using genuine NASA SPHEREx infrared observations. TimeScope turns celestial coordinates into an aligned, dated image sequence with comparison tools and downloadable evidence.
+**Multi-epoch infrared astronomy with NASA SPHEREx**
 
-Built for NASA Space Apps 2026, **Planet X and SPHEREx**. Planet X motivates exploration; TimeScope does not claim a discovery or validated motion detection.
+TimeScope is a public scientific web application for exploring the same sky region across observation dates. It retrieves SPHEREx spectral images, aligns them on a common celestial coordinate grid, and provides playback, paired comparison, wavelength-aware observation selection and reproducible evidence export.
 
-**[Open the application](https://timescope-331427520592.us-central1.run.app/)** · **[Independent real-data showcase](https://timescope-spherex.roanpaste16.chatgpt.site/)** · [Source](https://github.com/MohnishDhangar/TimeScope)
+Built for the **2026 NASA Space Apps Challenge — Planet X and SPHEREx**.
 
-![Actual TimeScope viewer with genuine SPHEREx observations](docs/img/observatory-desktop.png)
+[Live application](https://timescope-331427520592.us-central1.run.app/) · [Independent real-data showcase](https://timescope-spherex.roanpaste16.chatgpt.site/) · [Challenge](https://hackathlone.com/challenges/planet-x-and-spherex)
 
-## Explore a field
+![TimeScope observation workspace](docs/img/observatory-desktop.png)
 
-1. Open a bundled real-data field, or enter ICRS right ascension and declination in decimal degrees.
-2. Choose a 1–15 arcminute field, 2–12 requested observations, optional detector and temporal or wavelength-prioritized selection. Live search depends on NASA/IPAC IRSA availability.
-3. Step through the dated filmstrip, play the timeline or blink a selected pair. Compare frames side by side with synchronized zoom and pan.
-4. Inspect acquisition times, wavelengths, coverage and original FITS provenance. Copy a view link or download an HTML evidence card with embedded previews.
+## Scientific workflow
 
-| Bundled field | RA (degrees) | Dec (degrees) | Width | Real frames |
+1. Enter right ascension and declination (ICRS, decimal degrees), a field width of 1–15 arcminutes and a requested count of 2–12 observations. Alternatively, select a challenge-target preset or open a bundled sequence.
+2. Search SPHEREx DR1 and QR3 using bounded SIA discovery. Select a detector or use automatic selection; choose chronological or wavelength-prioritized observation selection.
+3. Play the aligned observations, select a date on the timeline, blink a pair or compare two images side by side with synchronized pan and zoom.
+4. Inspect acquisition times, center wavelengths, detector, collection, coverage, pairwise alignment diagnostics and original FITS provenance.
+5. Copy a shareable view link or download a standalone HTML evidence card with embedded image previews and scientific limitations.
+
+The fixed image viewer and adjacent analysis panel keep the images, observation graph and metadata in the same investigation workspace.
+
+## Real-data results
+
+The current repository includes **seven bundled fields with 33 usable SPHEREx observation frames**, including reference fields for all five targets named in the challenge.
+
+| Field | RA (°) | Dec (°) | Width (arcmin) | Usable frames |
 |---|---:|---:|---:|---:|
-| Original comparison field | 133.79512917 | −7.24514722 | 5′ | 6 |
-| Southern comparison field | 134.4 | −8.5 | 10′ | 6 |
-| M101 | 210.80227 | +54.34895 | 6′ | 5 of 6 attempted |
+| WISE 0855 reference field | 133.79512917 | −7.24514722 | 5 | 6 |
+| Barnard's Star reference field | 269.45210 | +4.69340 | 6 | 6 |
+| Epsilon Indi B reference field | 331.04570833 | −56.78344444 | 5 | 4 of 6 |
+| RW Aurigae reference field | 76.95652603 | +30.40143817 | 5 | 2 of 4 |
+| R Draconis reference field | 248.16761083 | +66.75497942 | 5 | 4 |
+| Southern comparison field | 134.4 | −8.5 | 10 | 6 |
+| M101 | 210.80227 | +54.34895 | 6 | 5 of 6 |
 
-The southern sequence uses a saved-inventory subset. M101 retains its partial-sequence disclosure. The original field does not establish a detection of WISE 0855. The original 17 bundled previews are derived from real observations; synthetic fixtures are used only in software tests.
+These counts refer to the packaged sequences, not all observations available from the archive. The WISE reference-field acceptance test separately processed four frames using historical discovery metadata. The southern field uses a saved-inventory subset; Epsilon Indi B, RW Aurigae and M101 are partial sequences.
 
-## Judging notes
+All five named reference-field tests produced usable multi-epoch sequences. **This does not establish identification, motion or variability of the named objects.** In particular, Barnard's Star's bundled sequence uses its reference position without epoch propagation; the contemporary source may be outside that 6′ field. The Barnard preset offers a 10′ search width. Epsilon Indi B uses the brown-dwarf system position, not the primary star.
 
-The bundled showcase does not need live IRSA discovery. Live coordinate search and snapshot-backed cutout retrieval depend on the archive services being available. During November 15 testing, fresh IRSA searches intermittently returned HTTP 502; the underlying cause was not established.
+[Target validation and coordinate references](docs/challenge-target-validation.md) · [Machine-readable target evidence](docs/challenge-target-validation.json) · [Challenge compliance](docs/challenge-compliance.md)
 
-When live discovery fails transiently, recovery tries a valid 24-hour runtime inventory, then an intentionally bundled historical inventory for the **exact same query**. Only the original field at 5′ currently has a bundled discovery inventory, retrieved **2026-11-15T12:28:44.186124+00:00**. Other declinations, including −2.24514722°, cannot reuse it. Historical metadata keep their original date and checksum and may omit later releases. This is not fresh discovery. FITS downloads and FITS-cache reuse are disclosed separately.
+A separate fresh public search at RA 133.79512917°, Dec −2.24514722°, width 5′ returned 290 records and produced six fresh FITS frames without historical inventory substitution. See the [acceptance report](docs/final-acceptance.md). This demonstrates live operation for that query, not continuous archive availability.
 
-Search has bounded retries and one active scientific job. A Busy response preserves examples and offers retry. Live sessions and their links are temporary; download evidence to retain a readable record. The independent fallback offers bundled exploration, without arbitrary live search. Exact validation results and any remaining failures are in [the repair evidence](docs/discovery-repair-validation.json) and [current status](docs/FINAL-STATUS.md).
-
-The prior local `submission-v1` tag predates the urgent target/preset update and must not be published as the final version. Use the latest pinned source recorded in the deployment handoff. This remains an incremental release; no official competition submission is claimed. The final competition version should remain unchanged during judging.
-
-## Processing and architecture
+## Architecture
 
 ```mermaid
 flowchart LR
-    Browser[React / TypeScript viewer] --> API[FastAPI: one scientific worker]
-    API --> Discovery[Bounded SIA discovery]
-    Discovery --> IRSA[NASA/IPAC IRSA: DR1 + QR3]
-    Discovery --> Inventory[Exact-query metadata recovery]
-    API --> FITS[Bounded FITS cutouts + quality masks]
-    FITS --> Grid[Astropy WCS + reproject: shared TAN grid]
-    Grid --> Products[Shared-asinh PNGs + provenance manifest]
-    Products --> Browser
+    UI[React / TypeScript] --> API[FastAPI]
+    API --> SIA[SPHEREx SIA discovery]
+    SIA --> Select[Observation and detector selection]
+    SIA -. transient failure .-> Cache[Validated exact-query inventory]
+    Cache --> Select
+    Select --> FITS[FITS cutouts and quality masks]
+    FITS --> Grid[Astropy WCS / reproject]
+    Grid --> Products[Aligned previews and provenance]
+    Products --> UI
+    UI --> Evidence[Offline evidence card]
 ```
 
-The backend deduplicates by observation plus detector, preferring DR1 duplicates, chooses one detector and samples distinct acquisition times. Optional wavelength-prioritized selection processes at most 12 candidates and ranks eligible pairs using approximate local spectral metadata. It masks unsuitable pixels and reprojects to a common north-up/east-left grid. Acquisition time uses DATE-OBS. Source URLs, SHA-256, cutout parameters, units, wavelength metadata, coverage, retrieval failures and processing choices accompany the previews. PNGs are visualization products, not calibrated scientific arrays.
+- **Frontend:** React, TypeScript and Vite; image playback, comparison, metadata and evidence export.
+- **Backend:** FastAPI, Astroquery, Astropy, Reproject, NumPy and SciPy.
+- **Discovery:** bounded SIA requests, transient retries, observation-plus-detector deduplication, and explicitly disclosed historical metadata recovery.
+- **Processing:** DATE-OBS acquisition times, FITS quality masks, common north-up/east-left TAN grid, shared asinh display scale and per-observation provenance.
+- **Deployment:** Google Cloud Run, with one scientific worker, bounded runtime storage and admission limits.
 
-One Cloud Run service serves the production Vite frontend and FastAPI from the same origin. It uses one worker, 1 CPU, 4 GiB, continuously allocated CPU, min/max one instance and a 512 MiB aggregate temporary-file limit. Runtime sessions expire or may disappear on replacement. [Deployment configuration and evidence](docs/CLOUD-DEPLOYMENT.md).
+The pipeline preserves original FITS URLs, SHA-256 checksums, cutout parameters, collection, detector, units, wavelengths, coverage and retrieval outcomes. Rendered PNG previews are visualization products, not calibrated scientific arrays.
 
-## Scientific limits
+## Archive availability and scientific limitations
 
-- SPHEREx's effective wavelength varies with detector position. The time-versus-wavelength chart is neither a spectrum nor a light curve. Wavelength-prioritized selection ranks approximate center-wavelength separation within a bounded candidate pool; it does not establish matched spectral responses.
-- Wavelength, PSF, calibration and coverage differences can alter appearances. A shared intensity stretch does not establish photometric comparability.
-- Bright-peak agreement checks are preliminary and are not independent catalog-validated astrometric accuracy. Coordinate reprojection alone does not establish measured alignment.
-- Smooth rendering adds no resolution. Checkerboard areas show invalid or missing coverage. The conservative quality-mask policy still needs validation for moving/variable sources.
-- The 1,000-record ceiling and incomplete or failed sequences are disclosed. Historical metadata do not guarantee that original files remain retrievable indefinitely.
-- Difference imaging, catalog overlays, measured proper motions, source photometry and candidate detection are **not included in this deployed repair**. Detector selection and wavelength-prioritized recommendations are integrated; they do not authorize quantitative analysis.
+Live searches depend on the NASA/IPAC archive. Direct SIA discovery has succeeded despite intermittent HTTP 502 responses and timeouts on archive access routes. If discovery fails, TimeScope may reuse a validated inventory for the exact query, with its original date and scope disclosed. This is not fresh discovery. FITS retrieval, cached FITS reuse and completed-session reuse are distinguished.
 
-See [wavelength validation](docs/wavelength-validation.md), [interface integration](docs/FRONTEND-INTEGRATION.md), [example validation](docs/example-validation.md), [comparison limitations](docs/comparison-validation.md), [archive probe](docs/discovery-probe.md) and [performance evidence](docs/performance.md). Historical test counts and earlier milestones are in [CHANGELOG](docs/CHANGELOG.md).
+Bundled observations remain usable without fresh archive discovery. Live sessions are temporary; evidence cards preserve the selected images and metadata for offline review. The independent static showcase is a separate, earlier bundled-data release and does not support arbitrary live searches.
 
-## Run and verify
+SPHEREx's wavelength varies with detector position. Wavelength-prioritized selection ranks approximate center-wavelength separation; it does not establish identical spectral response. Different wavelengths, PSFs, calibration, noise and coverage can alter image appearance. The time–wavelength graph is neither a spectrum nor a light curve. Bright-peak alignment diagnostics are preliminary, not catalog-validated precision astrometry. Smooth display interpolation adds no resolution.
 
-Use the pinned environment and setup steps in [SETUP.md](SETUP.md). The existing tested interpreter is Python 3.14.7; the Docker image builds its frontend using Node 24.
+No discovery of Planet X, confirmed source detection, measured proper motion, calibrated photometry, validated difference imaging or automated candidate detection is claimed. The all-sky spectral cube and external catalog overlays are not part of the verified repository release described here.
 
-```sh
+[Scientific comparison methodology](docs/comparison-validation.md) · [Wavelength validation](docs/wavelength-validation.md) · [Archive recovery](docs/discovery-recovery.md)
+
+## Run locally
+
+Use the pinned environment described in [SETUP.md](SETUP.md). The tested Python version is 3.14.7; the production container builds the frontend with Node 24.
+
+```bash
 python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements-resolved.txt
 npm --prefix frontend ci
@@ -74,9 +90,11 @@ npm --prefix frontend run build
 .venv/bin/python -m backend
 ```
 
-Open http://localhost:8000. All three real examples are already bundled. Development checks:
+Open http://localhost:8000. The backend serves the frontend and API from the same origin. Bundled data are included in the repository.
 
-```sh
+## Tests and release evidence
+
+```bash
 .venv/bin/python -m pip install pytest
 .venv/bin/python -m pytest -q
 npm --prefix frontend run lint
@@ -86,22 +104,21 @@ npx playwright install chromium
 npx playwright test --workers=1
 ```
 
-Browser tests require the application running on port 8000. Synthetic retry tests mock clocks, sleep and failures; they do not issue archive requests. The real one-pass probe and public acceptance runs are reported separately. A successful health endpoint does not prove archive retrieval.
+Run the application on port 8000 before the browser suite.
 
-## Data, credit and AI assistance
+The seven-field source candidate at commit `81a7275` recorded 122 passing backend tests and 31 frontend checks (30 Chromium scenarios and one metadata-logic check); production build and lint passed. See the [final test report](docs/final-test-report.md). Synthetic fixtures are used for software verification, not as astronomical evidence.
 
-The bundled examples use **SPHEREx DR1 and QR3 Spectral Images** from NASA/IPAC IRSA: [DR1, DOI 10.26131/IRSA678](https://doi.org/10.26131/IRSA678) and [QR3, DOI 10.26131/IRSA662](https://doi.org/10.26131/IRSA662). No all-sky cube is used. NASA funds SPHEREx, a joint project of JPL and Caltech. See the [official release acknowledgements](https://irsa.ipac.caltech.edu/data/SPHEREx/docs/overview_dr1.html), [IRSA tutorials](https://caltech-ipac.github.io/irsa-tutorials/spherex-cutouts/) and [third-party credits](THIRD_PARTY.md).
+The latest **recorded** Cloud Run deployment is revision `timescope-00006-rzk`, built from `92dbf60` with five bundled fields and 23 frames. The subsequent seven-field update is present in source; consult the [deployment record](docs/cloud-deployment-record.json) for the exact deployed version rather than assuming every repository update is already live. [Cloud deployment guide](docs/CLOUD-DEPLOYMENT.md).
 
-AI tools assisted planning, implementation, debugging, documentation and test design. AI output is not evidence of scientific validity; the reproducible checks and actual observation provenance are recorded separately. The project owner confirmed that no earlier project code was reused. Final submission disclosure should identify all tools actually used.
+## Data, credits and license
 
-Original TimeScope source is [MIT licensed](LICENSE), approved by the project owner. Scientific data and third-party dependencies retain their own terms and acknowledgements.
+- NASA/IPAC IRSA SPHEREx DR1 Spectral Images — [DOI 10.26131/IRSA678](https://doi.org/10.26131/IRSA678).
+- NASA/IPAC IRSA SPHEREx QR3 Spectral Images — [DOI 10.26131/IRSA662](https://doi.org/10.26131/IRSA662).
+- [SPHEREx release documentation](https://irsa.ipac.caltech.edu/data/SPHEREx/docs/overview_dr1.html) and [IRSA cutout tutorial](https://caltech-ipac.github.io/irsa-tutorials/spherex-cutouts/).
+- [Third-party software, data acknowledgments and licenses](THIRD_PARTY.md).
 
-## Competition acceptance package
+TimeScope acknowledges NASA funding, the joint JPL/Caltech SPHEREx mission, NASA/IPAC IRSA and the instrument, calibration and archive teams. NASA affiliation or endorsement is not implied.
 
-Five bundled fields contain 23 genuine frames, including new RW Aurigae (two usable frames; partial) and R Draconis (four frames) reference fields. Named-source visibility and variability remain unverified. Barnard and Epsilon Indi B requests remain blocked by archive timeouts. Fresh public discovery was verified for RA 133.79512917°, Dec −2.24514722°, 5′: 290 records and six fresh FITS frames; no historical metadata used. Archive availability remains intermittent.
+**Development disclosure:** OpenAI ChatGPT and Codex assisted planning, implementation, debugging, documentation and test design. Scientific claims are supported by the recorded observations and validation evidence, not by generated text. The project owner confirmed that no earlier personal-project code was reused.
 
-[Final acceptance](docs/final-acceptance.md) · [Target evidence](docs/challenge-target-validation.md) · [Compliance](docs/challenge-compliance.md) · [Tests](docs/final-test-report.md) · [Submission checklist](submission/final-submission-checklist.md). The owner records the demo. No organizer waiver or official submission is claimed.
-
-## Urgent final target acceptance
-
-All five named targets now have usable reference-field sequences, with visibility/motion/variability unverified. Seven bundles contain 33 genuine frames, preserving the original three fields. Barnard: six frames; Epsilon Indi B: four usable of six (partial); WISE reference field: six; RW Aurigae: two of four (partial); R Draconis: four. A five-target selector fills verified reference coordinates, with an explicit separate bundled-open action. Barnard’s unpropagated reference-position bundle may omit the contemporary source; the preset uses a wider field. Detailed current results are in docs/challenge-target-validation.md. Earlier blocked-attempt reports are historical.
+Original TimeScope source is available under the [MIT license](LICENSE). Scientific data and third-party software retain their own terms.

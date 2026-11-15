@@ -1,32 +1,27 @@
-# React + TypeScript + Vite
+# TimeScope frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+The React/TypeScript interface for TimeScope provides coordinate search, a fixed SPHEREx observation viewer, chronological playback, paired comparisons, scientific metadata, a time–wavelength graph, target presets and HTML evidence export.
 
-Currently, two official plugins are available:
+## Development
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+From the repository root, follow [SETUP.md](../SETUP.md) to prepare the backend. Then run:
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+npm --prefix frontend ci
+npm --prefix frontend run build
+npm --prefix frontend run lint
+.venv/bin/python -m backend
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+Open http://localhost:8000. For frontend development, use `npm run dev` from this directory; see [vite.config.ts](vite.config.ts) for proxy settings.
+
+## Browser checks
+
+With the backend running on port 8000:
+
+```bash
+npx playwright install chromium
+npx playwright test --workers=1
+```
+
+See the [project README](../README.md) for scientific limitations, data attribution, verified results and deployment details. This frontend uses the standard Vite React template as its starting point; upstream licenses are retained.

@@ -12,7 +12,7 @@ The frontend began from the standard Vite React template. NASA/IPAC notebooks an
 
 ## SPHEREx observations
 
-The 17 bundled previews are genuine derived visualization products from DR1 and QR3 Spectral Images. M101 includes both collections; the original and southern sequences use DR1. Per-frame manifests preserve the actual archive collection, observation identity, source URL, acquisition time and SHA-256. The images are not synthetic, and are not quantitative calibrated-array downloads.
+The current repository contains 33 bundled previews across seven fields, all genuine derived visualization products from DR1 and QR3 Spectral Images. M101 includes both collections; the original and southern sequences use DR1. Per-frame manifests preserve the actual archive collection, observation identity, source URL, acquisition time and SHA-256. The images are not synthetic, and are not quantitative calibrated-array downloads.
 
 - [DR1 Spectral Images: DOI 10.26131/IRSA678](https://doi.org/10.26131/IRSA678), verified from the [official DR1 overview](https://irsa.ipac.caltech.edu/data/SPHEREx/docs/overview_dr1.html).
 - [QR3 Spectral Images: DOI 10.26131/IRSA662](https://doi.org/10.26131/IRSA662), verified from the [official QR overview](https://irsa.ipac.caltech.edu/data/SPHEREx/docs/overview_qr.html).
