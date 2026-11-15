@@ -22,3 +22,7 @@ The current repository contains 33 bundled previews across seven fields, all gen
 TimeScope acknowledges NASA funding, the joint JPL/Caltech SPHEREx mission, NASA/IPAC IRSA's data service and the instrument, calibration and archive teams. The official release pages require their prescribed publication acknowledgement and the appropriate release DOI; use that source text for publications and presentation credits. No spectral all-sky cube or external Gaia/SIMBAD catalog data are used in this release. References checked November 15, 2026.
 
 NASA/SPHEREx names identify the data and challenge; no agency endorsement or discovery claim is implied. Any future catalog, imagery, code or asset integration needs its own provenance and applicable notices.
+
+## Spectral mosaic renderer
+
+Caltech/IPAC Firefly is loaded from the official IRSA viewer service. Its BSD-style license and copyright are preserved in [Firefly.txt](docs/licenses/Firefly.txt). SPHEREx DR1 all-sky cube metadata and visual tiles are supplied by NASA/IPAC IRSA, DOI [10.26131/IRSA679](https://doi.org/10.26131/IRSA679). Data are not covered by the application MIT license.

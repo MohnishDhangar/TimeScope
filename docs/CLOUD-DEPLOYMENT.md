@@ -1,21 +1,14 @@
-# Cloud Run deployment — authoritative competition guide
+# Urgent final deployment — authoritative current identity
 
-## Final serving identity
+Source `81a72755925f14fc037e29a042e85e9d49e00fea`, revision `timescope-00007-hhw`, 100% traffic. Build `7819ffc1-5624-4236-b381-f70ff6fbac6b` **SUCCESS**.
 
-- Public app: https://timescope-331427520592.us-central1.run.app/
-- Independent static showcase: https://timescope-spherex.roanpaste16.chatgpt.site/ (unchanged)
-- Source: `92dbf60b58ed085bc119e202182a9598dcfde215`; branch `release/final-integration`; published on GitHub main.
-- Serving revision: `timescope-00006-rzk`, 100% traffic.
-- Image: `us-central1-docker.pkg.dev/timescope-spaceapps-2026/cloud-run-source-deploy/timescope@sha256:598a9b1a4a591d12de405a8a887bc06555fc116bb15da124e0cde20694522429`.
-- Build: `c22c1c59-22e4-411c-8f86-ac955251f079`, **SUCCESS**.
-- Deployment Ready timestamp: `2026-11-15T17:19:54.369426Z`.
-- Rollback revision: `timescope-00005-p88`; image retained.
+Image: `us-central1-docker.pkg.dev/timescope-spaceapps-2026/cloud-run-source-deploy/timescope@sha256:61bda9942a83183f39c392d41cbbfe74de6347dcd1375f9746131d867c896c22`. Ready UTC: 2026-11-15T18:01:34.596093Z.
 
-Final library: five genuine SPHEREx bundles, 23 frames. RW Aurigae has two frames with partial-result disclosure; R Draconis has four frames; source visibility/variability are unverified. Both are independent of fresh discovery. Original 17 frames unchanged. Viewer and evidence exports explicitly identify bundled use.
+Public URL: https://timescope-331427520592.us-central1.run.app/ . Seven genuine bundles / 33 frames. All five named reference fields have usable sequences, with Epsilon/RW partial status and source visibility caveats. Five coordinate presets and explicit bundle-open action are included. Barnard's preset uses 10′; the recovered 6′ unpropagated reference-position bundle may omit the contemporary source. No detection/motion/variability is established.
 
-Fresh public search was verified on revision 00005, source 71a09ee: 290 rows and six fresh FITS; no historical metadata or retained-session reuse. Backend/discovery code is byte-identical in this final image. The original temporary live session expired after revision replacement (404), as designed; its previews and manifest are preserved under docs/target-evidence. No new archive query was required solely for this data-library rollout. Public browser/lifecycle verification and final test results are in final-acceptance.md and final-test-report.md.
+Resources/identity/environment/port/scaling/concurrency/timeouts were re-read and compared unchanged against the prior service. Previous revision timescope-00006-rzk is retained. Independent static showcase was not changed. Existing storage/admission limits and one scientific worker remain.
 
-The rest of this guide retains configuration/budget policy and labels earlier acceptance evidence as historical. Full identity is in cloud-deployment-record.json. No official submission claimed.
+The earlier local submission-v1 tag is superseded and must not be overwritten or presented as this source. Submit the latest pinned commit. Final acceptance details follow; historical earlier records remain in Git and their JSON artifacts.
 
 ## Verified unchanged configuration
 
@@ -45,7 +38,7 @@ If a blocking release defect requires rollback after jobs finish:
 
 ```sh
 gcloud run services update-traffic timescope --project timescope-spaceapps-2026 \
-  --region us-central1 --to-revisions timescope-00005-p88=100
+  --region us-central1 --to-revisions timescope-00006-rzk=100
 ```
 
 The rollback revision retains the same backend/interface but has the earlier 17-frame library. Retain its image for emergency rollback; do not delete submitted images during judging.

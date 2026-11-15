@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import './App.css'
 import {challengeTargets} from './targets'
 import SkyFrame from './SkyFrame'
+import SpectralExplorer from './SpectralExplorer'
 import ComparisonEvidence from './ComparisonEvidence'
 import ObservationChart from './ObservationChart'
 import type { Session } from './session'
@@ -10,7 +11,8 @@ import { exportEvidence } from './evidence'
 const showcaseOnly=import.meta.env.VITE_SHOWCASE_ONLY==='true'
 export default function App() {
  const [initialLink]=useState(()=>readLink(location.search))
- const [screen,setScreen]=useState<'search'|'viewer'|'library'>(()=>initialLink.id?'viewer':'search')
+ const [screen,setScreen]=useState<'search'|'viewer'|'library'|'spectral'>(()=>initialLink.id?'viewer':'search')
+ const [spectralChannel,setSpectralChannel]=useState(()=>{const n=Number(initialLink.params.get('channel'));return Number.isInteger(n)&&n>=1&&n<=102?n:27})
  const controlPanel=useRef<HTMLDivElement>(null)
  useEffect(()=>{controlPanel.current?.scrollTo({top:0,behavior:'auto'})},[screen])
  const [ra,setRa]=useState(String(initialLink.query.ra)), [dec,setDec]=useState(String(initialLink.query.dec)), [fov,setFov]=useState(String(initialLink.query.fov))
@@ -41,7 +43,7 @@ export default function App() {
   setSession(result)
   if(result.status==='ready'){
    const state=restoreView(result,restore??new URLSearchParams())
-   setScreen('viewer');setBusy(false);setPlaying(false);setBlinkPair(null);setIndex(state.index);setReference(state.reference);setCompare(state.compare);setSmooth(state.smooth);setZoom(state.zoom);setPan(state.pan);setSpeed(state.speed);setPixels(0);setShareUrl('');setShareMessage('')
+   setScreen(restore?.get('mode')==='spectral'?'spectral':'viewer');setBusy(false);setPlaying(false);setBlinkPair(null);setIndex(state.index);setReference(state.reference);setCompare(state.compare);setSmooth(state.smooth);setZoom(state.zoom);setPan(state.pan);setSpeed(state.speed);setPixels(0);setShareUrl('');setShareMessage('')
    if(result.query){setRa(String(result.query.ra));setDec(String(result.query.dec));setFov(String(result.query.fov));setFrameCount(String(result.query.frames??6));setDetector(result.query.detector?String(result.query.detector):'auto');setSelectionMode(result.query.selection_mode??'temporal')}
    const recommendation=result.selection?.recommendations[0]
    if(result.selection?.mode==='wavelength_matched'&&recommendation&&!restore?.has('frame')){setIndex(recommendation.a);setReference(recommendation.b);setCompare(true)}
@@ -60,8 +62,8 @@ export default function App() {
  },[initialLink])
  const view={index,reference,compare,smooth,zoom,pan,speed}
  useEffect(()=>{
-  if(session?.status==='ready'&&frame)history.replaceState(null,'',sessionLink(session,{index,reference,compare,smooth,zoom,pan,speed}))
- },[session,frame,index,reference,compare,smooth,zoom,pan,speed])
+  if(session?.status==='ready'&&frame){const url=new URL(sessionLink(session,{index,reference,compare,smooth,zoom,pan,speed}));if(screen==='spectral'){url.searchParams.set('mode','spectral');url.searchParams.set('channel',String(spectralChannel))}history.replaceState(null,'',url.toString())}
+ },[session,frame,index,reference,compare,smooth,zoom,pan,speed,screen,spectralChannel])
  async function share(){
   if(!session)return
   const url=sessionLink(session,view);setShareUrl(url)
@@ -77,8 +79,8 @@ export default function App() {
  }
 
  return <main className="observatory-app">
-  <header className="site-header"><a className="brand" href="/" aria-label="TimeScope home"><span className="brand-symbol" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="9" stroke="currentColor" strokeWidth="1.7"/><path d="M16 1v8m0 14v8M1 16h8m14 0h8M7 7l5 5m8 8 5 5" stroke="currentColor" strokeWidth="1.7"/><circle cx="16" cy="16" r="2.7" fill="currentColor"/></svg></span><strong>TIME<span>SCOPE</span></strong></a><nav aria-label="Main navigation" className="workspace-navigation"><button type="button" aria-current={screen==='search'?'page':undefined} onClick={()=>setScreen('search')}>Coordinate search</button><button type="button" aria-current={screen==='viewer'?'page':undefined} onClick={()=>setScreen('viewer')}>Observation viewer</button><button type="button" aria-current={screen==='library'?'page':undefined} onClick={()=>setScreen('library')}>Observation library</button></nav><a className="mission-link" href="https://irsa.ipac.caltech.edu/Missions/spherex.html" target="_blank" rel="noreferrer">SPHEREx mission <span aria-hidden="true">↗</span></a></header>
-  <div className="observatory-layout" data-screen={screen}>
+  <header className="site-header"><a className="brand" href="/" aria-label="TimeScope home"><span className="brand-symbol" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="9" stroke="currentColor" strokeWidth="1.7"/><path d="M16 1v8m0 14v8M1 16h8m14 0h8M7 7l5 5m8 8 5 5" stroke="currentColor" strokeWidth="1.7"/><circle cx="16" cy="16" r="2.7" fill="currentColor"/></svg></span><strong>TIME<span>SCOPE</span></strong></a><nav aria-label="Main navigation" className="workspace-navigation"><button type="button" aria-current={screen==='search'?'page':undefined} onClick={()=>setScreen('search')}>Coordinate search</button><button type="button" aria-current={screen==='viewer'?'page':undefined} onClick={()=>setScreen('viewer')}>Observation viewer</button><button type="button" disabled={!frame} aria-current={screen==='spectral'?'page':undefined} onClick={()=>setScreen('spectral')}>Spectral explorer</button><button type="button" aria-current={screen==='library'?'page':undefined} onClick={()=>setScreen('library')}>Observation library</button></nav><a className="mission-link" href="https://irsa.ipac.caltech.edu/Missions/spherex.html" target="_blank" rel="noreferrer">SPHEREx mission <span aria-hidden="true">↗</span></a></header>
+  {screen==='spectral'&&session?.query?<SpectralExplorer field={session.query} channel={spectralChannel} onChannel={setSpectralChannel}/>:<div className="observatory-layout" data-screen={screen}>
    <div className="control-column" ref={controlPanel} role="region" tabIndex={0} aria-label={screen==='viewer'?'Observation analysis':screen==='library'?'Observation library':'Coordinate search'}>
     {screen==='search'&&<>
   <section className="search-section" aria-label="Coordinate search"><div className="section-heading search-heading"><h1>SPHEREx observations</h1><p>ICRS coordinates and square field width.</p></div>
@@ -148,6 +150,6 @@ export default function App() {
    <div className="viewer-zoom">  <div className="context zoom-controls"><label>Zoom <input aria-label="Zoom" type="range" min="1" max="5" step="0.1" value={zoom} onChange={e=>setZoom(Number(e.target.value))}/></label><button className="quiet" onClick={()=>{setZoom(1);setPan({x:0,y:0})}}>Reset view</button></div></div>
    <span className="viewer-date">{frame?`${frame.date} UTC`:'No observations loaded'}</span></div>
   </aside>
-  </div>
+  </div>}
  </main>
 }

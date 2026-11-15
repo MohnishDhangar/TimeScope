@@ -3,16 +3,16 @@
   "project": "timescope-spaceapps-2026",
   "region": "us-central1",
   "service": "timescope",
-  "revision": "timescope-00006-rzk",
-  "image_digest": "us-central1-docker.pkg.dev/timescope-spaceapps-2026/cloud-run-source-deploy/timescope@sha256:598a9b1a4a591d12de405a8a887bc06555fc116bb15da124e0cde20694522429",
-  "source_commit": "92dbf60b58ed085bc119e202182a9598dcfde215",
+  "revision": "timescope-00007-hhw",
+  "image_digest": "us-central1-docker.pkg.dev/timescope-spaceapps-2026/cloud-run-source-deploy/timescope@sha256:61bda9942a83183f39c392d41cbbfe74de6347dcd1375f9746131d867c896c22",
+  "source_commit": "81a72755925f14fc037e29a042e85e9d49e00fea",
   "source_branch": "release/final-integration",
   "source_worktree_clean_at_deployment": true,
-  "deployment_timestamp_utc": "2026-11-15T17:19:54.369426Z",
+  "deployment_timestamp_utc": "2026-11-15T18:01:34.596093Z",
   "deployment_timestamp_source": "Cloud Run revision Ready condition",
   "build_status": "SUCCESS",
-  "build_id": "c22c1c59-22e4-411c-8f86-ac955251f079",
-  "build_finished_utc": "2026-11-15T17:19:05.232661Z",
+  "build_id": "7819ffc1-5624-4236-b381-f70ff6fbac6b",
+  "build_finished_utc": "2026-11-15T18:00:53.300822Z",
   "resources": {
     "limits": {
       "cpu": "1",
@@ -53,19 +53,20 @@
     {
       "latestRevision": true,
       "percent": 100,
-      "revisionName": "timescope-00006-rzk"
+      "revisionName": "timescope-00007-hhw"
     }
   ],
-  "retained_rollback_revision": "timescope-00005-p88",
+  "retained_rollback_revision": "timescope-00006-rzk",
   "deployment_count_this_repair": 1,
-  "competition_tag": "submission-v1 (prepared locally after acceptance; remote publication requires authenticated Git push)",
+  "competition_tag": null,
   "competition_submission_completed": false,
-  "note": "Final application/data image is the source commit above. Subsequent documentation/media changes record acceptance and preserve the same backend/frontend application code. No official competition submission performed.",
+  "note": "Urgent user-authorized target/preset release supersedes the earlier local tag. Do not overwrite or publish that tag as this release; use the latest pinned commit. No official submission performed.",
   "deployment_count_this_integration": 1,
   "prior_deployment": {
     "source_commit": "a11ae4e35c0b44aa118e1ab8ebf2987108fa072b",
     "revision": "timescope-00003-t87",
     "image_digest": "us-central1-docker.pkg.dev/timescope-spaceapps-2026/cloud-run-source-deploy/timescope@sha256:e31cddca734514acb9280bcce981dfc4e01ac9b2626e9a67b13929a46f50dcfa",
     "build_id": "5c660eae-bc54-4a2a-a723-9ffe907a4afa"
-  }
+  },
+  "superseded_local_tag": "submission-v1"
 }

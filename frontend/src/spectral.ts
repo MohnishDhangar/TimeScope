@@ -1,0 +1,5 @@
+export type CubeProduct={title:string;release:string;creator:string;provider:string;source:string;properties_url:string;properties_sha256:string;retrieved_utc:string;wavelengths_um:number[];missing_indices:number[];depth:number;pixel_sampling_arcsec:number;coordinate_system:string;nominal_mjd_range:number[];doi:string;data_kind:string;limitations:string[]}
+export function validProduct(value:unknown):value is CubeProduct{
+ const p=value as CubeProduct
+ return !!p&&p.depth===102&&Array.isArray(p.wavelengths_um)&&p.wavelengths_um.length===p.depth&&p.wavelengths_um.every((v,i,a)=>Number.isFinite(v)&&v>0&&(!i||v>a[i-1]))&&Array.isArray(p.missing_indices)&&p.missing_indices.every(i=>Number.isInteger(i)&&i>=0&&i<p.depth)&&p.missing_indices.join(',')==='50,51'&&typeof p.title==='string'&&typeof p.provider==='string'&&Number.isFinite(p.pixel_sampling_arcsec)&&Array.isArray(p.nominal_mjd_range)&&p.nominal_mjd_range.length===2&&p.nominal_mjd_range.every(Number.isFinite)&&p.source==='https://irsa.ipac.caltech.edu/data/hips/SPHEREx/spherex_allsky_cube'
+}

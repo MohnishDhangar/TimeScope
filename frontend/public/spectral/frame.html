@@ -1,0 +1,11 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>SPHEREx spectral mosaic renderer</title><style>html,body,#cube{margin:0;width:100%;height:100%;overflow:hidden;background:#111}</style><script>
+const p=new URLSearchParams(location.search),ra=Number(p.get('ra')),dec=Number(p.get('dec')),fov=Number(p.get('fov'));let selected=Number(p.get('index')),last=-1;
+const valid=Number.isFinite(ra)&&ra>=0&&ra<360&&Number.isFinite(dec)&&Math.abs(dec)<=90&&Number.isFinite(fov)&&fov>=1&&fov<=15;
+const send=(type,extra={})=>parent.postMessage({type,...extra},location.origin);
+window.addEventListener('message',e=>{if(e.source===parent&&e.origin===location.origin&&e.data?.type==='timescope-channel'&&Number.isInteger(e.data.index)&&e.data.index>=0&&e.data.index<102){selected=e.data.index;last=-1}});
+window.onFireflyLoaded=()=>{
+ if(!valid){send('timescope-error',{message:'Invalid field coordinates'});return}
+ firefly.showHiPS('cube',{plotId:'timescope-spectral',hipsRootUrl:'https://irsa.ipac.caltech.edu/data/hips/SPHEREx/spherex_allsky_cube',WorldPt:`${ra};${dec};EQ_J2000`,SizeInDeg:fov/60,Title:'SPHEREx DR1 spectral mosaic'},undefined,false);
+ let attempts=0;const poll=setInterval(()=>{if(!firefly.util.image.getPrimePlot('timescope-spectral')&&++attempts>300){clearInterval(poll);send('timescope-error',{message:'Spectral provider did not initialize within the time limit.'});return}const plot=firefly.util.image.getPrimePlot('timescope-spectral');if(!plot)return;if(selected===50||selected===51)return;if(plot.cubeIdx!==selected){firefly.action.dispatchChangeHiPS({plotId:'timescope-spectral',cubeIdx:selected});return}if(last!==selected){last=selected;send('timescope-channel-ready',{index:selected})}},200);
+};
+</script></head><body><div id="cube"></div><script src="https://irsa.ipac.caltech.edu/irsaviewer/firefly_loader.js" onerror="send('timescope-error',{message:'IPAC Firefly could not be loaded.'})"></script></body></html>

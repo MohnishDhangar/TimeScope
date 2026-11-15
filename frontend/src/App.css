@@ -512,3 +512,5 @@ body:has(.observatory-app) { overflow: hidden; }
 .observation-chart svg text { fill:#b8b8be; }
 
 .target-presets{display:grid;gap:7px;margin:12px 0}.target-presets small{color:#b8b8be;font-size:10px;line-height:1.5}.target-presets .quiet{justify-self:start}
+
+.spectral-stage{position:relative;flex:1;min-height:0;overflow:hidden;border:1px solid var(--line);background:#101011}.spectral-stage iframe{position:absolute;left:0;top:-64px;width:100%;height:calc(100% + 64px);border:0;pointer-events:none}.spectral-overlay{position:absolute;inset:0;display:grid;place-items:center;background:#101011;color:#ccc;padding:20px;text-align:center}.spectral-value{font:600 16px var(--mono);color:#fff}.spectral-layout .controls{flex-wrap:wrap}.spectral-layout .controls button{font-size:11px;padding:8px}.spectral-layout .metadata-panel{margin:16px 0}.spectral-layout small{font-size:10px;color:#aaa}

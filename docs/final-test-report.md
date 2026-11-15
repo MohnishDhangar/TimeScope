@@ -5,3 +5,9 @@ Current source candidate adds verified target presets and preserves two user-cre
 Scientific recovery checked target coordinates against cited reference positions, two or more distinct acquisition times, WCS center against actual request, trusted NASA FITS source URLs, recorded SHA256 identities, actual preview accessibility and partial-result preservation. Raw FITS were not independently re-downloaded during recovery. Fields do not establish source detections.
 
 Full frontend suite: 31 passed (30 Chromium scenarios and one metadata-logic check), 0 failures/skips, 18.6 s. Production build/lint passed.
+
+Public initial pass on revision timescope-00007-hhw: 27 passed, four failed (three initial page.goto timeouts, one ERR_CONNECTION_CLOSED). Direct HTTPS root, health and bundle index returned 200; sampled Cloud Run logs show 200 for page/assets/images. Underlying cause not established; do not attribute it to archive discovery. Retrying only the four failed scenarios; result recorded below when observed.
+
+## Spectral explorer verification
+
+Recorded 2026-11-15T18:31:12.704219+00:00. On the scientific-development worktree based on 81a72755925f14fc037e29a042e85e9d49e00fea: backend `python -m pytest -q`: **122 passed**, one existing Starlette/httpx deprecation warning. Frontend `npx playwright test --workers=1`: **34 passed in 22.2s** (includes three spectral tests); production build and oxlint passed. Real provider smoke test retrieved three HTTP 200 tiles at indices 26/62/99, retained the same field, disclosed missing channel 51, passed mobile horizontal-overflow and return-to-temporal checks, with no captured page errors. See spectral-validation.json. This is local verification; public verification is recorded separately after deployment.

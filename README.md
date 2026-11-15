@@ -108,7 +108,7 @@ Run the application on port 8000 before the browser suite.
 
 The seven-field source candidate at commit `81a7275` recorded 122 passing backend tests and 31 frontend checks (30 Chromium scenarios and one metadata-logic check); production build and lint passed. See the [final test report](docs/final-test-report.md). Synthetic fixtures are used for software verification, not as astronomical evidence.
 
-The latest **recorded** Cloud Run deployment is revision `timescope-00006-rzk`, built from `92dbf60` with five bundled fields and 23 frames. The subsequent seven-field update is present in source; consult the [deployment record](docs/cloud-deployment-record.json) for the exact deployed version rather than assuming every repository update is already live. [Cloud deployment guide](docs/CLOUD-DEPLOYMENT.md).
+The latest verified Cloud Run deployment before the spectral update is revision `timescope-00007-hhw`, built from `81a7275` with seven bundled fields and 33 frames; consult the [deployment record](docs/cloud-deployment-record.json) for the exact deployed version rather than assuming every repository update is already live. [Cloud deployment guide](docs/CLOUD-DEPLOYMENT.md).
 
 ## Data, credits and license
 
@@ -124,3 +124,7 @@ TimeScope acknowledges NASA funding, the joint JPL/Caltech SPHEREx mission, NASA
 ## License
 
 TimeScope's original application source code is open source under the [MIT License](LICENSE). You may use, modify and redistribute the software, including commercially, subject to the license terms. Scientific data and third-party software retain their own terms and attribution requirements.
+
+## Spectral explorer
+
+Open a loaded observation field in **Spectral explorer** to view the official SPHEREx DR1 all-sky mosaic at nonuniform wavelength channels. Channels 51 and 52 are blank; no interpolation is applied. Three channels (1.378, 3.293 and 4.915 µm) were verified against genuine provider tiles. This is spectral visualization, not temporal playback or calibrated spectrum extraction. A separate JSON record preserves product provenance and selected channel. [Method, limitations and evidence](docs/spectral-explorer.md). Cube DOI: [10.26131/IRSA679](https://doi.org/10.26131/IRSA679).

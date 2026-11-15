@@ -1,3 +1,13 @@
+# Urgent final acceptance
+
+This release supersedes the earlier freeze below. Application source `81a72755925f14fc037e29a042e85e9d49e00fea`; revision `timescope-00007-hhw`; full image identity in cloud-deployment-record.json. Seven bundles / 33 frames. All five reference fields have usable sequences; source visibility remains unverified and Barnard has a material epoch/FOV caveat. See challenge-target-validation.md and .json for all actual coordinates, dates, detectors, wavelengths, URLs/checksums, partial results and provenance. The recovered user-created sessions used genuine fresh SIA metadata; recovery did not itself issue another discovery.
+
+Implemented controls: five target presets and explicit separate bundle-open action, existing detector/wavelength selection, coordinate URLs, metadata/masks, comparison/playback and evidence. External catalog overlays and calibrated difference imaging are not implemented. No spectra or motion fitting claimed.
+
+Earlier local tag submission-v1 is superseded. Do not overwrite or publish it as this release. Use the latest immutable GitHub commit URL from the final handoff. Review/upload deck; record/upload demo manually; review actual form/media rules and AI wording; complete submission before 23:59 IST. No official submission performed.
+
+## Historical preceding freeze (superseded)
+
 # Final competition acceptance and handoff
 
 ## Executive result
