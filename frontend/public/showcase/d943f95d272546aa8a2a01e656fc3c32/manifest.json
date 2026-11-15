@@ -43,7 +43,9 @@
         4.270978514779673,
         4.300403935136542
       ],
-      "median_bandwidth_um": 0.03709937295325384
+      "median_bandwidth_um": 0.03709937295325384,
+      "bandwidth_um_at_center": 0.03710259774458996,
+      "pipeline_version": "7.0.5"
     },
     {
       "obs_id": "2025W20_2D_0176_4",
@@ -65,7 +67,9 @@
         4.30345064271005,
         4.334052006403605
       ],
-      "median_bandwidth_um": 0.03750917403136983
+      "median_bandwidth_um": 0.03750917403136983,
+      "bandwidth_um_at_center": 0.037504546844184396,
+      "pipeline_version": "7.0.5"
     },
     {
       "obs_id": "2025W49_2A_0707_1",
@@ -87,7 +91,9 @@
         4.377730225334256,
         4.406373592396508
       ],
-      "median_bandwidth_um": 0.037929485682526985
+      "median_bandwidth_um": 0.037929485682526985,
+      "bandwidth_um_at_center": 0.03793605975372802,
+      "pipeline_version": "7.0.5"
     },
     {
       "obs_id": "2025W50_2A_0129_1",
@@ -109,7 +115,9 @@
         4.016786627417021,
         4.045586993262567
       ],
-      "median_bandwidth_um": 0.036801140977235164
+      "median_bandwidth_um": 0.036801140977235164,
+      "bandwidth_um_at_center": 0.03681219318630575,
+      "pipeline_version": "7.0.5"
     },
     {
       "obs_id": "2026W21_2A_0361_3",
@@ -131,7 +139,9 @@
         3.805916980201123,
         3.8313949631297186
       ],
-      "median_bandwidth_um": 0.034946321715599624
+      "median_bandwidth_um": 0.034946321715599624,
+      "bandwidth_um_at_center": 0.03490585580804931,
+      "pipeline_version": "7.0.5"
     }
   ],
   "reference_wcs": {
@@ -309,5 +319,63 @@
   "label": "M101 field",
   "description": "Diffuse infrared structure across five dates. Wavelengths differ; changes are not proof of variability.",
   "cached_showcase": true,
-  "manifest_url": "/showcase/d943f95d272546aa8a2a01e656fc3c32/manifest.json"
+  "manifest_url": "/showcase/d943f95d272546aa8a2a01e656fc3c32/manifest.json",
+  "selection": {
+    "mode": "temporal",
+    "candidate_attempts": 5,
+    "processed_candidates": 5,
+    "selected_frames": 5,
+    "method": "Existing chronological showcase; recommendation evaluated from preserved original FITS using the bounded-pool heuristic.",
+    "recommendations": [
+      {
+        "a": 1,
+        "b": 2,
+        "time_separation_days": 205.1844099652778,
+        "absolute_wavelength_difference_um": 0.07344335455936246,
+        "fractional_wavelength_difference": 0.016862396798595154,
+        "approximate_bandwidth_separation": 1.9470510079751873,
+        "spectral_metadata": "Approximate field-center WCS-WAVE values, intended for visualization",
+        "quantitative_comparison_allowed": false,
+        "common_coverage": 0.7308244757253662,
+        "identities": [
+          "spherex_dr1/2025W20_2D_0176_4/5",
+          "spherex_dr1/2025W49_2A_0707_1/5"
+        ]
+      },
+      {
+        "a": 0,
+        "b": 2,
+        "time_separation_days": 211.0312365740741,
+        "absolute_wavelength_difference_um": 0.10642290987051162,
+        "fractional_wavelength_difference": 0.024527274525306057,
+        "approximate_bandwidth_separation": 2.8364822457783743,
+        "spectral_metadata": "Approximate field-center WCS-WAVE values, intended for visualization",
+        "quantitative_comparison_allowed": false,
+        "common_coverage": 0.7124389543234703
+      },
+      {
+        "a": 0,
+        "b": 3,
+        "time_separation_days": 215.2397679861111,
+        "absolute_wavelength_difference_um": 0.2545071997193551,
+        "fractional_wavelength_difference": 0.061201729545091774,
+        "approximate_bandwidth_separation": 6.886502593433527,
+        "spectral_metadata": "Approximate field-center WCS-WAVE values, intended for visualization",
+        "quantitative_comparison_allowed": false,
+        "common_coverage": 0.8871014076414824
+      },
+      {
+        "a": 1,
+        "b": 3,
+        "time_separation_days": 209.39294137731483,
+        "absolute_wavelength_difference_um": 0.28748675503050425,
+        "fractional_wavelength_difference": 0.06885932350313545,
+        "approximate_bandwidth_separation": 7.736796713972013,
+        "spectral_metadata": "Approximate field-center WCS-WAVE values, intended for visualization",
+        "quantitative_comparison_allowed": false,
+        "common_coverage": 0.905774202815283
+      }
+    ],
+    "limitations": "Approximate visualization WCS-WAVE; response/PSF matching and quantitative comparison are not validated."
+  }
 }

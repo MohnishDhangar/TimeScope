@@ -1,0 +1,159 @@
+{
+  "recorded_utc": "2026-11-15T15:06:07.583826+00:00",
+  "environment": "Local Linux; existing TimeScope Python virtual environment; anonymous HTTPS; no AWS credentials",
+  "sources": {
+    "discussion": "https://github.com/nasa/spaceapps/discussions/2183",
+    "official_cloud_access": "https://irsa.ipac.caltech.edu/cloud_access/",
+    "official_cloud_tutorial": "https://caltech-ipac.github.io/irsa-tutorials/cloud-access-intro/"
+  },
+  "http_availability_observations": [
+    {
+      "name": "bucket-prefix",
+      "url": "https://nasa-irsa-spherex.s3.us-east-1.amazonaws.com/?list-type=2&prefix=dr1%2F&max-keys=3",
+      "status": 200,
+      "duration_s": 1.186,
+      "content_type": "application/xml",
+      "content_range": null,
+      "content_length": null,
+      "keys": [
+        "dr1/abs_gain_matrix/cal-agm-v8-2026-191/1/abs_gain_matrix_D1_spx_cal-agm-v8-2026-191.fits",
+        "dr1/abs_gain_matrix/cal-agm-v8-2026-191/2/abs_gain_matrix_D2_spx_cal-agm-v8-2026-191.fits",
+        "dr1/abs_gain_matrix/cal-agm-v8-2026-191/3/abs_gain_matrix_D3_spx_cal-agm-v8-2026-191.fits"
+      ]
+    },
+    {
+      "name": "mirrored-known-object",
+      "url": "https://nasa-irsa-spherex.s3.us-east-1.amazonaws.com/dr1/level2/2025W19_1B/l2b-v27-2026-197/3/level2_2025W19_1B_0116_1D3_spx_l2b-v27-2026-197.fits",
+      "status": 206,
+      "duration_s": 1.117,
+      "content_type": "binary/octet-stream",
+      "content_range": "bytes 0-2879/65790720",
+      "content_length": "2880",
+      "prefix": "SIMPLE  =                    T / conforms to FITS standard                      BITPIX  =                    8 / array data type                                NAXIS   =                    0 / number of array dimensions                     EXTEND  =                    T          "
+    },
+    {
+      "name": "root-metadata-inspection",
+      "prefix": "",
+      "status": 200,
+      "duration_s": 6.037,
+      "directory_prefixes": [
+        "dr1/",
+        "qr2/",
+        "qr3/"
+      ],
+      "keys": [
+        "index.html"
+      ],
+      "truncated": "false"
+    },
+    {
+      "name": "root-metadata-inspection",
+      "prefix": "dr1/",
+      "status": 200,
+      "duration_s": 0.998,
+      "directory_prefixes": [
+        "dr1/abs_gain_matrix/",
+        "dr1/aurora_template/",
+        "dr1/dark/",
+        "dr1/dichroic/",
+        "dr1/epsf/",
+        "dr1/gain_factors/",
+        "dr1/he_template/",
+        "dr1/hips5_cube/",
+        "dr1/l3_flux_corrections/",
+        "dr1/level2/",
+        "dr1/nonfunc_v2/",
+        "dr1/nonlinear_pars/",
+        "dr1/readnoise_pars/",
+        "dr1/shuttle_glow_template/",
+        "dr1/sip/",
+        "dr1/solid_angle_pixel_map/",
+        "dr1/spectral_channels/",
+        "dr1/spectral_wcs/",
+        "dr1/xtalk_class1/",
+        "dr1/xtalk_class2/",
+        "dr1/zodi_scaling_v2/"
+      ],
+      "keys": [],
+      "truncated": "false"
+    },
+    {
+      "name": "root-metadata-inspection",
+      "prefix": "qr3/",
+      "status": 200,
+      "duration_s": 0.955,
+      "directory_prefixes": [
+        "qr3/abs_gain_matrix/",
+        "qr3/aurora_template/",
+        "qr3/dark/",
+        "qr3/dichroic/",
+        "qr3/epsf/",
+        "qr3/gain_factors/",
+        "qr3/he_template/",
+        "qr3/l3_flux_corrections/",
+        "qr3/level2/",
+        "qr3/nonfunc_v2/",
+        "qr3/nonlinear_pars/",
+        "qr3/readnoise_pars/",
+        "qr3/shuttle_glow_template/",
+        "qr3/sip/",
+        "qr3/solid_angle_pixel_map/",
+        "qr3/spectral_channels/",
+        "qr3/spectral_wcs/",
+        "qr3/xtalk_class1/",
+        "qr3/xtalk_class2/",
+        "qr3/zodi_scaling_v2/"
+      ],
+      "keys": [],
+      "truncated": "false"
+    }
+  ],
+  "scientific_section_experiment": {
+    "environment": "local",
+    "experiment": "genuine raw scientific section through bounded anonymous S3 ranges; no discovery",
+    "started_utc": "2026-11-15T15:02:05.237851+00:00",
+    "source_url": "https://nasa-irsa-spherex.s3.us-east-1.amazonaws.com/dr1/level2/2025W19_1B/l2b-v27-2026-197/3/level2_2025W19_1B_0116_1D3_spx_l2b-v27-2026-197.fits",
+    "coordinates": {
+      "ra": 133.79512917,
+      "dec": -7.24514722
+    },
+    "application_modified": false,
+    "result": "passed",
+    "shape": [
+      50,
+      50
+    ],
+    "science_unit": "MJy / sr",
+    "acquisition_utc": "2025-05-05T16:48:02.459",
+    "header_observation_id": "2025W19_1B_0116_1",
+    "detector": 3,
+    "target_input_pixel": [
+      381.2227482677013,
+      153.73574541440237
+    ],
+    "finite_science_pixels": 2500,
+    "preview_policy_usable_pixels": 2421,
+    "all_data_synthetic": false,
+    "range_requests": 14,
+    "transferred_bytes": 917504,
+    "object_bytes": 65790720,
+    "duration_s": 6.408,
+    "etag": "\"ffc82103a7e9bbe8e9d678104a984f14\""
+  },
+  "scope": {
+    "new_sia_queries": 0,
+    "new_tap_queries": 0,
+    "new_public_timescope_searches": 0,
+    "application_code_changed": false,
+    "deployment_performed": false,
+    "infrastructure_changed": false
+  },
+  "limitations": [
+    "This is local S3 file/section access, not Cloud Run acceptance or fresh coordinate discovery.",
+    "The object was selected from the existing exact-query historical inventory; that provenance is reused.",
+    "No complete-file checksum was computed. The S3 ETag is recorded but is not claimed to be a SHA-256.",
+    "The conservative preview mask was applied only for an illustrative usable-pixel count, not detection or photometry validation.",
+    "Root listings showed no top-level spatial index; this does not prove no such index exists elsewhere.",
+    "The GitHub thread contains participant AWS advice and organizer acknowledgement of reports, not proof of a complete IRSA outage or its cause."
+  ]
+}

@@ -1,0 +1,25 @@
+1
+00:00:00,000 --> 00:00:04,000
+TimeScope explores genuine NASA SPHEREx observations through time.
+
+2
+00:00:04,000 --> 00:00:09,000
+Choose a sky field and inspect repeated observations on a shared sky grid.
+
+3
+00:00:09,000 --> 00:00:14,000
+Step through dates, blink a pair and compare the same region.
+
+4
+00:00:14,000 --> 00:00:20,000
+Wavelength and coverage can change appearances.
+These are not confirmed detections.
+
+5
+00:00:20,000 --> 00:00:25,000
+Check the original FITS source and whether metadata or cutouts were reused.
+
+6
+00:00:25,000 --> 00:00:30,000
+Export the evidence.
+Explore change carefully, without claiming a discovery.

@@ -1,63 +1,48 @@
-# TimeScope local setup
+# Local setup
 
-This is the bootstrap environment for the implementation, not a completed application. Dependency installation failed in the agent terminal on November 14, 2026; it also could not resolve IRSA's hostname. Update: installation subsequently succeeded after network access was enabled, using the existing Python 3.14.7 virtual environment. pip check and dependency imports passed. Exact installed versions are in requirements-resolved.txt; application-level compatibility and live data retrieval still need validation. Requirements are intentionally unpinned until a successful installation and test run establishes a reproducible lock.
+TimeScope is a React/TypeScript/Vite frontend served by a scientific FastAPI backend. Three genuine SPHEREx examples are bundled. Live searches require working NASA/IPAC IRSA services.
 
-## Required tools
+## Environment
 
-- Python 3.12 recommended for the initial scientific environment, with pip and venv. This is a project choice, not a claim that other Python versions are unsupported.
-- Node.js and npm: existing environment reports Node 26.10.0 and npm 12.1.0; do not reinstall without a compatibility failure.
-- Git, a modern browser, and an editor.
-- Network access to PyPI, npm, IRSA and documentation sites.
+The verified local environment on November 15, 2026 is Python 3.14.7, Node 26.10.0, npm 12.1.0 on Linux. The successful production Docker build uses Python 3.14 and a Node 24 build stage. Do not replace pinned versions without verifying compatibility. Exact Python dependencies: `requirements-resolved.txt`; frontend: `frontend/package-lock.json`.
 
-## Python
-
-From this directory:
-
-```bash
-python3.12 -m venv .venv
-source .venv/bin/activate
-python -m pip install --upgrade pip
-python -m pip install -r requirements-dev.txt
-python -m pip check
+```sh
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements-resolved.txt
+.venv/bin/python -m pip check
+npm --prefix frontend ci
+npm --prefix frontend run build
+.venv/bin/python -m backend
 ```
 
-Use the existing compatible Python executable if python3.12 is unavailable; verify package installation before continuing. The current `.venv` was created with the environment's `python` command, not a verified Python 3.12 executable.
+Open http://localhost:8000. `PORT` is read by the backend, which binds 0.0.0.0; Cloud Run supplies its reserved PORT itself. `VITE_SHOWCASE_ONLY` must be false or unset for a full build. Do not install Python packages into the system interpreter.
 
-Runtime packages: FastAPI, Uvicorn and Pydantic for the API; NumPy and SciPy for arrays and numerical operations; Astropy for FITS, coordinates and time; Astroquery for archive discovery; reproject for celestial alignment; Pillow for previews; HTTPX for bounded HTTP access. pytest is development-only. SQLite and concurrent.futures are supplied by Python; do not install a package named sqlite3.
+## Tests
 
-## Frontend
-
-When no frontend exists yet:
-
-```bash
-npm create vite@latest frontend -- --template react-ts
+```sh
+.venv/bin/python -m pip install pytest
+.venv/bin/python -m pytest -q
+npm --prefix frontend run lint
+npm --prefix frontend run build
 cd frontend
-npm install
-npm install -D vitest @testing-library/react @testing-library/jest-dom jsdom @playwright/test
 npx playwright install chromium
+npx playwright test --workers=1
 ```
 
-The template installs React, React DOM, TypeScript, Vite and its React integration. Keep package-lock.json. Canvas, browser fetch and CSS need no packages. Browser dependencies on Linux may require OS installation; follow Playwright's reported instructions rather than assuming administrative access.
+Keep the backend running on port 8000 for Playwright. Browser dependencies depend on the host; follow the supported Playwright installation instructions if Chromium cannot start. Tests use synthetic failure fixtures and preserved real previews; ordinary tests do not query NASA.
 
-## Data
+## Runtime settings
 
-Use the IRSA notebooks to discover and retrieve small SPHEREx cutouts. First obtain two distinct acquisition times for one field; retain all returned FITS extensions, archive metadata and retrieval provenance. Then expand to a bounded sequence. Do not download the whole survey, Gaia catalog or WISE catalog. No real observations have been downloaded yet.
+| Setting | Default / behavior |
+|---|---|
+| `TIMESCOPE_DATA_DIR` | `data` beneath this checkout; disposable live files |
+| `TIMESCOPE_MAX_CACHE_MB` | 512 MiB aggregate file budget |
+| `TIMESCOPE_SESSION_TTL_SECONDS` | 21600 seconds for inactive live sessions |
+| `TIMESCOPE_MAX_JOBS_PER_HOUR` | 12 new jobs globally; retained exact-query reuse exempt |
+| `TIMESCOPE_DISCOVERY_BUDGET_S` | 90 seconds maximum; public API further caps at 60 |
 
-- https://irsa.ipac.caltech.edu/Missions/spherex.html
-- https://caltech-ipac.github.io/irsa-tutorials/spherex/
-- https://caltech-ipac.github.io/spherex-archive-documentation/spherex-data-access/
+Keep scientific originals outside disposable runtime storage. Do not commit runtime files, virtual environments, credentials or raw FITS. Bundled PNGs/manifests and the historical exact-query metadata snapshot are intentional tracked artifacts.
 
-Cache under data/ outside version control. Keep small provenance manifests in source. Reserve roughly 5–10 GB initially for environments, browser tooling and data cache; this is a planning allowance, not a measured download size.
+A healthy local server is not proof of IRSA availability. Open a bundled field for a network-independent viewer check. For genuine live-search verification, retain the exact query, session ID, discovery method, metadata timestamp, per-frame FITS-cache flags, failures and elapsed time. Never use a different example as the result of a failed search.
 
-## Optional packages
-
-- pyvo: direct TAP/VO access if required by the cutout notebook.
-- jupyterlab, ipykernel, matplotlib: run and inspect notebooks interactively.
-- firefly-client: follow the tutorial's optional Firefly visualization path.
-- photutils: later source measurement/detection.
-- Aladin Lite: later sky-context viewer, subject to license review.
-- Tailwind CSS: optional styling; plain CSS is sufficient initially.
-
-## Services, not local downloads
-
-Need a source repository account and, for deployment, a static frontend host and a Python-capable backend host. One Python host can alternatively serve the frontend build too. Hosting provider and plan are not yet selected; verify storage, memory, timeouts, HTTPS and public access before purchase. Docker is optional unless the chosen host requires it. No paid NASA API key is part of the proposed public archive workflow. No LLM service, Redis, PostgreSQL, GPU runtime or object-storage account is required for the first local milestone.
+Cloud deployment instructions are maintained only in [CLOUD-DEPLOYMENT.md](docs/CLOUD-DEPLOYMENT.md). Current release evidence is in [FINAL-STATUS.md](docs/FINAL-STATUS.md). A clean-clone installation has not been reproduced in this repair session; the existing environment and actual Cloud Build are verified separately.

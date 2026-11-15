@@ -1,26 +1,31 @@
 # Cloud Run deployment — authoritative competition guide
 
-Updated 2026-11-15. This guide supersedes older hosting proposals. The independent fallback remains https://timescope-spherex.roanpaste16.chatgpt.site .
+Updated November 15, 2026, after the discovery repair. This replaces earlier conflicting hosting instructions. Deployment identity is machine-readable in [cloud-deployment-record.json](cloud-deployment-record.json); scientific and browser acceptance have one source of truth in [discovery-repair-validation.json](discovery-repair-validation.json).
 
-## Account and deployment status
+## Current service and source
 
-Project `timescope-spaceapps-2026` was verified active through gcloud. Billing is enabled. The user's console screenshot showed ₹28,569 remaining free-trial credits and ₹0 accrued charges. The user confirmed expiry 90 days from November 15: projected February 13, 2027. This is user-confirmed relative timing, not an API-retrieved expiry timestamp. No paid upgrade is authorized or performed.
+Public app: https://timescope-331427520592.us-central1.run.app/ . Independent static fallback: https://timescope-spherex.roanpaste16.chatgpt.site/ .
 
-Cloud Build succeeded and revision `timescope-00001-v78` is serving 100% of traffic. Primary URL: https://timescope-331427520592.us-central1.run.app . The source commit and immutable image digest are in `cloud-deployment-record.json`. Docker/Podman are absent locally, but the actual remote Docker build succeeded without dependency or Python-version changes.
+- Project/service/region: `timescope-spaceapps-2026` / `timescope` / `us-central1`.
+- Ready serving revision: `timescope-00003-t87`, 100% traffic; no split.
+- Deployed source: `a11ae4e35c0b44aa118e1ab8ebf2987108fa072b`, branch `release/discovery-repair`, clean at source upload.
+- Actual Dockerfile build: `5c660eae-bc54-4a2a-a723-9ffe907a4afa`, **SUCCESS**.
+- Immutable image: `us-central1-docker.pkg.dev/timescope-spaceapps-2026/cloud-run-source-deploy/timescope@sha256:e31cddca734514acb9280bcce981dfc4e01ac9b2626e9a67b13929a46f50dcfa`.
+- One deployment in this repair. Previous revision `timescope-00002-8kk` retained for emergency rollback. The owner will manually commit the subsequent evidence-document edits; those edits do not change application code. No competition tag has been created.
 
-## Fixed configuration
+## Verified unchanged configuration
 
-One `timescope` service in `us-central1`, gen2, 1 vCPU, 4 GiB, instance-based billing (`--no-cpu-throttling`), service min=1/max=1, HTTP concurrency 10, request timeout 300 seconds, container port 8000 and one Uvicorn worker. No traffic split. PORT is injected by Cloud Run; the application binds 0.0.0.0. The Docker build explicitly uses full-application frontend mode.
+Gen2, 1 vCPU, 4 GiB, instance-based billing / CPU throttling disabled, service minimum 1 and maximum 1 instance, HTTP concurrency 10, request timeout 300 seconds, container port 8000 and one Uvicorn worker. These were re-read from Cloud Run after deployment. No hosting/resource/billing changes or duplicate budgets were made.
 
-CPU remains allocated between polling requests to support background scientific work. One maximum instance is not a distributed singleton guarantee; replacements may lose jobs. Do not deploy while a job runs. Live files and links are ephemeral. Bundled data survive instance replacement inside the image; the separate static fallback survives Cloud Run outages.
+Cloud Run injects PORT; the entry point binds 0.0.0.0. Full frontend mode is explicitly built with `VITE_SHOWCASE_ONLY=false`. Source upload was inspected against the deployed commit: 110 files, all 17 genuine showcase PNGs, no virtual environment, node_modules, runtime cache, raw FITS or credentials. Local Docker is absent; the actual remote Docker build succeeded with existing pinned dependencies and Python 3.14, without changing versions.
 
-## Commands
+Continuous CPU supports the background thread between HTTP polls. A maximum of one instance is not a distributed singleton guarantee: instance replacement can lose memory jobs/files. Do not deploy over an active scientific job. Predeployment log/session inspection found no observed active jobs. No forced restart was performed during this acceptance.
 
-After interactive `gcloud auth login`, verify the project and trial credit. From the repository root:
+## Reproducible deployment
+
+From the reviewed, committed repository root, using an authenticated gcloud identity and the already authorized trial project:
 
 ```sh
-gcloud services enable run.googleapis.com cloudbuild.googleapis.com artifactregistry.googleapis.com --project timescope-spaceapps-2026
-gcloud meta list-files-for-upload
 gcloud run deploy timescope --project timescope-spaceapps-2026 --source . \
   --region us-central1 --execution-environment gen2 --allow-unauthenticated \
   --port 8000 --cpu 1 --memory 4Gi --no-cpu-throttling --min 1 --max 1 \
@@ -30,44 +35,50 @@ gcloud run deploy timescope --project timescope-spaceapps-2026 --source . \
   --update-env-vars TIMESCOPE_DATA_DIR=/app/data,TIMESCOPE_MAX_CACHE_MB=512,TIMESCOPE_SESSION_TTL_SECONDS=21600,TIMESCOPE_MAX_JOBS_PER_HOUR=12
 ```
 
-Use explicit project flags. Do not manually set reserved PORT or overwrite unrelated environment variables. If IAM denies a step, resolve the exact missing permission instead of granting Owner/Editor. Never create service-account keys. Inspect the completed service's configuration, revision, image digest and traffic before claiming success. Build committed source only.
+The dedicated builder has `roles/run.builder`; no Owner/Editor workaround or long-lived service-account key was created. Retain the runtime identity and existing environment. The required APIs already exist; do not create unrelated infrastructure. Future resource/billing changes require an authorized revised budget. Do not manually set the reserved PORT environment variable.
 
-The upload list was checked: no runtime data, raw FITS cache, environment or node_modules paths; genuine `frontend/public/showcase` artifacts were present. `.gcloudignore` and `.dockerignore` both exclude private environment files and key-file patterns.
+If a blocking release defect requires rollback after jobs finish:
 
-## Runtime storage and API policy
+```sh
+gcloud run services update-traffic timescope --project timescope-spaceapps-2026 \
+  --region us-central1 --to-revisions timescope-00002-8kk=100
+```
 
-`TIMESCOPE_MAX_CACHE_MB` covers ALL runtime file bytes, not just the shared FITS cache. Default 512 MiB is provisional local engineering headroom, not a Cloud Run measurement. Six-hour default TTL and oldest-first pressure eviction apply to inactive session directories and shared cache files. Leases protect active processing and public file readers. Conservative byte reservations precede downloads/copies/metadata/previews. JSON writes are atomic. Inactive `.part` files disappear with their expired session; failed request downloads remove partial files immediately. Bundled artifacts are outside runtime storage.
+The older revision lacks the new non-expiring historical-inventory policy, so rollback is an emergency measure, not the judging plan. Do not delete either image digest until the competition version is frozen and verified.
 
-A retained live session with exactly matching query settings and processor version can be reused; UI labels the reuse. Expired links preserve query coordinates, field width and frame count and permit explicit retry. At most one scientific job runs; an occupied worker returns 429, without an unbounded queue. A process-wide 12-new-jobs/hour limit bounds admission (exact retained-query reuse is exempt). Inactive memory job records are pruned at housekeeping, retaining at most 64 plus the current admission.
+## Discovery, storage and admission policies
 
-Only numeric PNG previews and public `manifest.json` are served under `/artifacts/{session}/{name}`. Raw FITS, job state, inventories, arrays and partial files are not public. IDs, names, traversal and symlink escapes are checked. Health never queries IRSA and explicitly separates configured live search from last processing status.
+Astroquery and direct SIA share one orchestrator: at most six total wire attempts, redirects/transport retries disabled, no hidden capabilities lookup. Retryable failures are 429, 502/503/504, connect/read timeouts, resets and verified DNS/connect failures. Backoff has jitter, respects Retry-After and checks the remaining budget before requests and sleeps. Deterministic query/schema/parse errors are not retried. Valid empty results are reported as no matches and never masked with historical rows.
 
-The 240-second processing deadline is cooperative: checks occur after discovery, between downloads, during response chunks and before output rendering. Bounded blocking calls/retries may overrun the deadline before the next check. It is not a strict thread cancellation guarantee. A 1,048,576-source-pixel ceiling bounds science-image expansion before array conversion. No storage service or persistence volume is added.
+`TIMESCOPE_DISCOVERY_BUDGET_S` defaults to 90 seconds and is capped at 90. Public requests additionally cap discovery at 60 seconds to reduce the one-job lock-out. The cooperative 240-second total budget reserves 150 seconds for processing; promptly started public jobs normally retain approximately 180 seconds after maximum allotted discovery. These are allocations, not completion guarantees or strict thread cancellation. See [performance.md](performance.md).
 
-## Cost and availability estimates
+Transient discovery failure tries the valid runtime exact-query inventory (24-hour TTL), then a bundled historical exact-query inventory (no age expiry), then an explicit error. Both validate the query identity, schema, timestamps and trusted URLs and reject future timestamps. Bundled content is never refreshed or re-dated. The only bundled inventory matches RA 133.79512917°, Dec −7.24514722°, 5′. Its original retrieval date, kind and checksum are exposed. Later observations may be absent. It cannot support Dec −2.24514722° or another field/FOV. Fresh/cached FITS are tracked independently.
 
-Pricing retrieved 2026-11-15: instance-based us-central1 CPU $0.000018/vCPU-second and memory $0.000002/GiB-second. One continuously allocated CPU + 4 GiB: $67.39 per 30 days, $202.18 per 90 days gross compute, before free tier or ancillary costs. Gross credit margin against $300 is $97.82. This is a planning estimate, not measured spend or a guaranteed cap.
+`TIMESCOPE_MAX_CACHE_MB=512` limits aggregate runtime files, including downloads, duplicate session FITS, metadata, previews, partials and shared caches. Oldest inactive items may be evicted; inactive live sessions default to six hours. Active job/read leases, conservative reservations, atomic JSON writes and a 64 MiB download cap protect resources. Filesystem storage is memory-backed and ephemeral. The provisional cap is not a measurement of cloud directory usage or peak memory. Bundled products are image assets outside disposable runtime storage.
 
-Instance-based monthly free allowances are 240,000 vCPU-seconds and 450,000 GiB-seconds, aggregated across the billing account. Do not rely on them for the credit budget. Monitor Cloud Build, Artifact Registry, logs and egress too. Configure budget notifications around $50/$100/$150/$200/$250 (or billing-currency equivalents); alerts are not spending caps. A project-filtered ₹25,000 gross-usage budget was created for November 15–February 14, excluding credits from spend calculation, with thresholds at 20/40/60/80/100% (₹5,000 steps). Default billing notification recipients were retained. Delivery of an actual threshold email is not tested. Do not change to two CPUs, scale to zero, upgrade billing or create another warm service without an authorized revised budget.
+One scientific job runs; an occupied slot returns actionable 429 without an unbounded queue. HTTP readers remain supported, and a global 12-new-jobs/hour admission policy applies. Completed exact-query reuse includes all search settings and processor version and is labeled as retained reuse. In-memory inactive job records are bounded. Only intended PNGs and manifests are public under `/artifacts`; internal jobs, inventories, raw FITS and arrays are blocked. Health does not query IRSA and is not proof of retrieval.
 
-## Evidence and remaining gates
+## Public acceptance and limitation
 
-See `performance.md`, `runtime-measurements.json`, `local-live-check.json` and tests. Local memory is not Cloud Run memory. Verify public HTTPS, all bundles, genuine live retrieval, background work between polls, Busy behavior, expiry/restart behavior, container memory and source/revision identity on the actual service. Preserve the final image digest and competition source tag after freeze; do not tag an unfinished release.
+Fresh unauthenticated Chromium verified all three bundled real fields, timeline/playback, synchronized comparison, image loading, evidence export and narrow-screen layout. Missing-session and private-artifact 404s passed. Independent static-fallback checks are recorded in the central validation file.
 
-Official references (retrieved 2026-11-15):
-- https://docs.cloud.google.com/sdk/gcloud/reference/run/deploy
-- https://docs.cloud.google.com/free/docs/free-cloud-features
-- https://cloud.google.com/run/pricing
-- https://docs.cloud.google.com/run/docs/configuring/billing-settings
-- https://docs.cloud.google.com/run/docs/container-contract
+Exactly two fresh public search submissions were made:
 
+| Test field | Query | Actual result |
+|---|---|---|
+| A | RA 133.79512917°, Dec −7.24514722°, 5′, 4 frames | Five live discovery attempts returned 502. Reused bundled historical metadata (289 saved rows, original November 15 12:28:44 UTC); downloaded four fresh FITS, no FITS-cache hits, four usable frames. API readiness observed at 47.385 s. |
+| B (distinct from the bundled southern field) | RA 133.79512917°, Dec −2.24514722°, 5′, 6 frames | Five discovery attempts: four HTTP 502s and one timeout. No matching inventory was used; failed at discovery, with no observations displayed. Terminal result observed at 50.911 s. Row count is unknown, not zero matching observations. |
 
-## Deployment evidence and unresolved acceptance
+The first Field A browser attempt lost automatic polling and displayed the unavailable-session error although independent API polling observed completion. Its cause was not captured. Reopening the **same** retained session, without another search, passed snapshot disclosure, comparison, mobile layout and standalone evidence export. This reliability limitation is retained in the evidence, not hidden as a clean first-pass success. Public Retry was verified with a synthetic intercepted Busy response so it made no third archive request; the changed declination was preserved.
 
-Cloud Build initially failed to read its staging source object. Created dedicated build/runtime identities and granted the builder only the documented `roles/run.builder`; the runtime has no added project role. No Owner/Editor grant was made. A short service-account/IAM propagation delay caused another pre-build rejection; the subsequent build succeeded. Cloud Run startup CPU boost is enabled by default; the steady configured CPU is one. Service-level min/max annotations are both 1; CPU throttling is false, gen2, 4 GiB, concurrency 10 and timeout 300 verified from the API.
+Fresh arbitrary-coordinate discovery remains unverified because the official archive returned errors during validation. No cause for the archive 502s was established. Local probes and Cloud Run observations are labeled separately. Existing historical background/Busy verification is in `discovery-recovery-cloud.json`; the repair's controlled worker tests passed, but a new public concurrent scientific submission was not attempted beyond the two-query allowance.
 
-A fresh unauthenticated Chromium browser verified all three real-data bundles, comparison, zoom, shared URL restoration, evidence export and mobile layout. A separate public form submission created a genuine search; both public live attempts failed at IRSA discovery with HTTP 502, confirmed in Cloud Run logs. No successful public FITS retrieval or cold/warm live-search benchmark is claimed. Controlled local tests establish Busy/readers/background completion; those gates remain unverified on a successful cloud scientific job. No forced cloud restart was performed. Public 404 behavior for internal artifacts was verified.
+## Billing reminder and judging availability
 
-`cloud-memory-observation.json` preserves Cloud Monitoring samples around the failed jobs (approximately 110–112 MiB). These are sampled distribution means, not a measured peak for a completed scientific workload. Actual paid usage/remaining credit after deployment has not yet been measured; the screenshot credit balance predates deployment. No automatic asynchronous monitoring is promised.
+The user's earlier screenshot showed ₹28,569 free-trial credit remaining and ₹0 prior usage; it predates deployments. The user confirmed a 90-day trial beginning November 15, projecting expiry around **February 13, 2027**. Exact expiry, current credit and actual usage still require confirmation in Billing. No paid upgrade is authorized or performed.
 
-The competition tag has not been created; this is the initial release milestone, not the final competition freeze. Future scientific changes require their own tests and a verified deployment update.
+Published rates retrieved November 15: us-central1 instance-based CPU $0.000018/vCPU-second, memory $0.000002/GiB-second. Continuously allocated 1 CPU + 4 GiB is approximately **$67.39 per 30 days**, **$202.18 per 90 days gross**, about two-thirds of $300 before free allowances and build/registry/logging/egress costs. Instance-based monthly free allowances include 240,000 vCPU-seconds and 450,000 GiB-seconds; billing-account-wide usage and current terms apply. Do not rely on them for the budget.
+
+The existing project-filtered ₹25,000 gross-usage budget excludes credits, covers November 15–February 14 and has 20/40/60/80/100% notification thresholds. **Budget alerts are notifications, not spending caps.** No duplicate was created; actual email delivery is untested. The owner must monitor usage/credit and retain the submitted image/service through judging. No automatic asynchronous monitoring is promised. Keep one warm competition instance and the independent fallback; do not deploy post-deadline scientific features to the submitted URL.
+
+Official documentation checked November 15: [deploy CLI](https://docs.cloud.google.com/sdk/gcloud/reference/run/deploy), [Cloud Run pricing](https://cloud.google.com/run/pricing), [Free Trial](https://docs.cloud.google.com/free/docs/free-cloud-features), [billing mode](https://docs.cloud.google.com/run/docs/configuring/billing-settings), [container contract](https://docs.cloud.google.com/run/docs/container-contract).

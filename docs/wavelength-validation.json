@@ -1,0 +1,131 @@
+[
+  {
+    "session_id": "23577cd786a24f24bedec59e7c5366ae",
+    "field": "Original comparison field",
+    "query": {
+      "ra": 133.79512917,
+      "dec": -7.24514722,
+      "fov": 5,
+      "frames": 6
+    },
+    "candidate_count": 6,
+    "before_temporal_endpoints": {
+      "a": 0,
+      "b": 5,
+      "time_separation_days": 373.1806213425926,
+      "absolute_wavelength_difference_um": 0.07466248192259473,
+      "fractional_wavelength_difference": 0.048052068926318935,
+      "approximate_bandwidth_separation": 1.9627337358382249,
+      "spectral_metadata": "Approximate field-center WCS-WAVE values, intended for visualization",
+      "quantitative_comparison_allowed": false,
+      "common_coverage": 0.8004997917534361,
+      "identities": [
+        "spherex_dr1/2025W19_1B_0181_1/2",
+        "spherex_dr1/2026W20_1A_1166_1/2"
+      ]
+    },
+    "after_recommended": {
+      "a": 0,
+      "b": 5,
+      "time_separation_days": 373.1806213425926,
+      "absolute_wavelength_difference_um": 0.07466248192259473,
+      "fractional_wavelength_difference": 0.048052068926318935,
+      "approximate_bandwidth_separation": 1.9627337358382249,
+      "spectral_metadata": "Approximate field-center WCS-WAVE values, intended for visualization",
+      "quantitative_comparison_allowed": false,
+      "common_coverage": 0.8004997917534361,
+      "identities": [
+        "spherex_dr1/2025W19_1B_0181_1/2",
+        "spherex_dr1/2026W20_1A_1166_1/2"
+      ]
+    },
+    "source_hashes_verified": true,
+    "interpretation": "Offline comparison within preserved candidate pool; approximate visualization WCS only; no quantitative validation."
+  },
+  {
+    "session_id": "57b2c1c4360a4ca8a2486e8b6c97077f",
+    "field": "Southern comparison field",
+    "query": {
+      "ra": 134.4,
+      "dec": -8.5,
+      "fov": 10.0,
+      "frames": 6
+    },
+    "candidate_count": 6,
+    "before_temporal_endpoints": {
+      "a": 0,
+      "b": 5,
+      "time_separation_days": 373.1806213425926,
+      "absolute_wavelength_difference_um": 0.06479154162719336,
+      "fractional_wavelength_difference": 0.04707271084122796,
+      "approximate_bandwidth_separation": 1.9615581010916088,
+      "spectral_metadata": "Approximate field-center WCS-WAVE values, intended for visualization",
+      "quantitative_comparison_allowed": false,
+      "common_coverage": 0.7934194085797585,
+      "identities": [
+        "spherex_dr1/2025W19_1B_0181_1/2",
+        "spherex_dr1/2026W20_1A_1166_1/2"
+      ]
+    },
+    "after_recommended": {
+      "a": 2,
+      "b": 5,
+      "time_separation_days": 187.50441572916665,
+      "absolute_wavelength_difference_um": 0.0032668296519640094,
+      "fractional_wavelength_difference": 0.0023215494419141277,
+      "approximate_bandwidth_separation": 0.09663933886087654,
+      "spectral_metadata": "Approximate field-center WCS-WAVE values, intended for visualization",
+      "quantitative_comparison_allowed": false,
+      "common_coverage": 0.7647855060391504,
+      "identities": [
+        "spherex_dr1/2025W45_2A_0278_1/2",
+        "spherex_dr1/2026W20_1A_1166_1/2"
+      ]
+    },
+    "source_hashes_verified": true,
+    "interpretation": "Offline comparison within preserved candidate pool; approximate visualization WCS only; no quantitative validation."
+  },
+  {
+    "session_id": "d943f95d272546aa8a2a01e656fc3c32",
+    "field": "M101 field",
+    "query": {
+      "ra": 210.80227,
+      "dec": 54.34895,
+      "fov": 6.0,
+      "frames": 6
+    },
+    "candidate_count": 5,
+    "before_temporal_endpoints": {
+      "a": 0,
+      "b": 4,
+      "time_separation_days": 377.99128371527775,
+      "absolute_wavelength_difference_um": 0.46715539431051134,
+      "fractional_wavelength_difference": 0.11528516242006988,
+      "approximate_bandwidth_separation": 12.975015328415953,
+      "spectral_metadata": "Approximate field-center WCS-WAVE values, intended for visualization",
+      "quantitative_comparison_allowed": false,
+      "common_coverage": 0.9086469405343293,
+      "identities": [
+        "spherex_dr1/2025W19_2B_0346_1/5",
+        "spherex_qr3/2026W21_2A_0361_3/5"
+      ]
+    },
+    "after_recommended": {
+      "a": 1,
+      "b": 2,
+      "time_separation_days": 205.1844099652778,
+      "absolute_wavelength_difference_um": 0.07344335455936246,
+      "fractional_wavelength_difference": 0.016862396798595154,
+      "approximate_bandwidth_separation": 1.9470510079751873,
+      "spectral_metadata": "Approximate field-center WCS-WAVE values, intended for visualization",
+      "quantitative_comparison_allowed": false,
+      "common_coverage": 0.7308244757253662,
+      "identities": [
+        "spherex_dr1/2025W20_2D_0176_4/5",
+        "spherex_dr1/2025W49_2A_0707_1/5"
+      ]
+    },
+    "source_hashes_verified": true,
+    "interpretation": "Offline comparison within preserved candidate pool; approximate visualization WCS only; no quantitative validation."
+  }
+]

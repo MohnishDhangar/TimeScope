@@ -1,3 +1,4 @@
+import pytest
 from fastapi.testclient import TestClient
 from backend.app import app
 client = TestClient(app)
@@ -11,17 +12,38 @@ def test_invalid_search_never_starts_job():
 def test_unknown_session():
     assert client.get('/api/sessions/not-a-session').status_code==404
 
-def test_public_error_hides_internal_exception(monkeypatch, tmp_path):
+def test_public_error_hides_internal_exception(monkeypatch, tmp_path, caplog):
     from backend import app as module
     from backend.pipeline import Search
     monkeypatch.setattr(module, 'DATA', tmp_path)
-    def fail(*args):raise RuntimeError('HTTPSConnectionPool private internal details')
+    def fail(*args,**kwargs):raise RuntimeError('HTTPSConnectionPool private internal details')
     monkeypatch.setattr(module,'run',fail)
     assert module.lock.acquire(blocking=False)
     module.process(Search(ra=10,dec=20),'e'*32)
     result=client.get('/api/sessions/'+'e'*32).json()
     assert result['status']=='failed' and result['retryable']
     assert 'HTTPSConnectionPool' not in result['message']
+    assert 'HTTPSConnectionPool private internal details' in caplog.text
+    assert not module.lock.locked()
+
+
+def test_classified_discovery_failure_preserves_new_query_without_traceback(monkeypatch,tmp_path):
+    from backend import app as module
+    from backend.pipeline import Search
+    from backend.discovery import DiscoveryError
+    monkeypatch.setattr(module,'DATA',tmp_path)
+    def fail(*a,**kw):
+        error=DiscoveryError('IRSA returned HTTP 502 while searching for observations.','archive_http_5xx',True,status=502)
+        error.attempt_log=[{'attempt':1,'route':'direct SIA','code':'archive_http_5xx','http_status':502}]
+        raise error
+    monkeypatch.setattr(module,'run',fail)
+    query=Search(ra=133.79512917,dec=-2.24514722,fov=5,frames=6)
+    assert module.lock.acquire(blocking=False)
+    module.process(query,'c'*32)
+    result=client.get('/api/sessions/'+'c'*32).json()
+    assert result['query']==query.model_dump()
+    assert result['code']=='archive_http_5xx' and result['http_status']==502
+    assert result['discovery_attempts']==1 and 'Traceback' not in str(result)
     assert not module.lock.locked()
 
 
@@ -180,7 +202,8 @@ def test_one_job_runs_between_polls_while_readers_stay_available(monkeypatch,tmp
     monkeypatch.setattr(module,'jobs',{})
     monkeypatch.setattr(module,'admissions',__import__('collections').deque())
     started,release,finished=Event(),Event(),Event()
-    def controlled_run(query,identifier,update):
+    def controlled_run(query,identifier,update,*,discovery_budget_s):
+        assert discovery_budget_s==60
         update('Synthetic controlled job started')
         started.set()
         assert release.wait(5)
@@ -221,3 +244,25 @@ def test_expired_session_does_not_survive_in_memory(monkeypatch,tmp_path):
     result=client.get('/api/sessions/'+identifier)
     assert result.status_code==404 and 'expired' in result.json()['detail']
     assert identifier not in module.jobs
+
+@pytest.mark.parametrize('change',[{'detector':3},{'selection_mode':'wavelength_matched'},{'frames':4}])
+def test_changed_selection_cannot_reuse_another_completed_session(monkeypatch,tmp_path,change):
+    """Synthetic retained session: settings must remain isolated before admission."""
+    import json
+    from backend import app as module
+    from backend.pipeline import Search
+    monkeypatch.setattr(module,'DATA',tmp_path)
+    folder=tmp_path/('3'*32);folder.mkdir()
+    query=Search(ra=10,dec=20).model_dump()
+    frames=[]
+    for i in range(2):
+        (folder/f'{i}.png').write_bytes(b'synthetic preview')
+        frames.append({'image':f'/artifacts/{folder.name}/{i}.png'})
+    (folder/'manifest.json').write_text(json.dumps({'status':'ready','query':query,'frames':frames,'processor_version':module.PROCESSOR_VERSION}))
+    module.lock.acquire()
+    try:
+        assert client.post('/api/sessions',json=query).json()['reused']
+        different=client.post('/api/sessions',json={**query,**change})
+        assert different.status_code==429
+        assert 'Another scientific job' in different.json()['detail']
+    finally:module.lock.release()

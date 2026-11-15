@@ -28,3 +28,17 @@ Successful cold/warm live-query latencies: **not measured**. Peak Cloud Run memo
 ## Initial Cloud Run observations
 
 Actual remote Docker build succeeded. Cloud Monitoring `run.googleapis.com/container/memory/usage` samples for revision `timescope-00001-v78` ranged from 114,855,936 to 117,026,816 bytes at 11:22–11:24 UTC (~110–112 MiB distribution means). The two genuine public search attempts failed at discovery with HTTP 502; no calibrated FITS-processing workload completed. Consequently these memory samples must not be used as a scientific-job peak or proof of the 4 GiB resource gate. Raw data: `cloud-memory-observation.json` and `cloud-live-check.json`.
+
+
+## Discovery repair allocation and current test environment
+
+The repair session reproduced Python 3.14.7, Node 26.10.0 and npm 12.1.0. Discovery's configured default is 90 seconds (maximum 90); the public API additionally caps it at 60 seconds while retaining the one-active-job policy. The orchestrator preserves a 150-second processing reserve within the cooperative 240-second budget, usually leaving approximately 180 seconds for promptly started public jobs. These are resource allocations, not completion guarantees. Requests have bounded connect/read timeouts and cooperative stream checks; library calls cannot be forcibly interrupted.
+
+The historical successful Cloud Run recovery job took 16.634 seconds for four fresh cutouts using saved metadata (`discovery-recovery-cloud.json`). This is not a fresh-discovery benchmark or a bound for future retrieval. The repair's one-pass local probe returned 12 HTTP 502 responses in 0.257–1.619 seconds per HTTP response; those are discovery error latencies, not scientific processing throughput. Current public repair acceptance and elapsed times will be recorded only in `discovery-repair-validation.json`. No fresh archive load tests were performed.
+
+
+## Current public repair observations
+
+Original-field API readiness was observed at 47.385 seconds, including five failed fresh discovery attempts followed by historical metadata recovery and four fresh FITS downloads. The changed declination failed at discovery after 50.911 seconds (five attempts: four 502s and a timeout). These are terminal polling observations, not exact CPU timings, successful fresh-discovery latency or warm-cache benchmarks. The first original-field browser polling path failed; reopening the retained result succeeded.
+
+Ten Cloud Monitoring container-memory samples for revision `timescope-00003-t87` span distribution means of 115,335,168–153,759,744 bytes. These are sampled distribution means, not an instantaneous peak, process RSS or disk footprint; short peaks may be missed. Raw sample timestamps and values are in `discovery-repair-validation.json`. Runtime filesystem byte usage was not measured inside the container.

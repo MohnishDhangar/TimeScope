@@ -1,0 +1,1047 @@
+{
+  "schema_version": 1,
+  "updated_utc": "2026-11-15T13:42:36.253842+00:00",
+  "repair_branch": "release/discovery-repair",
+  "base_commit": "043bfd4",
+  "source_commit": "a11ae4e35c0b44aa118e1ab8ebf2987108fa072b",
+  "baseline": {
+    "python_tests_passed": 52,
+    "frontend_checks_passed": 19,
+    "lint": "passed",
+    "production_build": "passed"
+  },
+  "focused_checks": {
+    "step1_python_passed": 29,
+    "step1_browser_passed": 2,
+    "step2_python_passed": 86,
+    "step2_browser_passed": 3
+  },
+  "local_probe": {
+    "environment": "local",
+    "started_utc": "2026-11-15T13:03:26.994514+00:00",
+    "query": {
+      "ra": 133.79512917,
+      "dec": -2.24514722,
+      "fov_arcmin": 5.0
+    },
+    "repeats": 2,
+    "automatic_retries": 0,
+    "attempts": [
+      {
+        "variant": "sia-baseline",
+        "repeat": 1,
+        "utc": "2026-11-15T13:03:26.994790+00:00",
+        "status": 502,
+        "rows": null,
+        "votable": false,
+        "discovery_success": false,
+        "url": "https://irsa.ipac.caltech.edu/SIA?MAXREC=1000&COLLECTION=spherex_qr3&COLLECTION=spherex_dr1&POS=CIRCLE+133.79512917+-2.24514722+0.05892556509887896",
+        "content_type": "text/html; charset=iso-8859-1",
+        "bytes": 341,
+        "sha256": "6c5cbf315d1e65021bda341d39f2f9126b1e63d3099d07c315894bd11add085b",
+        "response_file": "probe-sia-baseline-1.response",
+        "duration_seconds": 0.995
+      },
+      {
+        "variant": "sia-maxrec100",
+        "repeat": 1,
+        "utc": "2026-11-15T13:03:28.989758+00:00",
+        "status": 502,
+        "rows": null,
+        "votable": false,
+        "discovery_success": false,
+        "url": "https://irsa.ipac.caltech.edu/SIA?MAXREC=100&COLLECTION=spherex_qr3&COLLECTION=spherex_dr1&POS=CIRCLE+133.79512917+-2.24514722+0.05892556509887896",
+        "content_type": "text/html; charset=iso-8859-1",
+        "bytes": 341,
+        "sha256": "6c5cbf315d1e65021bda341d39f2f9126b1e63d3099d07c315894bd11add085b",
+        "response_file": "probe-sia-maxrec100-1.response",
+        "duration_seconds": 0.257
+      },
+      {
+        "variant": "sia-dr1-only",
+        "repeat": 1,
+        "utc": "2026-11-15T13:03:30.247473+00:00",
+        "status": 502,
+        "rows": null,
+        "votable": false,
+        "discovery_success": false,
+        "url": "https://irsa.ipac.caltech.edu/SIA?MAXREC=100&COLLECTION=spherex_dr1&POS=CIRCLE+133.79512917+-2.24514722+0.05892556509887896",
+        "content_type": "text/html; charset=iso-8859-1",
+        "bytes": 341,
+        "sha256": "6c5cbf315d1e65021bda341d39f2f9126b1e63d3099d07c315894bd11add085b",
+        "response_file": "probe-sia-dr1-only-1.response",
+        "duration_seconds": 0.322
+      },
+      {
+        "variant": "sia-qr3-only",
+        "repeat": 1,
+        "utc": "2026-11-15T13:03:31.569438+00:00",
+        "status": 502,
+        "rows": null,
+        "votable": false,
+        "discovery_success": false,
+        "url": "https://irsa.ipac.caltech.edu/SIA?MAXREC=100&COLLECTION=spherex_qr3&POS=CIRCLE+133.79512917+-2.24514722+0.05892556509887896",
+        "content_type": "text/html; charset=iso-8859-1",
+        "bytes": 341,
+        "sha256": "6c5cbf315d1e65021bda341d39f2f9126b1e63d3099d07c315894bd11add085b",
+        "response_file": "probe-sia-qr3-only-1.response",
+        "duration_seconds": 0.435
+      },
+      {
+        "variant": "sia-no-cache-header",
+        "repeat": 1,
+        "utc": "2026-11-15T13:03:33.005579+00:00",
+        "status": 502,
+        "rows": null,
+        "votable": false,
+        "discovery_success": false,
+        "url": "https://irsa.ipac.caltech.edu/SIA?MAXREC=1000&COLLECTION=spherex_qr3&COLLECTION=spherex_dr1&POS=CIRCLE+133.79512917+-2.24514722+0.05892556509887896",
+        "content_type": "text/html; charset=iso-8859-1",
+        "bytes": 341,
+        "sha256": "6c5cbf315d1e65021bda341d39f2f9126b1e63d3099d07c315894bd11add085b",
+        "response_file": "probe-sia-no-cache-header-1.response",
+        "duration_seconds": 1.619
+      },
+      {
+        "variant": "tap-point",
+        "repeat": 1,
+        "utc": "2026-11-15T13:03:35.625070+00:00",
+        "status": 502,
+        "rows": null,
+        "votable": false,
+        "discovery_success": false,
+        "url": "https://irsa.ipac.caltech.edu/TAP/sync?REQUEST=doQuery&LANG=ADQL&FORMAT=csv&QUERY=SELECT+TOP+100+a.uri%2C+p.time_bounds_lower%2C+p.energy_bandpassname%0AFROM+spherex.artifact+a+JOIN+spherex.plane+p+ON+a.planeid+%3D+p.planeid%0AWHERE+1+%3D+CONTAINS%28POINT%28%27ICRS%27%2C+133.79512917%2C+-2.24514722%29%2C+p.poly%29%0AORDER+BY+p.time_bounds_lower",
+        "content_type": "text/html; charset=iso-8859-1",
+        "bytes": 341,
+        "sha256": "6c5cbf315d1e65021bda341d39f2f9126b1e63d3099d07c315894bd11add085b",
+        "response_file": "probe-tap-point-1.response",
+        "duration_seconds": 0.276
+      },
+      {
+        "variant": "sia-baseline",
+        "repeat": 2,
+        "utc": "2026-11-15T13:03:36.901189+00:00",
+        "status": 502,
+        "rows": null,
+        "votable": false,
+        "discovery_success": false,
+        "url": "https://irsa.ipac.caltech.edu/SIA?MAXREC=1000&COLLECTION=spherex_qr3&COLLECTION=spherex_dr1&POS=CIRCLE+133.79512917+-2.24514722+0.05892556509887896",
+        "content_type": "text/html; charset=iso-8859-1",
+        "bytes": 341,
+        "sha256": "6c5cbf315d1e65021bda341d39f2f9126b1e63d3099d07c315894bd11add085b",
+        "response_file": "probe-sia-baseline-2.response",
+        "duration_seconds": 0.308
+      },
+      {
+        "variant": "sia-maxrec100",
+        "repeat": 2,
+        "utc": "2026-11-15T13:03:38.209807+00:00",
+        "status": 502,
+        "rows": null,
+        "votable": false,
+        "discovery_success": false,
+        "url": "https://irsa.ipac.caltech.edu/SIA?MAXREC=100&COLLECTION=spherex_qr3&COLLECTION=spherex_dr1&POS=CIRCLE+133.79512917+-2.24514722+0.05892556509887896",
+        "content_type": "text/html; charset=iso-8859-1",
+        "bytes": 341,
+        "sha256": "6c5cbf315d1e65021bda341d39f2f9126b1e63d3099d07c315894bd11add085b",
+        "response_file": "probe-sia-maxrec100-2.response",
+        "duration_seconds": 0.309
+      },
+      {
+        "variant": "sia-dr1-only",
+        "repeat": 2,
+        "utc": "2026-11-15T13:03:39.519600+00:00",
+        "status": 502,
+        "rows": null,
+        "votable": false,
+        "discovery_success": false,
+        "url": "https://irsa.ipac.caltech.edu/SIA?MAXREC=100&COLLECTION=spherex_dr1&POS=CIRCLE+133.79512917+-2.24514722+0.05892556509887896",
+        "content_type": "text/html; charset=iso-8859-1",
+        "bytes": 341,
+        "sha256": "6c5cbf315d1e65021bda341d39f2f9126b1e63d3099d07c315894bd11add085b",
+        "response_file": "probe-sia-dr1-only-2.response",
+        "duration_seconds": 0.321
+      },
+      {
+        "variant": "sia-qr3-only",
+        "repeat": 2,
+        "utc": "2026-11-15T13:03:40.840904+00:00",
+        "status": 502,
+        "rows": null,
+        "votable": false,
+        "discovery_success": false,
+        "url": "https://irsa.ipac.caltech.edu/SIA?MAXREC=100&COLLECTION=spherex_qr3&POS=CIRCLE+133.79512917+-2.24514722+0.05892556509887896",
+        "content_type": "text/html; charset=iso-8859-1",
+        "bytes": 341,
+        "sha256": "6c5cbf315d1e65021bda341d39f2f9126b1e63d3099d07c315894bd11add085b",
+        "response_file": "probe-sia-qr3-only-2.response",
+        "duration_seconds": 0.266
+      },
+      {
+        "variant": "sia-no-cache-header",
+        "repeat": 2,
+        "utc": "2026-11-15T13:03:42.109462+00:00",
+        "status": 502,
+        "rows": null,
+        "votable": false,
+        "discovery_success": false,
+        "url": "https://irsa.ipac.caltech.edu/SIA?MAXREC=1000&COLLECTION=spherex_qr3&COLLECTION=spherex_dr1&POS=CIRCLE+133.79512917+-2.24514722+0.05892556509887896",
+        "content_type": "text/html; charset=iso-8859-1",
+        "bytes": 341,
+        "sha256": "6c5cbf315d1e65021bda341d39f2f9126b1e63d3099d07c315894bd11add085b",
+        "response_file": "probe-sia-no-cache-header-2.response",
+        "duration_seconds": 0.382
+      },
+      {
+        "variant": "tap-point",
+        "repeat": 2,
+        "utc": "2026-11-15T13:03:43.491675+00:00",
+        "status": 502,
+        "rows": null,
+        "votable": false,
+        "discovery_success": false,
+        "url": "https://irsa.ipac.caltech.edu/TAP/sync?REQUEST=doQuery&LANG=ADQL&FORMAT=csv&QUERY=SELECT+TOP+100+a.uri%2C+p.time_bounds_lower%2C+p.energy_bandpassname%0AFROM+spherex.artifact+a+JOIN+spherex.plane+p+ON+a.planeid+%3D+p.planeid%0AWHERE+1+%3D+CONTAINS%28POINT%28%27ICRS%27%2C+133.79512917%2C+-2.24514722%29%2C+p.poly%29%0AORDER+BY+p.time_bounds_lower",
+        "content_type": "text/html; charset=iso-8859-1",
+        "bytes": 341,
+        "sha256": "6c5cbf315d1e65021bda341d39f2f9126b1e63d3099d07c315894bd11add085b",
+        "response_file": "probe-tap-point-2.response",
+        "duration_seconds": 0.302
+      }
+    ],
+    "finished_utc": "2026-11-15T13:03:44.798139+00:00"
+  },
+  "prior_cloud_log_evidence": {
+    "environment": "Cloud Run",
+    "revision": "timescope-00002-8kk",
+    "command": "gcloud run services logs read timescope --project=timescope-spaceapps-2026 --region=us-central1 --limit=200 --freshness=2h",
+    "query": {
+      "ra": 133.79512917,
+      "dec": -2.24514722,
+      "fov": 5
+    },
+    "session_id": "d8c8b5b168094915bdd8fb7f2631267b",
+    "observed_terminal_log_utc": "2026-11-15T12:44:16Z",
+    "routes": [
+      {
+        "route": "SIA/capabilities",
+        "http_status": 502,
+        "exception_class": "DALServiceError",
+        "votable": false
+      },
+      {
+        "route": "direct SIA",
+        "http_status": 502,
+        "exception_class": "HTTPError",
+        "votable": false
+      }
+    ],
+    "per_request_duration_seconds": null,
+    "duration_note": "Per-request duration was not recorded in these historical logs. Do not infer a latency from sparse log timestamps.",
+    "response_note": "Logs contain HTTP 502 Proxy Error and an HTML error body, not an observation VOTable.",
+    "cause_established": false
+  },
+  "conditional_route_decision": {
+    "status": "skipped; blocked by archive",
+    "reason": "All five SIA variants and the TAP point query returned HTTP 502 on both repeats. No successful real TAP response exists to validate an adapter."
+  },
+  "release_tests": {
+    "python": {
+      "passed": 106,
+      "warnings": 1,
+      "seconds": 4.18,
+      "result": "passed"
+    },
+    "frontend": {
+      "passed": 20,
+      "browser_scenarios": 19,
+      "metadata_logic_checks": 1,
+      "seconds": 16.3,
+      "result": "passed"
+    },
+    "lint": "passed",
+    "production_build": "passed",
+    "container_build": "passed; actual Cloud Build Dockerfile build",
+    "environment": {
+      "python": "3.14.7",
+      "node": "26.10.0",
+      "npm": "12.1.0"
+    },
+    "source_upload": {
+      "file_count": 110,
+      "bundled_pngs": 17,
+      "prohibited_paths": [],
+      "source_commit": "a11ae4e35c0b44aa118e1ab8ebf2987108fa072b",
+      "note": "Upload list rechecked against the still-clean deployed source before evidence-document edits."
+    }
+  },
+  "public_fields": [
+    {
+      "label": "A",
+      "query": {
+        "ra": 133.79512917,
+        "dec": -7.24514722,
+        "fov": 5,
+        "frames": 4
+      },
+      "started_utc": "2026-11-15T13:31:00.510Z",
+      "admission_http_status": 202,
+      "session_id": "319f0923fe0d482da6317e579ec4b6ad",
+      "session_reused": false,
+      "progress": [
+        {
+          "elapsed_seconds": 1.248,
+          "status": "running",
+          "message": "IRSA returned HTTP 502. Retrying discovery in 2.1 s (attempt 2 of 6)"
+        },
+        {
+          "elapsed_seconds": 3.185,
+          "status": "running",
+          "message": "IRSA returned HTTP 502. Retrying discovery in 3.8 s (attempt 3 of 6)"
+        },
+        {
+          "elapsed_seconds": 8.768,
+          "status": "running",
+          "message": "IRSA returned HTTP 502. Retrying discovery in 8.8 s (attempt 4 of 6)"
+        },
+        {
+          "elapsed_seconds": 16.187,
+          "status": "running",
+          "message": "IRSA returned HTTP 502. Retrying discovery in 16.1 s (attempt 5 of 6)"
+        },
+        {
+          "elapsed_seconds": 33.012,
+          "status": "running",
+          "message": "Downloading and aligning 1/4 \u00b7 0 usable \u00b7 0 skipped"
+        },
+        {
+          "elapsed_seconds": 35.009,
+          "status": "running",
+          "message": "Downloading and aligning 2/4 \u00b7 1 usable \u00b7 0 skipped"
+        },
+        {
+          "elapsed_seconds": 38.804,
+          "status": "running",
+          "message": "Downloading and aligning 3/4 \u00b7 2 usable \u00b7 0 skipped"
+        },
+        {
+          "elapsed_seconds": 45.515,
+          "status": "running",
+          "message": "Downloading and aligning 4/4 \u00b7 3 usable \u00b7 0 skipped"
+        },
+        {
+          "elapsed_seconds": 47.385,
+          "status": "ready",
+          "message": null
+        }
+      ],
+      "elapsed_to_terminal_observation_seconds": 47.385,
+      "status": "ready",
+      "manifest_or_failure": {
+        "schema_version": 1,
+        "processor_version": "discovery-repair-v1",
+        "status": "ready",
+        "id": "319f0923fe0d482da6317e579ec4b6ad",
+        "query": {
+          "ra": 133.79512917,
+          "dec": -7.24514722,
+          "fov": 5,
+          "frames": 4
+        },
+        "discovery_limited": false,
+        "discovery_cached": true,
+        "inventory_kind": "bundled-historical",
+        "discovery_provenance": {
+          "discovery_method": "exact-query-cached-inventory",
+          "discovery_cached": true,
+          "inventory_kind": "bundled-historical",
+          "inventory_retrieved_utc": "2026-11-15T12:28:44.186124+00:00",
+          "inventory_age_seconds": 3768.7,
+          "original_discovery_method": "direct-sia-v2-get-cache-revalidation",
+          "query_overflow": false,
+          "inventory_snapshot_sha256": "c3f5bc428b99818180e17c02b78401a9ddb0e9234fee17f10ca1287b76b48419",
+          "discovery_failures": [
+            {
+              "attempt": 1,
+              "route": "Astroquery SIA (explicit query endpoint)",
+              "code": "archive_http_5xx",
+              "http_status": 502,
+              "exception_class": "HTTPError",
+              "elapsed_seconds": 0.248
+            },
+            {
+              "attempt": 2,
+              "route": "direct SIA",
+              "code": "archive_http_5xx",
+              "http_status": 502,
+              "exception_class": "HTTPError",
+              "elapsed_seconds": 0.222
+            },
+            {
+              "attempt": 3,
+              "route": "Astroquery SIA (explicit query endpoint)",
+              "code": "archive_http_5xx",
+              "http_status": 502,
+              "exception_class": "HTTPError",
+              "elapsed_seconds": 0.174
+            },
+            {
+              "attempt": 4,
+              "route": "direct SIA",
+              "code": "archive_http_5xx",
+              "http_status": 502,
+              "exception_class": "HTTPError",
+              "elapsed_seconds": 0.31
+            },
+            {
+              "attempt": 5,
+              "route": "Astroquery SIA (explicit query endpoint)",
+              "code": "archive_http_5xx",
+              "http_status": 502,
+              "exception_class": "HTTPError",
+              "elapsed_seconds": 0.172
+            }
+          ],
+          "discovery_attempts": 5,
+          "discovery_elapsed_seconds": 31.958
+        },
+        "discovery_method": "exact-query-cached-inventory",
+        "created_utc": "2026-11-15T13:31:45.069581+00:00",
+        "rows_found": 289,
+        "failed_frames": [],
+        "requested_frames": 4,
+        "partial": false,
+        "possibly_truncated": false,
+        "frames": [
+          {
+            "obs_id": "2025W19_1B_0181_1",
+            "date": "2025-05-06T02:33:29.930",
+            "detector": 2,
+            "unit": "MJy / sr",
+            "collection": "spherex_dr1",
+            "source_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/level2/2025W19_1B/l2b-v27-2026-197/2/level2_2025W19_1B_0181_1D2_spx_l2b-v27-2026-197.fits",
+            "cutout_parameters": {
+              "center": "133.79512917,-7.24514722d",
+              "size": 0.125
+            },
+            "sha256": "c6116edb6dcf5808e78ee9a491af45602d1510e327f1003d8e658ff6b906b75d",
+            "cutout_cached": false,
+            "wavelength_um_at_center": 1.5164516364644198,
+            "coverage": 0.882548937942524,
+            "wcs_roundtrip_pixels": 3.3943522705194715e-08,
+            "image": "/artifacts/319f0923fe0d482da6317e579ec4b6ad/0.png"
+          },
+          {
+            "obs_id": "2025W45_2A_0278_3",
+            "date": "2025-11-07T18:51:31.958",
+            "detector": 2,
+            "unit": "MJy / sr",
+            "collection": "spherex_dr1",
+            "source_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/level2/2025W45_2A/l2b-v27-2026-247/2/level2_2025W45_2A_0278_3D2_spx_l2b-v27-2026-247.fits",
+            "cutout_parameters": {
+              "center": "133.79512917,-7.24514722d",
+              "size": 0.125
+            },
+            "sha256": "eb8887e93af7ba93057f3907d4d46f303bce9807fbfb2a7c8ff32b1f6142a2ca",
+            "cutout_cached": false,
+            "wavelength_um_at_center": 1.3157511039684566,
+            "coverage": 0.8738025822573927,
+            "wcs_roundtrip_pixels": 7.807241240832847e-08,
+            "image": "/artifacts/319f0923fe0d482da6317e579ec4b6ad/1.png"
+          },
+          {
+            "obs_id": "2025W50_2A_0479_1",
+            "date": "2025-12-13T05:32:45.700",
+            "detector": 2,
+            "unit": "MJy / sr",
+            "collection": "spherex_dr1",
+            "source_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/level2/2025W50_2A/l2b-v27-2026-210/2/level2_2025W50_2A_0479_1D2_spx_l2b-v27-2026-210.fits",
+            "cutout_parameters": {
+              "center": "133.79512917,-7.24514722d",
+              "size": 0.125
+            },
+            "sha256": "350697ead585ec7edba8c5e4a85ddb50be060ce033de16f266523bd730f7e302",
+            "cutout_cached": false,
+            "wavelength_um_at_center": 1.4110642348955802,
+            "coverage": 0.8792169929196169,
+            "wcs_roundtrip_pixels": 4.108407665529467e-08,
+            "image": "/artifacts/319f0923fe0d482da6317e579ec4b6ad/2.png"
+          },
+          {
+            "obs_id": "2026W20_1A_1166_1",
+            "date": "2026-05-14T06:53:35.614",
+            "detector": 2,
+            "unit": "MJy / sr",
+            "collection": "spherex_dr1",
+            "source_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/level2/2026W20_1A/l2b-v27-2026-246/2/level2_2026W20_1A_1166_1D2_spx_l2b-v27-2026-246.fits",
+            "cutout_parameters": {
+              "center": "133.79512917,-7.24514722d",
+              "size": 0.125
+            },
+            "sha256": "65464c40b69ce9af9756131e5406673142bb09212a1a6aca6630403a2b6aadb5",
+            "cutout_cached": false,
+            "wavelength_um_at_center": 1.5911141183870146,
+            "coverage": 0.8946272386505623,
+            "wcs_roundtrip_pixels": 1.0760343973966459e-07,
+            "image": "/artifacts/319f0923fe0d482da6317e579ec4b6ad/3.png"
+          }
+        ],
+        "reference_wcs": {
+          "WCSAXES": 2,
+          "CRPIX1": 25,
+          "CRPIX2": 25,
+          "CDELT1": -0.0017006802721088,
+          "CDELT2": 0.0017006802721088,
+          "CUNIT1": "deg",
+          "CUNIT2": "deg",
+          "CTYPE1": "RA---TAN",
+          "CTYPE2": "DEC--TAN",
+          "CRVAL1": 133.79512917,
+          "CRVAL2": -7.24514722,
+          "LONPOLE": 180,
+          "LATPOLE": -7.24514722,
+          "MJDREF": 0,
+          "RADESYS": "ICRS"
+        },
+        "display_range": [
+          0.19681474215411968,
+          1.6506494965275387
+        ],
+        "warnings": [
+          "Qualitative viewing only: wavelength and PSF matching have not been validated.",
+          "No motion or variability detection is claimed. Bright-peak checks are preliminary, not catalog-confirmed stationary-source residuals.",
+          "Preview excludes all flagged pixels except SOURCE and FULLSAMPLE; originals are preserved.",
+          "Archive metadata snapshot retrieved 2026-11-15T12:28:44.186124+00:00. Observations released after that date may be missing. This is not a fresh archive discovery query."
+        ],
+        "diagnostics": {
+          "method": "bright-peak-centroids-v1",
+          "pairs": [
+            {
+              "peaks_a": 20,
+              "peaks_b": 15,
+              "matched_peaks": 13,
+              "match_radius_pixels": 2,
+              "overlap_fraction": 0.7830070803831737,
+              "status": "preliminary",
+              "median_separation_pixels": 0.19070014712893799,
+              "median_separation_arcsec": 1.1675519211975796,
+              "note": "Mutual nearest bright-peak matches within 2 pixels; not catalog-confirmed stationary stars. Masking, blending, wavelength and PSF differences can bias results. Large offsets may be missed by the matching radius.",
+              "median_dx_pixels": -0.015682380127785223,
+              "median_dy_pixels": -0.12368596291288014,
+              "a": 0,
+              "b": 1,
+              "quantitative_comparison_allowed": false
+            },
+            {
+              "peaks_a": 20,
+              "peaks_b": 16,
+              "matched_peaks": 13,
+              "match_radius_pixels": 2,
+              "overlap_fraction": 0.7880049979175343,
+              "status": "preliminary",
+              "median_separation_pixels": 0.16240439294531897,
+              "median_separation_arcsec": 0.9943126098692998,
+              "note": "Mutual nearest bright-peak matches within 2 pixels; not catalog-confirmed stationary stars. Masking, blending, wavelength and PSF differences can bias results. Large offsets may be missed by the matching radius.",
+              "median_dx_pixels": -0.09587556198166736,
+              "median_dy_pixels": 0.007359262972258307,
+              "a": 0,
+              "b": 2,
+              "quantitative_comparison_allowed": false
+            },
+            {
+              "peaks_a": 20,
+              "peaks_b": 17,
+              "matched_peaks": 13,
+              "match_radius_pixels": 2,
+              "overlap_fraction": 0.8004997917534361,
+              "status": "preliminary",
+              "median_separation_pixels": 0.11275910821843439,
+              "median_separation_arcsec": 0.6903618870516391,
+              "note": "Mutual nearest bright-peak matches within 2 pixels; not catalog-confirmed stationary stars. Masking, blending, wavelength and PSF differences can bias results. Large offsets may be missed by the matching radius.",
+              "median_dx_pixels": 0.009369533052591805,
+              "median_dy_pixels": -0.018785317114389244,
+              "a": 0,
+              "b": 3,
+              "quantitative_comparison_allowed": false
+            },
+            {
+              "peaks_a": 15,
+              "peaks_b": 16,
+              "matched_peaks": 11,
+              "match_radius_pixels": 2,
+              "overlap_fraction": 0.7700957934194086,
+              "status": "preliminary",
+              "median_separation_pixels": 0.15328811755385258,
+              "median_separation_arcsec": 0.9384986789011381,
+              "note": "Mutual nearest bright-peak matches within 2 pixels; not catalog-confirmed stationary stars. Masking, blending, wavelength and PSF differences can bias results. Large offsets may be missed by the matching radius.",
+              "median_dx_pixels": -0.00972495473077073,
+              "median_dy_pixels": 0.07261434291107349,
+              "a": 1,
+              "b": 2,
+              "quantitative_comparison_allowed": false
+            },
+            {
+              "peaks_a": 15,
+              "peaks_b": 17,
+              "matched_peaks": 10,
+              "match_radius_pixels": 2,
+              "overlap_fraction": 0.7984173261141191,
+              "status": "preliminary",
+              "median_separation_pixels": 0.17737816865527054,
+              "median_separation_arcsec": 1.0859887876853298,
+              "note": "Mutual nearest bright-peak matches within 2 pixels; not catalog-confirmed stationary stars. Masking, blending, wavelength and PSF differences can bias results. Large offsets may be missed by the matching radius.",
+              "median_dx_pixels": 0.11100221735681615,
+              "median_dy_pixels": 0.08549431859551748,
+              "a": 1,
+              "b": 3,
+              "quantitative_comparison_allowed": false
+            },
+            {
+              "peaks_a": 16,
+              "peaks_b": 17,
+              "matched_peaks": 9,
+              "match_radius_pixels": 2,
+              "overlap_fraction": 0.7917534360683048,
+              "status": "preliminary",
+              "median_separation_pixels": 0.16203221520329064,
+              "median_separation_arcsec": 0.9920339706323916,
+              "note": "Mutual nearest bright-peak matches within 2 pixels; not catalog-confirmed stationary stars. Masking, blending, wavelength and PSF differences can bias results. Large offsets may be missed by the matching radius.",
+              "median_dx_pixels": 0.0940037972474066,
+              "median_dy_pixels": -0.03786035070406224,
+              "a": 2,
+              "b": 3,
+              "quantitative_comparison_allowed": false
+            }
+          ],
+          "limitations": "Exploratory geometry; wavelength and PSF compatibility not established."
+        },
+        "temporary_session": true,
+        "expires_utc": "2026-11-15T19:31:45.089713+00:00"
+      },
+      "discovery_method": "exact-query-cached-inventory",
+      "discovery_cached": true,
+      "inventory_kind": "bundled-historical",
+      "inventory_retrieved_utc": "2026-11-15T12:28:44.186124+00:00",
+      "returned_rows": 289,
+      "usable_observation_ids": [
+        {
+          "obs_id": "2025W19_1B_0181_1",
+          "collection": "spherex_dr1",
+          "detector": 2
+        },
+        {
+          "obs_id": "2025W45_2A_0278_3",
+          "collection": "spherex_dr1",
+          "detector": 2
+        },
+        {
+          "obs_id": "2025W50_2A_0479_1",
+          "collection": "spherex_dr1",
+          "detector": 2
+        },
+        {
+          "obs_id": "2026W20_1A_1166_1",
+          "collection": "spherex_dr1",
+          "detector": 2
+        }
+      ],
+      "usable_frames": 4,
+      "fits_downloads_recorded_fresh": 4,
+      "fits_downloads_recorded_cached": 0,
+      "fits_retrieval_status_unknown": 0,
+      "failures": [],
+      "viewer_and_evidence": "passed after reopening the same retained session; initial automatic polling failure retained above",
+      "selected_observation_ids": [
+        {
+          "obs_id": "2025W19_1B_0181_1",
+          "collection": "spherex_dr1",
+          "detector": 2
+        },
+        {
+          "obs_id": "2025W45_2A_0278_3",
+          "collection": "spherex_dr1",
+          "detector": 2
+        },
+        {
+          "obs_id": "2025W50_2A_0479_1",
+          "collection": "spherex_dr1",
+          "detector": 2
+        },
+        {
+          "obs_id": "2026W20_1A_1166_1",
+          "collection": "spherex_dr1",
+          "detector": 2
+        }
+      ]
+    },
+    {
+      "label": "B",
+      "query": {
+        "ra": 133.79512917,
+        "dec": -2.24514722,
+        "fov": 5,
+        "frames": 6
+      },
+      "started_utc": "2026-11-15T13:33:52.316Z",
+      "admission_http_status": 202,
+      "session_id": "b4bb67e2736a4236ace7c1abd224fa99",
+      "session_reused": false,
+      "progress": [
+        {
+          "elapsed_seconds": 1.112,
+          "status": "running",
+          "message": "IRSA returned HTTP 502. Retrying discovery in 1.8 s (attempt 2 of 6)"
+        },
+        {
+          "elapsed_seconds": 2.94,
+          "status": "running",
+          "message": "IRSA returned HTTP 502. Retrying discovery in 3.7 s (attempt 3 of 6)"
+        },
+        {
+          "elapsed_seconds": 6.609,
+          "status": "running",
+          "message": "Trying Astroquery SIA (explicit query endpoint) (attempt 3 of 6)"
+        },
+        {
+          "elapsed_seconds": 27.046,
+          "status": "running",
+          "message": "IRSA did not respond within the time limit; your coordinates have been preserved. Please retry in a few minutes. Retrying discovery in 7.2 s (attempt 4 of 6)"
+        },
+        {
+          "elapsed_seconds": 34.352,
+          "status": "running",
+          "message": "IRSA returned HTTP 502. Retrying discovery in 14.9 s (attempt 5 of 6)"
+        },
+        {
+          "elapsed_seconds": 50.911,
+          "status": "failed",
+          "message": "IRSA returned HTTP 502 while searching for observations. The archive search service is temporarily unavailable. Please retry in a few minutes."
+        }
+      ],
+      "elapsed_to_terminal_observation_seconds": 50.911,
+      "status": "failed",
+      "manifest_or_failure": {
+        "status": "failed",
+        "id": "b4bb67e2736a4236ace7c1abd224fa99",
+        "message": "IRSA returned HTTP 502 while searching for observations. The archive search service is temporarily unavailable. Please retry in a few minutes.",
+        "code": "archive_http_5xx",
+        "retryable": true,
+        "query": {
+          "ra": 133.79512917,
+          "dec": -2.24514722,
+          "fov": 5,
+          "frames": 6
+        },
+        "http_status": 502,
+        "discovery_attempts": 5,
+        "discovery_failures": [
+          {
+            "attempt": 1,
+            "route": "Astroquery SIA (explicit query endpoint)",
+            "code": "archive_http_5xx",
+            "http_status": 502,
+            "exception_class": "HTTPError",
+            "elapsed_seconds": 0.21
+          },
+          {
+            "attempt": 2,
+            "route": "direct SIA",
+            "code": "archive_http_5xx",
+            "http_status": 502,
+            "exception_class": "HTTPError",
+            "elapsed_seconds": 0.308
+          },
+          {
+            "attempt": 3,
+            "route": "Astroquery SIA (explicit query endpoint)",
+            "code": "archive_timeout",
+            "http_status": null,
+            "exception_class": "ReadTimeout",
+            "elapsed_seconds": 20.132
+          },
+          {
+            "attempt": 4,
+            "route": "direct SIA",
+            "code": "archive_http_5xx",
+            "http_status": 502,
+            "exception_class": "HTTPError",
+            "elapsed_seconds": 0.308
+          },
+          {
+            "attempt": 5,
+            "route": "Astroquery SIA (explicit query endpoint)",
+            "code": "archive_http_5xx",
+            "http_status": 502,
+            "exception_class": "HTTPError",
+            "elapsed_seconds": 0.183
+          }
+        ],
+        "discovery_elapsed_seconds": 48.864
+      },
+      "discovery_method": null,
+      "discovery_cached": null,
+      "inventory_kind": null,
+      "inventory_retrieved_utc": null,
+      "returned_rows": null,
+      "usable_observation_ids": [],
+      "usable_frames": null,
+      "fits_downloads_recorded_fresh": null,
+      "fits_downloads_recorded_cached": null,
+      "fits_retrieval_status_unknown": null,
+      "failures": [
+        {
+          "code": "archive_http_5xx",
+          "http_status": 502,
+          "message": "IRSA returned HTTP 502 while searching for observations. The archive search service is temporarily unavailable. Please retry in a few minutes."
+        }
+      ],
+      "classified_error_visible": true,
+      "retrieval_phase": "Not reached: classified discovery failure before selection/download",
+      "usable_frames_returned": 0,
+      "selected_observation_ids": [],
+      "cached_metadata_used": false
+    }
+  ],
+  "public_browser": {
+    "environment": "public Cloud Run; fresh unauthenticated Chromium context",
+    "started_utc": "2026-11-15T13:30:50.704Z",
+    "bundles": [
+      {
+        "id": "23577cd786a24f24bedec59e7c5366ae",
+        "query": {
+          "ra": 133.79512917,
+          "dec": -7.24514722,
+          "fov": 5,
+          "frames": 6
+        },
+        "frames": 6,
+        "partial": false,
+        "discovery_limited": false,
+        "viewer_comparison_mobile": "passed"
+      },
+      {
+        "id": "57b2c1c4360a4ca8a2486e8b6c97077f",
+        "query": {
+          "ra": 134.4,
+          "dec": -8.5,
+          "fov": 10,
+          "frames": 6
+        },
+        "frames": 6,
+        "partial": false,
+        "discovery_limited": true,
+        "viewer_comparison_mobile": "passed"
+      },
+      {
+        "id": "d943f95d272546aa8a2a01e656fc3c32",
+        "query": {
+          "ra": 210.80227,
+          "dec": 54.34895,
+          "fov": 6,
+          "frames": 6
+        },
+        "frames": 5,
+        "partial": true,
+        "discovery_limited": false,
+        "viewer_comparison_mobile": "passed"
+      }
+    ],
+    "checks": {
+      "https_health": {
+        "status": "ok",
+        "mode": "full_application",
+        "live_search": "available",
+        "processing": "idle",
+        "archive": {
+          "status": "processing_succeeded",
+          "checked_utc": "2026-11-15T13:31:45.069581+00:00"
+        },
+        "storage_limit_bytes": 536870912,
+        "session_ttl_seconds": 21600,
+        "notice": "Application health does not establish current IRSA availability."
+      },
+      "23577cd786a24f24bedec59e7c5366ae_evidence_export": true,
+      "field-A_evidence_export": true,
+      "public_retry": {
+        "result": "passed",
+        "query": {
+          "ra": 133.79512917,
+          "dec": -2.24514722,
+          "fov": 5,
+          "frames": 6
+        },
+        "synthetic_intercept": true,
+        "archive_requests_sent": 0
+      },
+      "missing_session_404": true,
+      "internal_artifacts_hidden": true
+    },
+    "live_public_submissions": 2,
+    "page_errors": [],
+    "finished_utc": "2026-11-15T13:34:45.558Z",
+    "initial_browser_error": {
+      "name": "Error",
+      "message": "expect(locator).toBeVisible() failed\n\nLocator: getByRole('region', { name: 'Save this investigation' })\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByRole('region', { name: 'Save this investigation' }) with timeout 10000ms\n  - waiting for getByRole('region', { name: 'Save this investigation' })\n"
+    },
+    "network_failures": [],
+    "browser_session_resumed_utc": "2026-11-15T13:33:45.419Z",
+    "result": "completed"
+  },
+  "deployment": {
+    "service_url": "https://timescope-331427520592.us-central1.run.app",
+    "project": "timescope-spaceapps-2026",
+    "region": "us-central1",
+    "service": "timescope",
+    "revision": "timescope-00003-t87",
+    "image_digest": "us-central1-docker.pkg.dev/timescope-spaceapps-2026/cloud-run-source-deploy/timescope@sha256:e31cddca734514acb9280bcce981dfc4e01ac9b2626e9a67b13929a46f50dcfa",
+    "source_commit": "a11ae4e35c0b44aa118e1ab8ebf2987108fa072b",
+    "source_branch": "release/discovery-repair",
+    "source_worktree_clean_at_deployment": true,
+    "deployment_timestamp_utc": "2026-11-15T13:29:54.221985Z",
+    "deployment_timestamp_source": "Cloud Run revision Ready condition",
+    "build_status": "SUCCESS",
+    "build_id": "5c660eae-bc54-4a2a-a723-9ffe907a4afa",
+    "build_finished_utc": "2026-11-15T13:29:01.936706Z",
+    "resources": {
+      "limits": {
+        "cpu": "1",
+        "memory": "4Gi"
+      }
+    },
+    "service_annotations": {
+      "run.googleapis.com/minScale": "1",
+      "run.googleapis.com/maxScale": "1"
+    },
+    "revision_annotations": {
+      "run.googleapis.com/cpu-throttling": "false",
+      "run.googleapis.com/execution-environment": "gen2"
+    },
+    "billing_mode": "instance-based (CPU throttling disabled)",
+    "concurrency": 10,
+    "timeout": 300,
+    "port": 8000,
+    "environment": [
+      {
+        "name": "TIMESCOPE_DATA_DIR",
+        "value": "/app/data"
+      },
+      {
+        "name": "TIMESCOPE_MAX_CACHE_MB",
+        "value": "512"
+      },
+      {
+        "name": "TIMESCOPE_SESSION_TTL_SECONDS",
+        "value": "21600"
+      },
+      {
+        "name": "TIMESCOPE_MAX_JOBS_PER_HOUR",
+        "value": "12"
+      }
+    ],
+    "traffic": [
+      {
+        "latestRevision": true,
+        "percent": 100,
+        "revisionName": "timescope-00003-t87"
+      }
+    ],
+    "retained_rollback_revision": "timescope-00002-8kk",
+    "deployment_count_this_repair": 1,
+    "competition_tag": null,
+    "competition_submission_completed": false,
+    "note": "Later edits are documentation/evidence only and are left uncommitted for the owner. No second deployment is needed for these documents; this is not the final competition freeze."
+  },
+  "independent_fallback": {
+    "utc": "2026-11-15T13:36:47.982Z",
+    "url": "https://timescope-spherex.roanpaste16.chatgpt.site",
+    "fields": [
+      {
+        "id": "23577cd786a24f24bedec59e7c5366ae",
+        "http_status": 200,
+        "image_pixels": 49
+      },
+      {
+        "id": "57b2c1c4360a4ca8a2486e8b6c97077f",
+        "http_status": 200,
+        "image_pixels": 98
+      },
+      {
+        "id": "d943f95d272546aa8a2a01e656fc3c32",
+        "http_status": 200,
+        "image_pixels": 59
+      }
+    ],
+    "result": "passed"
+  },
+  "cloud_memory_observation": {
+    "metric": "run.googleapis.com/container/memory/usage",
+    "revision": "timescope-00003-t87",
+    "samples": [
+      {
+        "utc": "2026-11-15T13:40:00Z",
+        "distribution_mean_bytes": 153759744,
+        "sample_count": "1"
+      },
+      {
+        "utc": "2026-11-15T13:39:00Z",
+        "distribution_mean_bytes": 153759744,
+        "sample_count": "1"
+      },
+      {
+        "utc": "2026-11-15T13:38:00Z",
+        "distribution_mean_bytes": 153759744,
+        "sample_count": "1"
+      },
+      {
+        "utc": "2026-11-15T13:37:00Z",
+        "distribution_mean_bytes": 153759744,
+        "sample_count": "1"
+      },
+      {
+        "utc": "2026-11-15T13:36:00Z",
+        "distribution_mean_bytes": 153759744,
+        "sample_count": "1"
+      },
+      {
+        "utc": "2026-11-15T13:35:00Z",
+        "distribution_mean_bytes": 153759744,
+        "sample_count": "1"
+      },
+      {
+        "utc": "2026-11-15T13:34:00Z",
+        "distribution_mean_bytes": 153739264,
+        "sample_count": "1"
+      },
+      {
+        "utc": "2026-11-15T13:33:00Z",
+        "distribution_mean_bytes": 153595904,
+        "sample_count": "1"
+      },
+      {
+        "utc": "2026-11-15T13:32:00Z",
+        "distribution_mean_bytes": 153595904,
+        "sample_count": "1"
+      },
+      {
+        "utc": "2026-11-15T13:31:00Z",
+        "distribution_mean_bytes": 115335168,
+        "sample_count": "1"
+      }
+    ],
+    "note": "Cloud Monitoring sampled distribution means, not instantaneous peak memory, Python RSS or directory size. Samples may miss short peaks."
+  },
+  "steps": {
+    "1": "completed and verified",
+    "2": "completed and verified",
+    "3": "completed: one local pass; separate historical Cloud Run logs read",
+    "4": "skipped; all real variants failed, so no unvalidated TAP or lighter SIA adapter",
+    "5": "deployed once and publicly checked; initial browser polling failure retained as a limitation; existing-session reopening passed"
+  },
+  "limitations": [
+    "Fresh arbitrary-coordinate discovery remains unverified because the official archive returned errors during validation.",
+    "First original-field browser attempt lost polling before displaying ready images. The script independently observed API success; reopening the same retained session passed viewer/disclosure/export checks without another search. Cause of that initial browser failure was not captured.",
+    "Public Retry verification intercepted a synthetic Busy response; it sent no third archive query. Both posted declinations matched the failed new query.",
+    "Current credit balance, actual usage and exact trial expiration have not been independently rechecked.",
+    "Git push from this shell failed for missing HTTPS credentials; owner will commit final documents and publish the branch manually.",
+    "Unfinished wavelength changes remain in the original main worktree and are not deployed."
+  ]
+}

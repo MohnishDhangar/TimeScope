@@ -1,0 +1,418 @@
+{
+  "started_utc": "2026-11-15T15:14:32.947713+00:00",
+  "environment": "public Cloud Run service; client local",
+  "checks": [
+    {
+      "path": "/api/health",
+      "status": 200,
+      "body": {
+        "status": "ok",
+        "mode": "full_application",
+        "live_search": "available",
+        "processing": "idle",
+        "archive": {
+          "status": "archive_timeout",
+          "checked_utc": "2026-11-15T14:47:37.482145+00:00"
+        },
+        "storage_limit_bytes": 536870912,
+        "session_ttl_seconds": 21600,
+        "notice": "Application health does not establish current IRSA availability."
+      }
+    },
+    {
+      "path": "/api/examples",
+      "status": 200,
+      "body": [
+        {
+          "id": "23577cd786a24f24bedec59e7c5366ae",
+          "query": {
+            "ra": 133.79512917,
+            "dec": -7.24514722,
+            "fov": 5,
+            "frames": 6
+          },
+          "frames": 6,
+          "partial": false,
+          "bundled": true,
+          "label": "Original comparison field",
+          "description": "A compact star field for learning playback and paired views.",
+          "preview": "/showcase/23577cd786a24f24bedec59e7c5366ae/0.png",
+          "start": "2025-05-06T02:33:29.930",
+          "end": "2026-05-14T06:53:35.614"
+        },
+        {
+          "id": "57b2c1c4360a4ca8a2486e8b6c97077f",
+          "query": {
+            "ra": 134.4,
+            "dec": -8.5,
+            "fov": 10.0,
+            "frames": 6
+          },
+          "frames": 6,
+          "partial": false,
+          "bundled": true,
+          "label": "Southern comparison field",
+          "description": "A wider, distinct field at RA 134.4\u00b0, Dec \u22128.5\u00b0. Six dates from a saved-inventory subset.",
+          "preview": "/showcase/57b2c1c4360a4ca8a2486e8b6c97077f/0.png",
+          "start": "2025-05-06T02:33:29.930",
+          "end": "2026-05-14T06:53:35.614"
+        },
+        {
+          "id": "7c2efdc403824b9383eecf4d9225be71",
+          "query": {
+            "ra": 133.79512917,
+            "dec": -7.24514722,
+            "fov": 5.0,
+            "frames": 6
+          },
+          "frames": 6,
+          "partial": false,
+          "bundled": false,
+          "label": null,
+          "description": null,
+          "preview": "/artifacts/7c2efdc403824b9383eecf4d9225be71/0.png",
+          "start": "2025-05-06T02:33:29.930",
+          "end": "2026-05-14T06:53:35.614"
+        },
+        {
+          "id": "319f0923fe0d482da6317e579ec4b6ad",
+          "query": {
+            "ra": 133.79512917,
+            "dec": -7.24514722,
+            "fov": 5.0,
+            "frames": 4
+          },
+          "frames": 4,
+          "partial": false,
+          "bundled": false,
+          "label": null,
+          "description": null,
+          "preview": "/artifacts/319f0923fe0d482da6317e579ec4b6ad/0.png",
+          "start": "2025-05-06T02:33:29.930",
+          "end": "2026-05-14T06:53:35.614"
+        },
+        {
+          "id": "d943f95d272546aa8a2a01e656fc3c32",
+          "query": {
+            "ra": 210.80227,
+            "dec": 54.34895,
+            "fov": 6.0,
+            "frames": 6
+          },
+          "frames": 5,
+          "partial": true,
+          "bundled": true,
+          "label": "M101 field",
+          "description": "Diffuse infrared structure across five dates. Wavelengths differ; changes are not proof of variability.",
+          "preview": "/showcase/d943f95d272546aa8a2a01e656fc3c32/0.png",
+          "start": "2025-05-10T17:04:37.742",
+          "end": "2026-05-23T16:52:04.655"
+        }
+      ]
+    },
+    {
+      "path": "/api/sessions/00000000000000000000000000000000",
+      "status": 404,
+      "body": {
+        "detail": "This temporary session has expired or is unavailable. Retry the saved coordinates; bundled examples remain available."
+      }
+    },
+    {
+      "path": "/artifacts/00000000000000000000000000000000/job.json",
+      "status": 404,
+      "body": {
+        "detail": "Unknown public artifact"
+      }
+    }
+  ],
+  "searches": [
+    {
+      "query": {
+        "ra": 103.4893,
+        "dec": -24.5365,
+        "fov": 1.2,
+        "frames": 4
+      },
+      "submission_status": 202,
+      "submission": {
+        "id": "e2e9dc09d851427f9dde7d361366cd39",
+        "reused": false
+      },
+      "progress": [
+        {
+          "elapsed_s": 27.708,
+          "status": "running",
+          "message": "Trying Astroquery SIA (explicit query endpoint) (attempt 3 of 6)"
+        },
+        {
+          "elapsed_s": 33.25,
+          "status": "running",
+          "message": "Trying Astroquery SIA (explicit query endpoint) (attempt 3 of 6)"
+        },
+        {
+          "elapsed_s": 38.725,
+          "status": "running",
+          "message": "Trying Astroquery SIA (explicit query endpoint) (attempt 3 of 6)"
+        },
+        {
+          "elapsed_s": 44.269,
+          "status": "running",
+          "message": "Trying Astroquery SIA (explicit query endpoint) (attempt 3 of 6)"
+        },
+        {
+          "elapsed_s": 49.779,
+          "status": "running",
+          "message": "IRSA did not respond within the time limit; your coordinates have been preserved. Please retry in a few minutes. Retrying discovery in 8.8 s (attempt 4 of 6)"
+        },
+        {
+          "elapsed_s": 55.367,
+          "status": "running",
+          "message": "IRSA did not respond within the time limit; your coordinates have been preserved. Please retry in a few minutes. Retrying discovery in 8.8 s (attempt 4 of 6)"
+        },
+        {
+          "elapsed_s": 60.944,
+          "status": "failed",
+          "message": "IRSA did not respond within the time limit; your coordinates have been preserved. Please retry in a few minutes."
+        }
+      ],
+      "concurrent_submission": {
+        "status": 429,
+        "body": {
+          "detail": "Another scientific job is active. Existing examples remain available; retry shortly."
+        }
+      },
+      "terminal": {
+        "status": "failed",
+        "id": "e2e9dc09d851427f9dde7d361366cd39",
+        "message": "IRSA did not respond within the time limit; your coordinates have been preserved. Please retry in a few minutes.",
+        "code": "archive_timeout",
+        "retryable": true,
+        "query": {
+          "ra": 103.4893,
+          "dec": -24.5365,
+          "fov": 1.2,
+          "frames": 4
+        },
+        "http_status": null,
+        "discovery_attempts": 4,
+        "discovery_failures": [
+          {
+            "attempt": 1,
+            "route": "Astroquery SIA (explicit query endpoint)",
+            "code": "archive_timeout",
+            "http_status": null,
+            "exception_class": "ReadTimeout",
+            "elapsed_seconds": 20.149
+          },
+          {
+            "attempt": 2,
+            "route": "direct SIA",
+            "code": "archive_http_5xx",
+            "http_status": 502,
+            "exception_class": "HTTPError",
+            "elapsed_seconds": 0.176
+          },
+          {
+            "attempt": 3,
+            "route": "Astroquery SIA (explicit query endpoint)",
+            "code": "archive_timeout",
+            "http_status": null,
+            "exception_class": "ReadTimeout",
+            "elapsed_seconds": 20.128
+          },
+          {
+            "attempt": 4,
+            "route": "direct SIA",
+            "code": "archive_timeout",
+            "http_status": null,
+            "exception_class": "ReadTimeout",
+            "elapsed_seconds": 3.404
+          }
+        ],
+        "discovery_elapsed_seconds": 58.471
+      },
+      "elapsed_s": 60.944
+    },
+    {
+      "query": {
+        "ra": 133.79512917,
+        "dec": -2.24514722,
+        "fov": 5,
+        "frames": 6
+      },
+      "submission_status": 202,
+      "submission": {
+        "id": "1df75f3851e74de4b8805f298d832286",
+        "reused": false
+      },
+      "progress": [
+        {
+          "elapsed_s": 22.078,
+          "status": "running",
+          "message": "IRSA did not respond within the time limit; your coordinates have been preserved. Please retry in a few minutes. Retrying discovery in 2.0 s (attempt 2 of 6)"
+        },
+        {
+          "elapsed_s": 27.647,
+          "status": "running",
+          "message": "Trying Astroquery SIA (explicit query endpoint) (attempt 3 of 6)"
+        },
+        {
+          "elapsed_s": 33.462,
+          "status": "running",
+          "message": "IRSA returned HTTP 502. Retrying discovery in 7.6 s (attempt 4 of 6)"
+        },
+        {
+          "elapsed_s": 39.016,
+          "status": "running",
+          "message": "IRSA returned HTTP 502. Retrying discovery in 14.6 s (attempt 5 of 6)"
+        },
+        {
+          "elapsed_s": 44.551,
+          "status": "running",
+          "message": "IRSA returned HTTP 502. Retrying discovery in 14.6 s (attempt 5 of 6)"
+        },
+        {
+          "elapsed_s": 51.043,
+          "status": "running",
+          "message": "Trying Astroquery SIA (explicit query endpoint) (attempt 5 of 6)"
+        },
+        {
+          "elapsed_s": 56.563,
+          "status": "running",
+          "message": "Trying Astroquery SIA (explicit query endpoint) (attempt 5 of 6)"
+        },
+        {
+          "elapsed_s": 62.097,
+          "status": "failed",
+          "message": "IRSA did not respond within the time limit; your coordinates have been preserved. Please retry in a few minutes."
+        }
+      ],
+      "concurrent_submission": {
+        "status": 429,
+        "body": {
+          "detail": "Another scientific job is active. Existing examples remain available; retry shortly."
+        }
+      },
+      "terminal": {
+        "status": "failed",
+        "id": "1df75f3851e74de4b8805f298d832286",
+        "message": "IRSA did not respond within the time limit; your coordinates have been preserved. Please retry in a few minutes.",
+        "code": "archive_timeout",
+        "retryable": true,
+        "query": {
+          "ra": 133.79512917,
+          "dec": -2.24514722,
+          "fov": 5.0,
+          "frames": 6
+        },
+        "http_status": null,
+        "discovery_attempts": 5,
+        "discovery_failures": [
+          {
+            "attempt": 1,
+            "route": "Astroquery SIA (explicit query endpoint)",
+            "code": "archive_timeout",
+            "http_status": null,
+            "exception_class": "ReadTimeout",
+            "elapsed_seconds": 20.119
+          },
+          {
+            "attempt": 2,
+            "route": "direct SIA",
+            "code": "archive_http_5xx",
+            "http_status": 502,
+            "exception_class": "HTTPError",
+            "elapsed_seconds": 0.16
+          },
+          {
+            "attempt": 3,
+            "route": "Astroquery SIA (explicit query endpoint)",
+            "code": "archive_http_5xx",
+            "http_status": 502,
+            "exception_class": "HTTPError",
+            "elapsed_seconds": 0.819
+          },
+          {
+            "attempt": 4,
+            "route": "direct SIA",
+            "code": "archive_http_5xx",
+            "http_status": 502,
+            "exception_class": "HTTPError",
+            "elapsed_seconds": 0.231
+          },
+          {
+            "attempt": 5,
+            "route": "Astroquery SIA (explicit query endpoint)",
+            "code": "archive_timeout",
+            "http_status": null,
+            "exception_class": "ReadTimeout",
+            "elapsed_seconds": 6.796
+          }
+        ],
+        "discovery_elapsed_seconds": 56.78
+      },
+      "elapsed_s": 62.098
+    }
+  ],
+  "browser": {
+    "started_utc": "2026-11-15T15:15:09.779Z",
+    "checks": {
+      "verify-23577cd786a24f24bedec59e7c5366ae_evidence_export": true,
+      "verify-57b2c1c4360a4ca8a2486e8b6c97077f_evidence_export": true,
+      "verify-d943f95d272546aa8a2a01e656fc3c32_evidence_export": true,
+      "retry_synthetic_interception": true
+    },
+    "bundles": [
+      {
+        "id": "23577cd786a24f24bedec59e7c5366ae",
+        "frames": 6,
+        "passed": true
+      },
+      {
+        "id": "57b2c1c4360a4ca8a2486e8b6c97077f",
+        "frames": 6,
+        "passed": true
+      },
+      {
+        "id": "d943f95d272546aa8a2a01e656fc3c32",
+        "frames": 5,
+        "passed": true
+      }
+    ],
+    "page_errors": [],
+    "passed": true
+  },
+  "real_error_browser": {
+    "passed": true,
+    "real_cloud_error_visible": true,
+    "retry_visible_not_clicked": true,
+    "no_substituted_images": true
+  },
+  "service": {
+    "traffic": [
+      {
+        "latestRevision": true,
+        "percent": 100,
+        "revisionName": "timescope-00003-t87"
+      }
+    ],
+    "resources": {
+      "limits": {
+        "cpu": "1",
+        "memory": "4Gi"
+      }
+    },
+    "service_annotations": {
+      "run.googleapis.com/maxScale": "1",
+      "run.googleapis.com/minScale": "1"
+    },
+    "concurrency": 10
+  },
+  "limitations": [
+    "Exact DR1-only curl and AWS range retrieval not executed inside Cloud Run: deployed service exposes combined-collection search only.",
+    "Community query is 1.2 arcminute square; deployed discovery uses its enclosing circle, not the exact 0.01-degree curl circle.",
+    "No deployment, code changes, resource changes or restart. No full software regression rerun: public runtime verification only.",
+    "20-second no-poll interval used; logs and subsequent progress establish background work, not uninterrupted processing at every instant.",
+    "No successful fresh discovery, FITS retrieval or alignment verified in these two jobs; upstream cause unconfirmed."
+  ]
+}

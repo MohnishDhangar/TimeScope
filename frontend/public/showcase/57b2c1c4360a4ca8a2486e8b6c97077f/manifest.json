@@ -43,7 +43,9 @@
         1.323597671950392,
         1.3648413762834062
       ],
-      "median_bandwidth_um": 0.032214020390703736
+      "median_bandwidth_um": 0.032214020390703736,
+      "bandwidth_um_at_center": 0.03221561630879585,
+      "pipeline_version": "7.0.5"
     },
     {
       "obs_id": "2025W19_1B_0231_4",
@@ -65,7 +67,9 @@
         1.1939080101292852,
         1.2302246085958544
       ],
-      "median_bandwidth_um": 0.029143303493136288
+      "median_bandwidth_um": 0.029143303493136288,
+      "bandwidth_um_at_center": 0.02914234496694575,
+      "pipeline_version": "7.0.5"
     },
     {
       "obs_id": "2025W45_2A_0278_1",
@@ -87,7 +91,9 @@
         1.3844978118977962,
         1.4270015292486384
       ],
-      "median_bandwidth_um": 0.03376393617034292
+      "median_bandwidth_um": 0.03376393617034292,
+      "bandwidth_um_at_center": 0.03376300580444287,
+      "pipeline_version": "7.0.5"
     },
     {
       "obs_id": "2025W50_2A_0086_1",
@@ -109,7 +115,9 @@
         1.4176760229939576,
         1.461311467584177
       ],
-      "median_bandwidth_um": 0.034791292172451735
+      "median_bandwidth_um": 0.034791292172451735,
+      "bandwidth_um_at_center": 0.0347941886532788,
+      "pipeline_version": "7.0.5"
     },
     {
       "obs_id": "2026W18_2A_0519_1",
@@ -131,7 +139,9 @@
         1.262926650947903,
         1.3023858780585935
       ],
-      "median_bandwidth_um": 0.031062780301456663
+      "median_bandwidth_um": 0.031062780301456663,
+      "bandwidth_um_at_center": 0.03106020931723876,
+      "pipeline_version": "7.0.5"
     },
     {
       "obs_id": "2026W20_1A_1166_1",
@@ -153,7 +163,9 @@
         1.387347841281816,
         1.4308629763133247
       ],
-      "median_bandwidth_um": 0.03385446175654669
+      "median_bandwidth_um": 0.03385446175654669,
+      "bandwidth_um_at_center": 0.03384568627626325,
+      "pipeline_version": "7.0.5"
     }
   ],
   "reference_wcs": {
@@ -433,5 +445,74 @@
   "description": "A wider, distinct field at RA 134.4\u00b0, Dec \u22128.5\u00b0. Six dates from a saved-inventory subset.",
   "discovery_limited": true,
   "cached_showcase": true,
-  "manifest_url": "/showcase/57b2c1c4360a4ca8a2486e8b6c97077f/manifest.json"
+  "manifest_url": "/showcase/57b2c1c4360a4ca8a2486e8b6c97077f/manifest.json",
+  "selection": {
+    "mode": "temporal",
+    "candidate_attempts": 6,
+    "processed_candidates": 6,
+    "selected_frames": 6,
+    "method": "Existing chronological showcase; recommendation evaluated from preserved original FITS using the bounded-pool heuristic.",
+    "recommendations": [
+      {
+        "a": 2,
+        "b": 5,
+        "time_separation_days": 187.50441572916665,
+        "absolute_wavelength_difference_um": 0.0032668296519640094,
+        "fractional_wavelength_difference": 0.0023215494419141277,
+        "approximate_bandwidth_separation": 0.09663933886087654,
+        "spectral_metadata": "Approximate field-center WCS-WAVE values, intended for visualization",
+        "quantitative_comparison_allowed": false,
+        "common_coverage": 0.7647855060391504,
+        "identities": [
+          "spherex_dr1/2025W45_2A_0278_1/2",
+          "spherex_dr1/2026W20_1A_1166_1/2"
+        ]
+      },
+      {
+        "a": 3,
+        "b": 5,
+        "time_separation_days": 153.48352848379628,
+        "absolute_wavelength_difference_um": 0.030603151311798138,
+        "fractional_wavelength_difference": 0.02148929564542523,
+        "approximate_bandwidth_separation": 0.8917018378373178,
+        "spectral_metadata": "Approximate field-center WCS-WAVE values, intended for visualization",
+        "quantitative_comparison_allowed": false,
+        "common_coverage": 0.7856101624323198
+      },
+      {
+        "a": 0,
+        "b": 2,
+        "time_separation_days": 185.6762056134259,
+        "absolute_wavelength_difference_um": 0.06152471197522935,
+        "fractional_wavelength_difference": 0.04475238405263333,
+        "approximate_bandwidth_separation": 1.8649892951579028,
+        "spectral_metadata": "Approximate field-center WCS-WAVE values, intended for visualization",
+        "quantitative_comparison_allowed": false,
+        "common_coverage": 0.8096626405664307
+      },
+      {
+        "a": 0,
+        "b": 4,
+        "time_separation_days": 361.5670586805556,
+        "absolute_wavelength_difference_um": 0.06171697656904529,
+        "fractional_wavelength_difference": 0.04699883132621042,
+        "approximate_bandwidth_separation": 1.950728448295491,
+        "spectral_metadata": "Approximate field-center WCS-WAVE values, intended for visualization",
+        "quantitative_comparison_allowed": false,
+        "common_coverage": 0.8387130362349021
+      },
+      {
+        "a": 0,
+        "b": 5,
+        "time_separation_days": 373.1806213425926,
+        "absolute_wavelength_difference_um": 0.06479154162719336,
+        "fractional_wavelength_difference": 0.04707271084122796,
+        "approximate_bandwidth_separation": 1.9615581010916088,
+        "spectral_metadata": "Approximate field-center WCS-WAVE values, intended for visualization",
+        "quantitative_comparison_allowed": false,
+        "common_coverage": 0.7934194085797585
+      }
+    ],
+    "limitations": "Approximate visualization WCS-WAVE; response/PSF matching and quantitative comparison are not validated."
+  }
 }

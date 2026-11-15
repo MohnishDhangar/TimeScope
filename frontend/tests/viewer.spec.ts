@@ -58,22 +58,27 @@ test('bundled real showcase works with every API request blocked',async({page})=
  await expect(page.getByRole('img',{name:/Current: SPHEREx/})).toBeVisible()
 })
 
-test('archive failure resets stale metadata and offers retry',async({page})=>{
+test('classified archive failure clears old field and Retry resubmits the new declination',async({page})=>{
  await page.goto('http://127.0.0.1:8000')
  await page.getByRole('button',{name:'Open cached real observations'}).click()
  await expect(page.getByText(/49 × 49 output pixels/)).toBeVisible()
  const id='f'.repeat(32)
- await page.route('**/api/sessions',route=>route.fulfill({status:202,json:{id}}))
- await page.route(`**/api/sessions/${id}`,route=>route.fulfill({json:{id,status:'failed',retryable:true,message:'Only 0 usable observations could be loaded; IRSA is unavailable. Try again shortly.'}}))
- await page.getByLabel('Declination · degrees').fill('-9')
- await page.getByRole('button',{name:'Explore coordinates →'}).click()
- await expect(page.getByRole('alert')).toContainText('IRSA is unavailable')
+ const posted:{ra:number;dec:number;fov:number;frames:number}[]=[]
+ await page.route('**/api/sessions',route=>{posted.push(route.request().postDataJSON());return route.fulfill({status:202,json:{id}})})
+ await page.route(`**/api/sessions/${id}`,route=>route.fulfill({json:{id,status:'failed',query:posted.at(-1),code:'archive_http_5xx',retryable:true,message:'IRSA returned HTTP 502 while searching for observations. The archive search service is temporarily unavailable. Please retry in a few minutes.'}}))
+ await page.getByRole('button',{name:'Coordinate search',exact:true}).click()
+ await page.getByLabel('Declination · degrees').fill('-2.24514722')
+ await page.getByRole('button',{name:'Search observations'}).click()
+ await expect(page.getByRole('alert')).toContainText('IRSA returned HTTP 502')
  await expect(page.getByRole('button',{name:'Retry search'})).toBeVisible()
  await expect(page.getByText(/49 × 49 output pixels/)).toHaveCount(0)
  await expect(page.getByRole('img',{name:/SPHEREx observation/})).toHaveCount(0)
  await expect(page.getByRole('alert')).not.toContainText('HTTPSConnectionPool')
  await page.getByRole('button',{name:'Retry search'}).click()
- await expect(page.getByRole('alert')).toContainText('IRSA is unavailable')
+ await expect(page.getByRole('alert')).toContainText('IRSA returned HTTP 502')
+ expect(posted).toHaveLength(2)
+ expect(posted[0]).toEqual({ra:133.79512917,dec:-2.24514722,fov:5,frames:6,detector:null,selection_mode:'temporal'})
+ expect(posted[1]).toEqual(posted[0])
 })
 
 test('partial sequence is clearly labeled',async({page,request})=>{
@@ -133,7 +138,9 @@ test('evidence export embeds images and accurately reports selected pair and fie
  await page.getByRole('button',{name:'Open cached real observations'}).click()
  await page.getByLabel('View mode').selectOption('compare')
  await page.getByLabel('Observation timeline').fill('1')
+ await page.getByRole('button',{name:'Coordinate search',exact:true}).click()
  await page.getByLabel('Declination · degrees').fill('-9')
+ await page.getByRole('button',{name:'Observation viewer',exact:true}).click()
  const event=page.waitForEvent('download')
  await page.getByRole('button',{name:'Download evidence card'}).click()
  const download=await event;const path=await download.path()
@@ -178,7 +185,7 @@ test('cached field selection opens the chosen session',async({page,request})=>{
  await page.getByRole('button',{name:'Open cached real observations'}).click()
  await expect(page.getByRole('img',{name:/Current: SPHEREx/})).toBeVisible()
  await expect(page).toHaveURL(new RegExp(`session=${id}`))
- await expect(page.getByRole('region',{name:'Save this investigation'})).toContainText('Dec -7.24514722°')
+ await expect(page.locator('.viewer-field')).toContainText('Dec -7.24514722°')
 })
 
 test('playback advances frames, pause stops it, and stepping wraps',async({page})=>{
@@ -205,10 +212,12 @@ test('playback advances frames, pause stops it, and stepping wraps',async({page}
 test('field presets do not relabel loaded images and filmstrip selects an epoch',async({page})=>{
  await page.goto('http://127.0.0.1:8000?session=23577cd786a24f24bedec59e7c5366ae')
  await expect(page.getByRole('img',{name:/Current: SPHEREx/})).toBeVisible()
+ await page.getByRole('button',{name:'Coordinate search',exact:true}).click()
  await page.getByRole('button',{name:'M101 · IRSA tutorial field',exact:true}).click()
  await expect(page.getByLabel('Right ascension · degrees')).toHaveValue('210.80227')
  await expect(page.getByLabel('Declination · degrees')).toHaveValue('54.34895')
- await expect(page.getByRole('region',{name:'Save this investigation'})).toContainText('Dec -7.24514722°')
+ await expect(page.locator('.viewer-field')).toContainText('Dec -7.24514722°')
+ await page.getByRole('button',{name:'Observation viewer',exact:true}).click()
  await page.getByRole('button',{name:/Select observation 3:/}).click()
  await expect(page.getByLabel('Observation timeline')).toHaveValue('2')
  await expect(page.getByRole('button',{name:/Select observation 3:/})).toHaveAttribute('aria-pressed','true')
@@ -219,8 +228,9 @@ test('field presets do not relabel loaded images and filmstrip selects an epoch'
 test('M101 gallery opens real independent field and preserves its partial warning',async({page})=>{
  await page.route('**/api/**',route=>route.abort())
  await page.goto('http://127.0.0.1:8000')
+ await page.getByRole('button',{name:'Observation library',exact:true}).click()
  await page.getByRole('button',{name:/M101 field Diffuse/}).click()
- await expect(page.getByRole('region',{name:'Save this investigation'})).toContainText('RA 210.80227°')
+ await expect(page.locator('.viewer-field')).toContainText('RA 210.80227°')
  await expect(page.getByRole('status').filter({hasText:'Partial sequence'})).toContainText('5 observations loaded; 1 skipped')
  const image=page.getByRole('img',{name:/Current: SPHEREx/})
  await expect(image).toBeVisible()
@@ -234,8 +244,9 @@ test('M101 gallery opens real independent field and preserves its partial warnin
 test('southern field opens fresh cutouts and discloses saved-inventory scope',async({page})=>{
  await page.route('**/api/**',route=>route.abort())
  await page.goto('http://127.0.0.1:8000')
+ await page.getByRole('button',{name:'Observation library',exact:true}).click()
  await page.getByRole('button',{name:/Southern comparison field A wider/}).click()
- await expect(page.getByRole('region',{name:'Save this investigation'})).toContainText('RA 134.4° · Dec -8.5°')
+ await expect(page.locator('.viewer-field')).toContainText('RA 134.4° · Dec -8.5°')
  await expect(page.getByText(/Saved-inventory subset:/)).toBeVisible()
  const image=page.getByRole('img',{name:/Current: SPHEREx/})
  await expect.poll(()=>image.evaluate((el:HTMLImageElement)=>el.naturalWidth)).toBe(98)
@@ -254,18 +265,55 @@ test('expired live link retains frame count and allows an explicit retry',async(
  await expect(page.getByRole('alert')).toContainText('expired')
  await expect(page.getByLabel('Observation count',{exact:true})).toHaveValue('4')
  await page.getByRole('button',{name:'Retry search',exact:true}).click()
- await expect.poll(()=>posted).toEqual({ra:42,dec:-30,fov:8,frames:4})
+ await expect.poll(()=>posted).toEqual({ra:42,dec:-30,fov:8,frames:4,detector:null,selection_mode:'temporal'})
  await expect(page.getByRole('alert')).toContainText('Another scientific job is active')
 })
 
-test('metadata cache reuse is visible and distinct from cached FITS images',async({page,request})=>{
+for(const kind of ['runtime-cache','bundled-historical'])test(`${kind} metadata reuse and original timestamp persist in evidence`,async({page,request})=>{
  const id='23577cd786a24f24bedec59e7c5366ae'
  const manifest=await (await request.get(`http://127.0.0.1:8000/showcase/${id}/manifest.json`)).json()
  manifest.discovery_cached=true
- manifest.discovery_provenance={inventory_retrieved_utc:'2026-11-15T12:28:44Z'}
+ manifest.inventory_kind=kind
+ manifest.discovery_provenance={inventory_retrieved_utc:'2026-11-15T12:28:44Z',inventory_kind:kind}
  manifest.frames[0].cutout_cached=false
+ manifest.frames[1].cutout_cached=true
  await page.route('**/api/sessions/*',route=>route.fulfill({json:manifest}))
  await page.goto(`http://127.0.0.1:8000?session=${id}`)
- await expect(page.getByRole('status').filter({hasText:'Exact-query metadata'})).toContainText('not a fresh discovery query')
- await expect(page.getByText('Downloaded for this session',{exact:true})).toBeVisible()
+ await expect(page.getByRole('status').filter({hasText:'Archive metadata snapshot'})).toContainText('2026-11-15T12:28:44Z. Observations released after that date may be missing. This is not a fresh archive discovery query.')
+ await expect(page.getByRole('status').filter({hasText:'Archive metadata snapshot'})).toContainText(kind)
+ await expect(page.getByText('FITS cutouts retrieved for this request',{exact:true})).toBeVisible()
+ const downloadEvent=page.waitForEvent('download')
+ await page.getByRole('button',{name:'Download evidence card'}).click()
+ const download=await downloadEvent
+ const fs=await import('node:fs/promises')
+ const html=await fs.readFile((await download.path())!,'utf8')
+ expect(html).toContain('Archive metadata snapshot retrieved 2026-11-15T12:28:44Z')
+ expect(html).toContain(`Inventory kind: ${kind}`)
+ expect(html).toContain('This is not a fresh archive discovery query.')
+ await page.getByRole('button',{name:'Next frame'}).click()
+ await expect(page.getByText('Exact-request FITS cache',{exact:true})).toBeVisible()
+ await expect(page.getByText('FITS cutouts retrieved for this request',{exact:true})).toHaveCount(0)
+})
+
+for(const viewport of [{width:1366,height:768},{width:390,height:844},{width:360,height:640},{width:844,height:390}])test(`fixed viewer and scrollable analysis at ${viewport.width}×${viewport.height}`,async({page})=>{
+ await page.setViewportSize(viewport)
+ await page.goto('http://127.0.0.1:8000?session=23577cd786a24f24bedec59e7c5366ae')
+ await expect(page.getByRole('heading',{name:'Observation analysis',exact:true})).toBeVisible()
+ await page.getByLabel('View mode').selectOption('compare')
+ const viewer=page.getByRole('complementary',{name:'Observation viewer',exact:true})
+ const panel=page.getByRole('region',{name:'Observation analysis',exact:true})
+ const before=await viewer.boundingBox()
+ await panel.evaluate(el=>el.scrollTop=el.scrollHeight)
+ await expect.poll(()=>panel.evaluate(el=>el.scrollTop)).toBeGreaterThan(0)
+ expect(await viewer.boundingBox()).toEqual(before)
+ const stage=(await page.locator('.viewer-stage').boundingBox())!
+ for(const image of await viewer.getByRole('img').all()){
+  await expect.poll(async()=>Math.round((await image.boundingBox())!.height)).toBeGreaterThanOrEqual(viewport.width>1000?300:100)
+  const bounds=(await image.boundingBox())!
+  expect(bounds.y).toBeGreaterThanOrEqual(stage.y-1)
+  expect(bounds.y+bounds.height).toBeLessThanOrEqual(stage.y+stage.height+1)
+ }
+ await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true)
+ await panel.evaluate(el=>el.scrollTop=0)
+ await expect(page.getByRole('button',{name:'Download evidence card'})).toBeVisible()
 })

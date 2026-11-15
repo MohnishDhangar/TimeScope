@@ -498,3 +498,10 @@ body:has(.observatory-app) { overflow: hidden; }
   .observatory-layout { grid-template-rows: minmax(0,53%) minmax(0,1fr); }
   .fixed-viewer .instrument-header { display: none; }
 }
+
+#coordinate-search{flex-wrap:wrap}#coordinate-search label{min-width:135px}#coordinate-search .selection-mode{min-width:200px}.selection-summary{border:1px solid #365057;border-radius:10px;padding:18px;background:#14252a;margin:20px 0}.selection-summary h3{margin:0;font-size:18px;font-weight:500}.selection-summary p{font-size:12px;line-height:1.7;color:#b3c8ca}.selection-summary details{margin-top:14px;font-size:12px;color:#a6bfbd}.selection-summary summary{cursor:pointer}
+
+/* Keep a useful image area on short phones; analysis scrolls independently. */
+@media (max-width:800px) and (max-height:700px) {
+  .observatory-layout { grid-template-rows: minmax(0,65%) minmax(0,1fr); }
+}

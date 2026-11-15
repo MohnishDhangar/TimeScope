@@ -44,3 +44,28 @@ test('chart selection, selected pair blink, and exported comparison evidence',as
  await page.setViewportSize({width:390,height:844})
  await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true)
 })
+
+test('real recommendation reduces wavelength separation and can be inspected',async({page})=>{
+ await page.goto('http://127.0.0.1:8000?session=57b2c1c4360a4ca8a2486e8b6c97077f')
+ const selection=page.getByRole('region',{name:'Observation selection evidence'})
+ await expect(selection).toContainText('0.232% wavelength separation')
+ await page.getByRole('button',{name:'Inspect recommended pair',exact:true}).click()
+ await expect(page.getByLabel('Observation timeline')).toHaveValue('2')
+ await expect(page.getByLabel('Reference frame',{exact:true})).toHaveValue('5')
+ const evidence=page.getByRole('region',{name:'Comparison evidence',exact:true})
+ await expect(evidence).toContainText('0.232%')
+ await expect(evidence).toContainText('0.10 local bandwidths')
+ await expect(evidence).toContainText('Unavailable — validation incomplete')
+ await page.setViewportSize({width:390,height:844})
+ await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true)
+})
+
+test('selection settings are submitted and restored from links',async({page})=>{
+ let query:unknown
+ await page.route('**/api/sessions',async route=>{query=route.request().postDataJSON();await route.fulfill({status:429,json:{detail:'Synthetic busy test; no archive request made.'}})})
+ await page.goto('http://127.0.0.1:8000?ra=42&dec=-30&fov=5&frames=2&detector=3&selection_mode=wavelength_matched')
+ await expect(page.getByLabel('Detector selection',{exact:true})).toHaveValue('3')
+ await expect(page.getByLabel('Observation selection',{exact:true})).toHaveValue('wavelength_matched')
+ await page.getByRole('button',{name:'Search observations'}).click()
+ await expect.poll(()=>query).toEqual({ra:42,dec:-30,fov:5,frames:2,detector:3,selection_mode:'wavelength_matched'})
+})

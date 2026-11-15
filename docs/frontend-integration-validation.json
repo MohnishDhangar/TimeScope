@@ -1,0 +1,333 @@
+{
+  "tested_utc": "2026-11-15T16:29:51.861979+00:00",
+  "approved_redesign_merge": "761b199e489e4f8b8bff8d1a8122771eb4f880a7",
+  "repair_parent": "cb2f515",
+  "baseline": {
+    "python_passed": 106,
+    "frontend_checks_passed": 20,
+    "build": "passed",
+    "lint": "passed"
+  },
+  "integrated": {
+    "python_passed": 121,
+    "frontend_checks_passed": 26,
+    "browser_scenarios": 25,
+    "metadata_logic_checks": 1,
+    "build": "passed",
+    "lint": "passed"
+  },
+  "layout": [
+    {
+      "width": 1920,
+      "height": 1080,
+      "mode": "single",
+      "image": {
+        "x": 938.28125,
+        "y": 205.359375,
+        "width": 754.828125,
+        "height": 754.828125
+      },
+      "stage": {
+        "x": 731.390625,
+        "y": 184.5,
+        "width": 1168.609375,
+        "height": 796.5625
+      },
+      "viewer_unchanged": true,
+      "horizontal_overflow": false
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "mode": "compare",
+      "image": {
+        "x": 746.875,
+        "y": 307.609375,
+        "width": 550.328125,
+        "height": 550.328125
+      },
+      "stage": {
+        "x": 731.390625,
+        "y": 184.5,
+        "width": 1168.609375,
+        "height": 796.5625
+      },
+      "viewer_unchanged": true,
+      "horizontal_overflow": false
+    },
+    {
+      "width": 1366,
+      "height": 768,
+      "mode": "single",
+      "image": {
+        "x": 717.859375,
+        "y": 194.765625,
+        "width": 464.015625,
+        "height": 464.015625
+      },
+      "stage": {
+        "x": 550.796875,
+        "y": 181.5625,
+        "width": 798.140625,
+        "height": 490.4375
+      },
+      "viewer_unchanged": true,
+      "horizontal_overflow": false
+    },
+    {
+      "width": 1366,
+      "height": 768,
+      "mode": "compare",
+      "image": {
+        "x": 561.640625,
+        "y": 239.59375,
+        "width": 374.359375,
+        "height": 374.359375
+      },
+      "stage": {
+        "x": 550.796875,
+        "y": 181.5625,
+        "width": 798.140625,
+        "height": 490.4375
+      },
+      "viewer_unchanged": true,
+      "horizontal_overflow": false
+    },
+    {
+      "width": 1280,
+      "height": 720,
+      "mode": "single",
+      "image": {
+        "x": 679.875,
+        "y": 192.5625,
+        "width": 420.421875,
+        "height": 420.421875
+      },
+      "stage": {
+        "x": 516.1875,
+        "y": 180.5,
+        "width": 747.8125,
+        "height": 444.5625
+      },
+      "viewer_unchanged": true,
+      "horizontal_overflow": false
+    },
+    {
+      "width": 1280,
+      "height": 720,
+      "mode": "compare",
+      "image": {
+        "x": 526.40625,
+        "y": 227.546875,
+        "width": 350.453125,
+        "height": 350.453125
+      },
+      "stage": {
+        "x": 516.1875,
+        "y": 180.5,
+        "width": 747.8125,
+        "height": 444.5625
+      },
+      "viewer_unchanged": true,
+      "horizontal_overflow": false
+    },
+    {
+      "width": 800,
+      "height": 600,
+      "mode": "single",
+      "image": {
+        "x": 303.328125,
+        "y": 159.1875,
+        "width": 193.34375,
+        "height": 193.34375
+      },
+      "stage": {
+        "x": 9,
+        "y": 153.09375,
+        "width": 782,
+        "height": 205.53125
+      },
+      "viewer_unchanged": true,
+      "horizontal_overflow": false
+    },
+    {
+      "width": 800,
+      "height": 600,
+      "mode": "compare",
+      "image": {
+        "x": 106.328125,
+        "y": 159.1875,
+        "width": 193.34375,
+        "height": 193.34375
+      },
+      "stage": {
+        "x": 9,
+        "y": 153.09375,
+        "width": 782,
+        "height": 205.53125
+      },
+      "viewer_unchanged": true,
+      "horizontal_overflow": false
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "mode": "single",
+      "image": {
+        "x": 241.640625,
+        "y": 165.578125,
+        "width": 284.703125,
+        "height": 284.703125
+      },
+      "stage": {
+        "x": 9,
+        "y": 157.09375,
+        "width": 750,
+        "height": 301.6875
+      },
+      "viewer_unchanged": true,
+      "horizontal_overflow": false
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "mode": "compare",
+      "image": {
+        "x": 52.640625,
+        "y": 165.578125,
+        "width": 284.703125,
+        "height": 284.703125
+      },
+      "stage": {
+        "x": 9,
+        "y": 157.09375,
+        "width": 750,
+        "height": 301.6875
+      },
+      "viewer_unchanged": true,
+      "horizontal_overflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "mode": "single",
+      "image": {
+        "x": 107.109375,
+        "y": 190.96875,
+        "width": 175.765625,
+        "height": 175.765625
+      },
+      "stage": {
+        "x": 9,
+        "y": 185.34375,
+        "width": 372,
+        "height": 187.03125
+      },
+      "viewer_unchanged": true,
+      "horizontal_overflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "mode": "compare",
+      "image": {
+        "x": 14.53125,
+        "y": 192.890625,
+        "width": 171.9375,
+        "height": 171.9375
+      },
+      "stage": {
+        "x": 9,
+        "y": 185.34375,
+        "width": 372,
+        "height": 187.03125
+      },
+      "viewer_unchanged": true,
+      "horizontal_overflow": false
+    },
+    {
+      "width": 360,
+      "height": 640,
+      "mode": "single",
+      "image": {
+        "x": 108.078125,
+        "y": 239.625,
+        "width": 143.828125,
+        "height": 143.828125
+      },
+      "stage": {
+        "x": 9,
+        "y": 234.84375,
+        "width": 342,
+        "height": 153.40625
+      },
+      "viewer_unchanged": true,
+      "horizontal_overflow": false
+    },
+    {
+      "width": 360,
+      "height": 640,
+      "mode": "compare",
+      "image": {
+        "x": 21.078125,
+        "y": 239.625,
+        "width": 143.828125,
+        "height": 143.828125
+      },
+      "stage": {
+        "x": 9,
+        "y": 234.84375,
+        "width": 342,
+        "height": 153.40625
+      },
+      "viewer_unchanged": true,
+      "horizontal_overflow": false
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "mode": "single",
+      "image": {
+        "x": 516.703125,
+        "y": 171.75,
+        "width": 140.734375,
+        "height": 140.734375
+      },
+      "stage": {
+        "x": 340.703125,
+        "y": 167.046875,
+        "width": 492.75,
+        "height": 150.15625
+      },
+      "viewer_unchanged": true,
+      "horizontal_overflow": false
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "mode": "compare",
+      "image": {
+        "x": 406.265625,
+        "y": 201,
+        "width": 112.234375,
+        "height": 112.234375
+      },
+      "stage": {
+        "x": 340.703125,
+        "y": 197.046875,
+        "width": 492.75,
+        "height": 120.15625
+      },
+      "viewer_unchanged": true,
+      "horizontal_overflow": false
+    }
+  ],
+  "real_wavelength_validation_reproduced": true,
+  "runtime_deployment": "pending",
+  "limitations": [
+    "Combined DR1+QR3 discovery preserved; DR1-first route not implemented.",
+    "AWS science-section access verified locally in a prior investigation; AWS is not integrated.",
+    "No target detections, quantitative motion/variability, spectra, difference imaging or catalog overlays claimed.",
+    "Git CLI write credentials unavailable; connected GitHub API is used for publishing."
+  ]
+}

@@ -17,20 +17,22 @@ from urllib3.util.retry import Retry
 import numpy as np
 from astropy.io import fits
 from astropy.wcs import WCS
-from astroquery.ipac.irsa import Irsa
 from reproject import reproject_interp
 from PIL import Image
 from .diagnostics import compare
-from .discovery import direct_sia
+from .discovery import discover, DiscoveryError
 from .discovery_cache import load as cached_discovery, save as save_discovery
 from .storage import runtime_store
 from .errors import PipelineError, FrameUnavailable
 from pydantic import BaseModel, Field
+from typing import Literal
+from .spectral import choose_frames, ranked_pairs, METHOD as SELECTION_METHOD
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = Path(os.environ.get('TIMESCOPE_DATA_DIR', str(ROOT / 'data'))).expanduser().resolve()
 DEADLINE = ContextVar('pipeline_deadline', default=None)
 CUTOUT_REUSE = ContextVar('cutout_reuse', default=False)
+PROCESSOR_VERSION = 'observatory-wavelength-repair-v1'
 
 def check_deadline():
     if DEADLINE.get() is not None and time.monotonic() >= DEADLINE.get():
@@ -41,14 +43,18 @@ class Search(BaseModel):
     dec: float = Field(ge=-90, le=90, allow_inf_nan=False)
     fov: float = Field(default=5, ge=1, le=15, allow_inf_nan=False)
     frames: int = Field(default=6, ge=2, le=12)
+    detector: int | None = Field(default=None,ge=1,le=6)
+    selection_mode: Literal['temporal','wavelength_matched'] = 'temporal'
 
-def selection(rows, count):
+def selection(rows, count, detector=None):
     # obs_id alone is NOT unique: simultaneous detector exposures share it.
     unique = {}
-    for row in rows:
+    for row in sorted(rows,key=lambda r:(str(r['access_url']),str(r['obs_id']))):
         url = str(row['access_url'])
-        detector = urlsplit(url).path.split('/')[-2]
-        key = (str(row['obs_id']), detector)
+        row_detector = urlsplit(url).path.split('/')[-2]
+        if row_detector not in {'1','2','3','4','5','6'}:continue
+        if detector is not None and row_detector != str(detector):continue
+        key = (str(row['obs_id']), row_detector)
         if key not in unique or str(row['obs_collection']) == 'spherex_dr1':
             unique[key] = row
     groups = {}
@@ -56,7 +62,8 @@ def selection(rows, count):
         groups.setdefault(detector, []).append(row)
     if not groups:
         raise ValueError('No spectral images found for these coordinates.')
-    group = max(groups.values(), key=lambda g: len({float(r['t_min']) for r in g}))
+    chosen_detector = max(sorted(groups),key=lambda d:(len({float(r['t_min']) for r in groups[d]}),-int(d)))
+    group = groups[chosen_detector]
     by_time = {float(r['t_min']): r for r in group}
     ordered = [by_time[t] for t in sorted(by_time)]
     if len(ordered) < 2:
@@ -115,39 +122,38 @@ def download(url, params, dest):
             digest.update(block)
     return digest.hexdigest()
 
-def run(search, job, progress=lambda _: None, *, inventory=None):
+def run(search, job, progress=lambda _: None, *, inventory=None, discovery_budget_s=None):
     store = runtime_store(DATA)
     token = DEADLINE.set(time.monotonic()+240)
     try:
         with store.pin(DATA/job):
             store.cleanup()
-            return _run(search, job, progress, inventory=inventory)
+            return _run(search, job, progress, inventory=inventory,discovery_budget_s=discovery_budget_s)
     finally:
         DEADLINE.reset(token)
 
-def _run(search, job, progress, *, inventory=None):
+def _run(search, job, progress, *, inventory=None, discovery_budget_s=None):
     folder = DATA / job
     folder.mkdir(parents=True, exist_ok=True)
-    progress('Searching IRSA')
-    Irsa.TIMEOUT = 60
     # Circumscribe the square output field. Search cap is disclosed in manifest.
     if inventory is not None:
         rows = inventory
     else:
         try:
-            rows = Irsa.query_sia(pos=(search.ra,search.dec,search.fov/120*math.sqrt(2)),collection=['spherex_dr1','spherex_qr3'],maxrec=1000)
-        except Exception:
-            logging.warning('Archive client discovery failed; trying direct SIA query')
-            progress('Retrying discovery through direct SIA')
-            try:
-                rows = direct_sia(search)
-            except Exception as exc:
-                rows = cached_discovery(search, DATA)
-                if rows is None:
-                    logging.exception('Both IRSA discovery routes failed; no exact-query inventory available')
-                    raise PipelineError('IRSA observation search is unavailable. Try again shortly; your coordinates have not been replaced with example data.', 'archive_search_unavailable', True) from exc
-                logging.warning('Reusing exact-query metadata from %s after discovery failure',rows.meta['inventory_retrieved_utc'])
-                progress('Discovery unavailable: reusing exact-query metadata; retrieving cutouts for this field')
+            rows = discover(search,progress,job_deadline=DEADLINE.get(),budget_s=discovery_budget_s)
+        except DiscoveryError as exc:
+            # Deterministic query/schema errors cannot be repaired by retrying
+            # or silently treating a different metadata response as success.
+            if not exc.retryable:raise
+            rows = cached_discovery(search, DATA)
+            if rows is None:raise
+            rows.meta.update(discovery_failures=exc.attempt_log,
+                             discovery_attempts=len(exc.attempt_log),
+                             discovery_elapsed_seconds=getattr(exc,'elapsed_seconds',None))
+            logging.warning('Reusing %s exact-query metadata from %s after discovery failure',rows.meta['inventory_kind'],rows.meta['inventory_retrieved_utc'])
+            progress('Using historical observation metadata' if rows.meta['inventory_kind']=='bundled-historical' else 'Using cached observation metadata')
+        if not len(rows):
+            raise PipelineError('No matching SPHEREx observations were returned for these coordinates. Your coordinates have been preserved.','insufficient_observations',False)
         if not rows.meta.get('discovery_cached'):
             save_discovery(search, rows, DATA)
     check_deadline()
@@ -158,7 +164,8 @@ def _run(search, job, progress, *, inventory=None):
         (folder/'discovery.ecsv').write_bytes(inventory_bytes)
     del inventory_text, inventory_bytes
     try:
-        selected = selection(rows,search.frames)
+        candidate_count=search.frames if search.selection_mode=='temporal' else min(12,max(6,search.frames*2))
+        selected = selection(rows,candidate_count) if search.detector is None else selection(rows,candidate_count,detector=search.detector)
     except ValueError as exc:
         raise PipelineError(str(exc),'insufficient_observations',False) from exc
     size = max(16, math.ceil(search.fov*60/6.15))
@@ -211,19 +218,31 @@ def _run(search, job, progress, *, inventory=None):
                     del spectral_header[key]
             sw = WCS(spectral_header,h,key='W')
             wave = sw.all_pix2world([[x,y]],0)[0]
-            center_wave = float(wave[0]) if np.isfinite(wave[0]) else None
+            center_wave = float(wave[0]) if np.isfinite(wave[0]) and wave[0]>0 else None
+            center_bandwidth = float(wave[1]) if len(wave)>1 and np.isfinite(wave[1]) and wave[1]>0 else None
             # WCS transformation self-consistency, not measured source registration.
             rx,ry = w.world_to_pixel_values(*w.pixel_to_world_values(x,y))
             arrays.append(aligned)
             frames.append({'obs_id':str(head['OBSID']), 'date':str(head['DATE-OBS']),
               'detector':int(head['DETECTOR']), 'unit':str(head['BUNIT']),
-              'collection':str(row['obs_collection']), 'source_url':url,'cutout_parameters':params,
+              'collection':str(row['obs_collection']), 'pipeline_version':str(h[0].header.get('VERSION','')) or None, 'source_url':url,'cutout_parameters':params,
               'sha256':digest,'cutout_cached':CUTOUT_REUSE.get(),'wavelength_um_at_center':center_wave,'coverage':float(valid.mean()),
+              'bandwidth_um_at_center':center_bandwidth,
+              'spectral_metadata':'Approximate WCS-WAVE visualization lookup; not a full spectral response',
               'wcs_roundtrip_pixels':float(np.hypot(rx-x,ry-y)),
               'image':f'/artifacts/{job}/{i}.png'})
     runtime_store(DATA).write_json(folder/'retrieval-report.json', {'query':search.model_dump(),'usable_frames':len(frames),'failed_frames':failures})
     if len(frames) < 2:
         raise PipelineError(f'Only {len(frames)} usable observation(s) could be loaded; at least two are needed. {len(failures)} were skipped due to retrieval or coverage problems. Try again shortly. Successfully downloaded cutouts are cached.', 'insufficient_usable_frames', True)
+    processed_candidates=len(frames)
+    if search.selection_mode=='wavelength_matched':
+        overlaps={(a,b):float((np.isfinite(arrays[a])&np.isfinite(arrays[b])).mean())
+                  for a in range(len(arrays)) for b in range(a+1,len(arrays))}
+        chosen=choose_frames(frames,search.frames,overlaps)
+        if chosen is None:
+            raise PipelineError('No wavelength-prioritized pair with distinct times, measured wavelengths, matching detector/release/units and common coverage was available. Try temporal coverage or another detector.', 'no_spectral_pair',False)
+        frames=[frames[i] for i in chosen]
+        arrays=[arrays[i] for i in chosen]
     ordered = sorted(zip(frames, arrays), key=lambda item: item[0]['date'])
     frames, arrays = map(list, zip(*ordered))
     finite = np.concatenate([a[np.isfinite(a)] for a in arrays])
@@ -236,13 +255,14 @@ def _run(search, job, progress, *, inventory=None):
         check_deadline()
         with runtime_store(DATA).reserve(rgba.nbytes+65536):
             Image.fromarray(rgba[::-1]).save(folder/Path(frame['image']).name)
-    manifest = {'schema_version':1,'processor_version':'bounded-v2','status':'ready','id':job,'query':search.model_dump(),
+    manifest = {'schema_version':1,'processor_version':PROCESSOR_VERSION,'status':'ready','id':job,'query':search.model_dump(),
        'discovery_limited':rows.meta.get('discovery_limited',False),
        'discovery_cached':rows.meta.get('discovery_cached',False),
+       'inventory_kind':rows.meta.get('inventory_kind'),
        'discovery_provenance':dict(rows.meta),
        'discovery_method':rows.meta.get('discovery_method','astroquery-sia-v2'),
        'created_utc':datetime.now(timezone.utc).isoformat(),'rows_found':len(rows),
-       'failed_frames':failures,'requested_frames':search.frames,'partial':len(frames)<len(selected),'possibly_truncated':len(rows)>=1000 or rows.meta.get('query_overflow',False),'frames':frames,
+       'failed_frames':failures,'requested_frames':search.frames,'partial':bool(failures),'possibly_truncated':len(rows)>=1000 or rows.meta.get('query_overflow',False),'frames':frames,
        'reference_wcs':dict(ref.to_header()),'display_range':[float(low),float(high)],
        'warnings':['Qualitative viewing only: wavelength and PSF matching have not been validated.',
        'No motion or variability detection is claimed. Bright-peak checks are preliminary, not catalog-confirmed stationary-source residuals.',
@@ -250,7 +270,7 @@ def _run(search, job, progress, *, inventory=None):
     if manifest['discovery_limited']:
         manifest['warnings'].append('Selected from a saved inventory whose footprints contain the requested center; this is not a complete archive search.')
     if manifest['discovery_cached']:
-        manifest['warnings'].append('Archive discovery was unavailable. Exact-query metadata from '+rows.meta['inventory_retrieved_utc']+' was reused; this is not a new discovery query. Cutouts were requested for the submitted field.')
+        manifest['warnings'].append('Archive metadata snapshot retrieved '+rows.meta['inventory_retrieved_utc']+'. Observations released after that date may be missing. This is not a fresh archive discovery query.')
     reports = []
     for a in range(len(arrays)):
         for b in range(a+1, len(arrays)):
@@ -259,6 +279,16 @@ def _run(search, job, progress, *, inventory=None):
             reports.append(report)
     manifest['diagnostics'] = {'method':'bright-peak-centroids-v1', 'pairs':reports,
         'limitations':'Exploratory geometry; wavelength and PSF compatibility not established.'}
+    overlaps={(p['a'],p['b']):p['overlap_fraction'] for p in reports}
+    recommendations=ranked_pairs(frames,overlaps)
+    manifest['selection']={'mode':search.selection_mode,'detector_requested':search.detector,
+        'candidate_limit':candidate_count,'candidate_attempts':len(selected),
+        'processed_candidates':processed_candidates,'selected_frames':len(frames),
+        'method':SELECTION_METHOD if search.selection_mode=='wavelength_matched' else 'Even spacing across discovery times in one detector; DR1 preferred for duplicated acquisitions.',
+        'recommendations':recommendations[:5],
+        'limitations':'WCS-WAVE is approximate visualization metadata; full CWAVE/CBAND calibration and response/PSF matching are not performed. No quantitative comparison is authorized.'}
+    if len(frames)<search.frames:
+        manifest['warnings'].append('Fewer frames than requested were available after retrieval and selection constraints.')
     manifest['temporary_session'] = True
     manifest['expires_utc'] = datetime.fromtimestamp(time.time()+runtime_store(DATA).ttl, timezone.utc).isoformat()
     runtime_store(DATA).write_json(folder/'manifest.json',manifest)
