@@ -22,6 +22,7 @@ from reproject import reproject_interp
 from PIL import Image
 from .diagnostics import compare
 from .discovery import direct_sia
+from .discovery_cache import load as cached_discovery, save as save_discovery
 from .storage import runtime_store
 from .errors import PipelineError, FrameUnavailable
 from pydantic import BaseModel, Field
@@ -29,6 +30,7 @@ from pydantic import BaseModel, Field
 ROOT = Path(__file__).resolve().parents[1]
 DATA = Path(os.environ.get('TIMESCOPE_DATA_DIR', str(ROOT / 'data'))).expanduser().resolve()
 DEADLINE = ContextVar('pipeline_deadline', default=None)
+CUTOUT_REUSE = ContextVar('cutout_reuse', default=False)
 
 def check_deadline():
     if DEADLINE.get() is not None and time.monotonic() >= DEADLINE.get():
@@ -70,11 +72,13 @@ def download(url, params, dest):
     cache = DATA/'cutout-cache'/f'{key}.fits'
     cache.parent.mkdir(parents=True,exist_ok=True)
     store = runtime_store(DATA)
+    CUTOUT_REUSE.set(dest.exists())
     check_deadline()
     with store.mutex:
         if cache.exists():
             with store.pin(cache), store.pin(dest.parent), store.reserve(cache.stat().st_size):
                 shutil.copyfile(cache,dest)
+                CUTOUT_REUSE.set(True)
     if not dest.exists():
         tmp = dest.with_suffix('.part')
         try:
@@ -138,8 +142,14 @@ def _run(search, job, progress, *, inventory=None):
             try:
                 rows = direct_sia(search)
             except Exception as exc:
-                logging.exception('Both IRSA discovery routes failed')
-                raise PipelineError('IRSA observation search is unavailable. Try again shortly; your coordinates have not been replaced with example data.', 'archive_search_unavailable', True) from exc
+                rows = cached_discovery(search, DATA)
+                if rows is None:
+                    logging.exception('Both IRSA discovery routes failed; no exact-query inventory available')
+                    raise PipelineError('IRSA observation search is unavailable. Try again shortly; your coordinates have not been replaced with example data.', 'archive_search_unavailable', True) from exc
+                logging.warning('Reusing exact-query metadata from %s after discovery failure',rows.meta['inventory_retrieved_utc'])
+                progress('Discovery unavailable: reusing exact-query metadata; retrieving cutouts for this field')
+        if not rows.meta.get('discovery_cached'):
+            save_discovery(search, rows, DATA)
     check_deadline()
     inventory_text = io.StringIO()
     rows.write(inventory_text,format='ascii.ecsv')
@@ -169,6 +179,7 @@ def _run(search, job, progress, *, inventory=None):
         url = str(row['access_url'])
         params = {'center':f'{search.ra},{search.dec}d','size': search.fov/60*1.5}
         path = folder/f'{i}.fits'
+        CUTOUT_REUSE.set(False)
         try:
             digest = download(url,params,path)
         except FrameUnavailable as exc:
@@ -207,7 +218,7 @@ def _run(search, job, progress, *, inventory=None):
             frames.append({'obs_id':str(head['OBSID']), 'date':str(head['DATE-OBS']),
               'detector':int(head['DETECTOR']), 'unit':str(head['BUNIT']),
               'collection':str(row['obs_collection']), 'source_url':url,'cutout_parameters':params,
-              'sha256':digest,'wavelength_um_at_center':center_wave,'coverage':float(valid.mean()),
+              'sha256':digest,'cutout_cached':CUTOUT_REUSE.get(),'wavelength_um_at_center':center_wave,'coverage':float(valid.mean()),
               'wcs_roundtrip_pixels':float(np.hypot(rx-x,ry-y)),
               'image':f'/artifacts/{job}/{i}.png'})
     runtime_store(DATA).write_json(folder/'retrieval-report.json', {'query':search.model_dump(),'usable_frames':len(frames),'failed_frames':failures})
@@ -225,8 +236,9 @@ def _run(search, job, progress, *, inventory=None):
         check_deadline()
         with runtime_store(DATA).reserve(rgba.nbytes+65536):
             Image.fromarray(rgba[::-1]).save(folder/Path(frame['image']).name)
-    manifest = {'schema_version':1,'processor_version':'bounded-v1','status':'ready','id':job,'query':search.model_dump(),
+    manifest = {'schema_version':1,'processor_version':'bounded-v2','status':'ready','id':job,'query':search.model_dump(),
        'discovery_limited':rows.meta.get('discovery_limited',False),
+       'discovery_cached':rows.meta.get('discovery_cached',False),
        'discovery_provenance':dict(rows.meta),
        'discovery_method':rows.meta.get('discovery_method','astroquery-sia-v2'),
        'created_utc':datetime.now(timezone.utc).isoformat(),'rows_found':len(rows),
@@ -237,6 +249,8 @@ def _run(search, job, progress, *, inventory=None):
        'Preview excludes all flagged pixels except SOURCE and FULLSAMPLE; originals are preserved.']}
     if manifest['discovery_limited']:
         manifest['warnings'].append('Selected from a saved inventory whose footprints contain the requested center; this is not a complete archive search.')
+    if manifest['discovery_cached']:
+        manifest['warnings'].append('Archive discovery was unavailable. Exact-query metadata from '+rows.meta['inventory_retrieved_utc']+' was reused; this is not a new discovery query. Cutouts were requested for the submitted field.')
     reports = []
     for a in range(len(arrays)):
         for b in range(a+1, len(arrays)):

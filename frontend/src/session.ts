@@ -1,6 +1,6 @@
-export type Frame = {image:string;date:string;obs_id:string;source_url:string;collection:string;detector:number;coverage:number;wavelength_um_at_center:number|null;sha256?:string;unit?:string}
+export type Frame = {image:string;date:string;obs_id:string;source_url:string;collection:string;detector:number;coverage:number;wavelength_um_at_center:number|null;cutout_cached?:boolean;sha256?:string;unit?:string}
 export type Pair = {a:number;b:number;matched_peaks:number;overlap_fraction:number;status:string;median_separation_pixels:number|null;median_separation_arcsec:number|null}
-export type Session = {status:string;temporary_session?:boolean;expires_utc?:string;discovery_limited?:boolean;partial?:boolean;requested_frames?:number;failed_frames?:{reason:string}[];retryable?:boolean;cached_showcase?:boolean;manifest_url?:string;diagnostics?:{pairs:Pair[]};id?:string;message?:string;frames?:Frame[];warnings?:string[];possibly_truncated?:boolean;query?:{ra:number;dec:number;fov:number;frames?:number}}
+export type Session = {status:string;discovery_cached?:boolean;discovery_provenance?:{inventory_retrieved_utc?:string};temporary_session?:boolean;expires_utc?:string;discovery_limited?:boolean;partial?:boolean;requested_frames?:number;failed_frames?:{reason:string}[];retryable?:boolean;cached_showcase?:boolean;manifest_url?:string;diagnostics?:{pairs:Pair[]};id?:string;message?:string;frames?:Frame[];warnings?:string[];possibly_truncated?:boolean;query?:{ra:number;dec:number;fov:number;frames?:number}}
 export type ViewState = {index:number;reference:number;compare:boolean;smooth:boolean;zoom:number;pan:{x:number;y:number};speed:number}
 
 // A release + observation + detector identifies a frame independently of its array index.

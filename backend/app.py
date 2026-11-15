@@ -25,7 +25,7 @@ lock = Lock()
 jobs = {}
 state_lock = RLock()
 admissions = deque()
-PROCESSOR_VERSION = 'bounded-v1'
+PROCESSOR_VERSION = 'bounded-v2'
 archive_status = {'status':'not_checked','checked_utc':None}
 
 

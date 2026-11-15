@@ -1,0 +1,58 @@
+{
+  "query": {
+    "ra": 133.79512917,
+    "dec": -7.24514722,
+    "fov": 5.0,
+    "frames": 4
+  },
+  "status": "ready",
+  "partial": false,
+  "discovery_method": "exact-query-cached-inventory",
+  "discovery_provenance": {
+    "discovery_method": "exact-query-cached-inventory",
+    "discovery_cached": true,
+    "inventory_retrieved_utc": "2026-11-15T12:28:44.186124+00:00",
+    "inventory_age_seconds": 257.2,
+    "original_discovery_method": "direct-sia-v2-get-cache-revalidation",
+    "query_overflow": false,
+    "inventory_snapshot_sha256": "c3f5bc428b99818180e17c02b78401a9ddb0e9234fee17f10ca1287b76b48419"
+  },
+  "frames": [
+    {
+      "obs_id": "2025W19_1B_0181_1",
+      "date": "2025-05-06T02:33:29.930",
+      "source_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/level2/2025W19_1B/l2b-v27-2026-197/2/level2_2025W19_1B_0181_1D2_spx_l2b-v27-2026-197.fits",
+      "sha256": "c6116edb6dcf5808e78ee9a491af45602d1510e327f1003d8e658ff6b906b75d",
+      "coverage": 0.882548937942524,
+      "wavelength_um_at_center": 1.5164516364644198,
+      "cutout_cached": false
+    },
+    {
+      "obs_id": "2025W45_2A_0278_3",
+      "date": "2025-11-07T18:51:31.958",
+      "source_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/level2/2025W45_2A/l2b-v27-2026-247/2/level2_2025W45_2A_0278_3D2_spx_l2b-v27-2026-247.fits",
+      "sha256": "eb8887e93af7ba93057f3907d4d46f303bce9807fbfb2a7c8ff32b1f6142a2ca",
+      "coverage": 0.8738025822573927,
+      "wavelength_um_at_center": 1.3157511039684566,
+      "cutout_cached": false
+    },
+    {
+      "obs_id": "2025W50_2A_0479_1",
+      "date": "2025-12-13T05:32:45.700",
+      "source_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/level2/2025W50_2A/l2b-v27-2026-210/2/level2_2025W50_2A_0479_1D2_spx_l2b-v27-2026-210.fits",
+      "sha256": "350697ead585ec7edba8c5e4a85ddb50be060ce033de16f266523bd730f7e302",
+      "coverage": 0.8792169929196169,
+      "wavelength_um_at_center": 1.4110642348955802,
+      "cutout_cached": false
+    },
+    {
+      "obs_id": "2026W20_1A_1166_1",
+      "date": "2026-05-14T06:53:35.614",
+      "source_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/level2/2026W20_1A/l2b-v27-2026-246/2/level2_2026W20_1A_1166_1D2_spx_l2b-v27-2026-246.fits",
+      "sha256": "65464c40b69ce9af9756131e5406673142bb09212a1a6aca6630403a2b6aadb5",
+      "coverage": 0.8946272386505623,
+      "wavelength_um_at_center": 1.5911141183870146,
+      "cutout_cached": false
+    }
+  ]
+}

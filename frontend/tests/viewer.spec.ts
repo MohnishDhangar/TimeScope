@@ -257,3 +257,15 @@ test('expired live link retains frame count and allows an explicit retry',async(
  await expect.poll(()=>posted).toEqual({ra:42,dec:-30,fov:8,frames:4})
  await expect(page.getByRole('alert')).toContainText('Another scientific job is active')
 })
+
+test('metadata cache reuse is visible and distinct from cached FITS images',async({page,request})=>{
+ const id='23577cd786a24f24bedec59e7c5366ae'
+ const manifest=await (await request.get(`http://127.0.0.1:8000/showcase/${id}/manifest.json`)).json()
+ manifest.discovery_cached=true
+ manifest.discovery_provenance={inventory_retrieved_utc:'2026-11-15T12:28:44Z'}
+ manifest.frames[0].cutout_cached=false
+ await page.route('**/api/sessions/*',route=>route.fulfill({json:manifest}))
+ await page.goto(`http://127.0.0.1:8000?session=${id}`)
+ await expect(page.getByRole('status').filter({hasText:'Exact-query metadata'})).toContainText('not a fresh discovery query')
+ await expect(page.getByText('Downloaded for this session',{exact:true})).toBeVisible()
+})

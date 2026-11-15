@@ -83,3 +83,25 @@ def test_failed_capabilities_falls_back_and_keeps_chronological_pairs(fake_archi
     assert [f['obs_id'] for f in result['frames']]==['0','1','2']
     assert [f['image'].split('/')[-1] for f in result['frames']]==['1.png','2.png','0.png']
     assert [(p['a'],p['b']) for p in result['diagnostics']['pairs']]==[(0,1),(0,2),(1,2)]
+
+
+def test_exact_inventory_fallback_fetches_requested_cutouts_and_discloses_reuse(fake_archive,monkeypatch,tmp_path):
+    from backend import discovery_cache
+    from datetime import datetime,timezone
+    query=p.Search(ra=10,dec=20,frames=3)
+    rows=Table(rows=[(str(i),'spherex_dr1',float(i),f'https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/2/{i}.fits') for i in range(3)],names=['obs_id','obs_collection','t_min','access_url'])
+    discovery_cache.save(query,rows,tmp_path)
+    def unavailable(*args,**kwargs):raise RuntimeError('synthetic discovery outage')
+    monkeypatch.setattr(p.Irsa,'query_sia',unavailable)
+    monkeypatch.setattr(p,'direct_sia',unavailable)
+    requests=[]
+    def download(url,params,dest):
+        requests.append(params.copy())
+        return fake_archive(url,params,dest)
+    monkeypatch.setattr(p,'download',download)
+    result=p.run(query,'cached-discovery')
+    assert result['status']=='ready' and result['discovery_cached']
+    assert all(r['center']=='10.0,20.0d' for r in requests)
+    assert len(requests)==3
+    assert any('not a new discovery query' in w for w in result['warnings'])
+    assert all(not f['cutout_cached'] for f in result['frames'])
