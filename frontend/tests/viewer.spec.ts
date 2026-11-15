@@ -359,3 +359,43 @@ test('R Draconis reference field works with API unavailable',async({page})=>{
  const {readFile}=await import('node:fs/promises')
  expect(await readFile((await result.path())!,'utf8')).toContain('This export did not trigger archive discovery or FITS retrieval.')
 })
+
+
+test('Barnards Star bundled reference field works with API blocked',async({page})=>{
+ await page.route('**/api/**',route=>route.abort())
+ await page.goto('http://127.0.0.1:8000?session=72660530bbee4142b7d4bc7dda56d254')
+ await expect(page.getByRole('img',{name:/Current: SPHEREx/})).toBeVisible()
+ await expect(page.getByText('Bundled genuine SPHEREx observations. Opening this sequence did not perform fresh archive discovery.')).toBeVisible()
+ await page.getByRole('button',{name:'Next frame'}).click()
+ await expect(page.getByLabel('Observation timeline')).toHaveValue('1')
+ await page.getByLabel('View mode').selectOption('compare')
+ await expect(page.getByRole('img',{name:/Reference: SPHEREx/})).toBeVisible()
+})
+
+
+test('Epsilon Indi B bundled reference field works with API blocked',async({page})=>{
+ await page.route('**/api/**',route=>route.abort())
+ await page.goto('http://127.0.0.1:8000?session=74b2cd0949f344a09157f0e71d25babf')
+ await expect(page.getByRole('img',{name:/Current: SPHEREx/})).toBeVisible()
+ await expect(page.getByText('Bundled genuine SPHEREx observations. Opening this sequence did not perform fresh archive discovery.')).toBeVisible()
+ await page.getByRole('button',{name:'Next frame'}).click()
+ await expect(page.getByLabel('Observation timeline')).toHaveValue('1')
+ await page.getByLabel('View mode').selectOption('compare')
+ await expect(page.getByRole('img',{name:/Reference: SPHEREx/})).toBeVisible()
+})
+
+
+test('five challenge presets fill coordinates without querying and explicitly open bundles',async({page})=>{
+ let posts=0
+ await page.route('**/api/sessions',r=>{posts++;return r.abort()})
+ await page.goto('http://127.0.0.1:8000')
+ await page.getByLabel('Challenge target',{exact:true}).selectOption("Barnard's Star")
+ await expect(page.getByLabel('Right ascension · degrees')).toHaveValue('269.4521')
+ await expect(page.getByLabel('Field width · arcmin')).toHaveValue('10')
+ await page.getByLabel('Challenge target',{exact:true}).selectOption('Epsilon Indi B')
+ await expect(page.getByLabel('Right ascension · degrees')).toHaveValue('331.04570833')
+ await page.getByRole('button',{name:'Open bundled target sequence',exact:true}).click()
+ await expect(page.getByRole('heading',{name:'Observation analysis',exact:true})).toBeVisible()
+ await expect(page.locator('.viewer-field')).toContainText('Dec -56.78344444°')
+ expect(posts).toBe(0)
+})

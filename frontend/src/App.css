@@ -510,3 +510,5 @@ body:has(.observatory-app) { overflow: hidden; }
 .selection-summary { background:#171719; border:1px solid var(--line); border-radius:0; }
 .selection-summary p { color:var(--muted); }
 .observation-chart svg text { fill:#b8b8be; }
+
+.target-presets{display:grid;gap:7px;margin:12px 0}.target-presets small{color:#b8b8be;font-size:10px;line-height:1.5}.target-presets .quiet{justify-self:start}

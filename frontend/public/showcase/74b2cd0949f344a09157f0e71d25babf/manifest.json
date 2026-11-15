@@ -1,0 +1,309 @@
+{
+  "schema_version": 1,
+  "processor_version": "observatory-wavelength-repair-v1",
+  "status": "ready",
+  "id": "74b2cd0949f344a09157f0e71d25babf",
+  "query": {
+    "ra": 331.04570833,
+    "dec": -56.78344444,
+    "fov": 5.0,
+    "frames": 6,
+    "detector": null,
+    "selection_mode": "temporal"
+  },
+  "discovery_limited": false,
+  "discovery_cached": false,
+  "inventory_kind": null,
+  "discovery_provenance": {
+    "discovery_method": "astroquery-sia-v2",
+    "discovery_transport": "One GET per attempt; redirects and transport retries disabled",
+    "query_overflow": false,
+    "discovery_attempts": 3,
+    "discovery_failures": [
+      {
+        "attempt": 1,
+        "route": "Astroquery SIA (explicit query endpoint)",
+        "code": "archive_http_5xx",
+        "http_status": 502,
+        "exception_class": "HTTPError",
+        "elapsed_seconds": 0.165
+      },
+      {
+        "attempt": 2,
+        "route": "direct SIA",
+        "code": "archive_http_5xx",
+        "http_status": 502,
+        "exception_class": "HTTPError",
+        "elapsed_seconds": 0.166
+      }
+    ],
+    "discovery_elapsed_seconds": 27.308
+  },
+  "discovery_method": "astroquery-sia-v2",
+  "created_utc": "2026-11-15T17:44:11.490728+00:00",
+  "rows_found": 489,
+  "failed_frames": [
+    {
+      "obs_id": "2025W18_1B_0081_1",
+      "source_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/level2/2025W18_1B/l2b-v27-2026-196/3/level2_2025W18_1B_0081_1D3_spx_l2b-v27-2026-196.fits",
+      "reason": "IRSA returned HTTP 422 for this observation.",
+      "http_status": 422
+    },
+    {
+      "obs_id": "2025W18_2B_0042_1",
+      "source_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/level2/2025W18_2B/l2b-v27-2026-197/3/level2_2025W18_2B_0042_1D3_spx_l2b-v27-2026-197.fits",
+      "reason": "IRSA returned HTTP 503 for this observation.",
+      "http_status": 503
+    }
+  ],
+  "requested_frames": 6,
+  "partial": true,
+  "possibly_truncated": false,
+  "frames": [
+    {
+      "obs_id": "2025W40_1A_0125_3",
+      "date": "2025-09-29T13:48:39.400",
+      "detector": 3,
+      "unit": "MJy / sr",
+      "collection": "spherex_dr1",
+      "pipeline_version": "7.0.5",
+      "source_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/level2/2025W40_1A/l2b-v27-2026-239/3/level2_2025W40_1A_0125_3D3_spx_l2b-v27-2026-239.fits",
+      "cutout_parameters": {
+        "center": "331.04570833,-56.78344444d",
+        "size": 0.125
+      },
+      "sha256": "adf31b91643fe1fe2860599669ce8d1263dce92f4a6a76a50642dd65b754fa66",
+      "wavelength_um_at_center": 2.0497410030794816,
+      "coverage": 0.9566847147022074,
+      "bandwidth_um_at_center": 0.051168065448605735,
+      "spectral_metadata": "Approximate WCS-WAVE visualization lookup; not a full spectral response",
+      "wcs_roundtrip_pixels": 5.336915534786102e-07,
+      "image": "/showcase/74b2cd0949f344a09157f0e71d25babf/0.png",
+      "original_preview_url": "/artifacts/74b2cd0949f344a09157f0e71d25babf/2.png",
+      "original_cutout_cached": false
+    },
+    {
+      "obs_id": "2026W18_1A_0490_2",
+      "date": "2026-04-29T08:49:06.869",
+      "detector": 3,
+      "unit": "MJy / sr",
+      "collection": "spherex_dr1",
+      "pipeline_version": "7.0.5",
+      "source_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/level2/2026W18_1A/l2b-v27-2026-244/3/level2_2026W18_1A_0490_2D3_spx_l2b-v27-2026-244.fits",
+      "cutout_parameters": {
+        "center": "331.04570833,-56.78344444d",
+        "size": 0.125
+      },
+      "sha256": "42162ebb308cf4a7bdc92a03a769af06aa166e3a5633803446fbf3fa5be6bace",
+      "wavelength_um_at_center": 2.212594925414682,
+      "coverage": 0.8696376509787589,
+      "bandwidth_um_at_center": 0.0554133851883042,
+      "spectral_metadata": "Approximate WCS-WAVE visualization lookup; not a full spectral response",
+      "wcs_roundtrip_pixels": 1.0252104005783305e-07,
+      "image": "/showcase/74b2cd0949f344a09157f0e71d25babf/1.png",
+      "original_preview_url": "/artifacts/74b2cd0949f344a09157f0e71d25babf/3.png",
+      "original_cutout_cached": false
+    },
+    {
+      "obs_id": "2026W39_2A_0169_1",
+      "date": "2026-09-25T06:45:01.522",
+      "detector": 3,
+      "unit": "MJy / sr",
+      "collection": "spherex_qr3",
+      "pipeline_version": "7.0.5",
+      "source_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/qr3/level2/2026W39_2A/l2b-v27-2026-271/3/level2_2026W39_2A_0169_1D3_spx_l2b-v27-2026-271.fits",
+      "cutout_parameters": {
+        "center": "331.04570833,-56.78344444d",
+        "size": 0.125
+      },
+      "sha256": "6091e0d309f9682879aea6fc62323f930674f0dbd86f5a7ad57589432c302aa0",
+      "wavelength_um_at_center": 1.8917431637804318,
+      "coverage": 0.9712619741774261,
+      "bandwidth_um_at_center": 0.04682450995652228,
+      "spectral_metadata": "Approximate WCS-WAVE visualization lookup; not a full spectral response",
+      "wcs_roundtrip_pixels": 1.691548269883295e-07,
+      "image": "/showcase/74b2cd0949f344a09157f0e71d25babf/2.png",
+      "original_preview_url": "/artifacts/74b2cd0949f344a09157f0e71d25babf/4.png",
+      "original_cutout_cached": false
+    },
+    {
+      "obs_id": "2026W40_1A_0070_2",
+      "date": "2026-09-28T08:04:44.318",
+      "detector": 3,
+      "unit": "MJy / sr",
+      "collection": "spherex_qr3",
+      "pipeline_version": "7.0.5",
+      "source_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/qr3/level2/2026W40_1A/l2b-v27-2026-276/3/level2_2026W40_1A_0070_2D3_spx_l2b-v27-2026-276.fits",
+      "cutout_parameters": {
+        "center": "331.04570833,-56.78344444d",
+        "size": 0.125
+      },
+      "sha256": "f293a0945ea475d96852b4a62d8697737bb3bc1a501377523b88a7f07ea652fa",
+      "wavelength_um_at_center": 1.940735470749727,
+      "coverage": 0.965847563515202,
+      "bandwidth_um_at_center": 0.047340878142880974,
+      "spectral_metadata": "Approximate WCS-WAVE visualization lookup; not a full spectral response",
+      "wcs_roundtrip_pixels": 4.123571569376488e-09,
+      "image": "/showcase/74b2cd0949f344a09157f0e71d25babf/3.png",
+      "original_preview_url": "/artifacts/74b2cd0949f344a09157f0e71d25babf/5.png",
+      "original_cutout_cached": false
+    }
+  ],
+  "reference_wcs": {
+    "WCSAXES": 2,
+    "CRPIX1": 25.0,
+    "CRPIX2": 25.0,
+    "CDELT1": -0.0017006802721088,
+    "CDELT2": 0.0017006802721088,
+    "CUNIT1": "deg",
+    "CUNIT2": "deg",
+    "CTYPE1": "RA---TAN",
+    "CTYPE2": "DEC--TAN",
+    "CRVAL1": 331.04570833,
+    "CRVAL2": -56.78344444,
+    "LONPOLE": 180.0,
+    "LATPOLE": -56.78344444,
+    "MJDREF": 0.0,
+    "RADESYS": "ICRS"
+  },
+  "display_range": [
+    0.1443733905942368,
+    1.1527532992259586
+  ],
+  "warnings": [
+    "Qualitative viewing only: wavelength and PSF matching have not been validated.",
+    "No motion or variability detection is claimed. Bright-peak checks are preliminary, not catalog-confirmed stationary-source residuals.",
+    "Preview excludes all flagged pixels except SOURCE and FULLSAMPLE; originals are preserved.",
+    "Fewer frames than requested were available after retrieval and selection constraints."
+  ],
+  "diagnostics": {
+    "method": "bright-peak-centroids-v1",
+    "pairs": [
+      {
+        "peaks_a": 10,
+        "peaks_b": 5,
+        "matched_peaks": 4,
+        "match_radius_pixels": 2.0,
+        "overlap_fraction": 0.8392336526447314,
+        "status": "preliminary",
+        "median_separation_pixels": 0.24587543413354718,
+        "median_separation_arcsec": 1.5053598008176357,
+        "note": "Mutual nearest bright-peak matches within 2 pixels; not catalog-confirmed stationary stars. Masking, blending, wavelength and PSF differences can bias results. Large offsets may be missed by the matching radius.",
+        "median_dx_pixels": -0.08495585432819208,
+        "median_dy_pixels": -0.03616844350371817,
+        "a": 0,
+        "b": 1,
+        "quantitative_comparison_allowed": false
+      },
+      {
+        "peaks_a": 10,
+        "peaks_b": 12,
+        "matched_peaks": 8,
+        "match_radius_pixels": 2.0,
+        "overlap_fraction": 0.9304456476468138,
+        "status": "preliminary",
+        "median_separation_pixels": 0.11875090485977992,
+        "median_separation_arcsec": 0.7270463562843668,
+        "note": "Mutual nearest bright-peak matches within 2 pixels; not catalog-confirmed stationary stars. Masking, blending, wavelength and PSF differences can bias results. Large offsets may be missed by the matching radius.",
+        "median_dx_pixels": -0.010396570881728628,
+        "median_dy_pixels": -0.03295127663905051,
+        "a": 0,
+        "b": 2,
+        "quantitative_comparison_allowed": false
+      },
+      {
+        "peaks_a": 10,
+        "peaks_b": 14,
+        "matched_peaks": 8,
+        "match_radius_pixels": 2.0,
+        "overlap_fraction": 0.9287796751353603,
+        "status": "preliminary",
+        "median_separation_pixels": 0.13730158623494526,
+        "median_separation_arcsec": 0.8406219565404811,
+        "note": "Mutual nearest bright-peak matches within 2 pixels; not catalog-confirmed stationary stars. Masking, blending, wavelength and PSF differences can bias results. Large offsets may be missed by the matching radius.",
+        "median_dx_pixels": 0.013621880253591456,
+        "median_dy_pixels": 0.020269615730388324,
+        "a": 0,
+        "b": 3,
+        "quantitative_comparison_allowed": false
+      },
+      {
+        "peaks_a": 5,
+        "peaks_b": 12,
+        "matched_peaks": 5,
+        "match_radius_pixels": 2.0,
+        "overlap_fraction": 0.8450645564348188,
+        "status": "preliminary",
+        "median_separation_pixels": 0.1311911610601705,
+        "median_separation_arcsec": 0.8032111901643092,
+        "note": "Mutual nearest bright-peak matches within 2 pixels; not catalog-confirmed stationary stars. Masking, blending, wavelength and PSF differences can bias results. Large offsets may be missed by the matching radius.",
+        "median_dx_pixels": 0.04644898354348115,
+        "median_dy_pixels": -0.01059917087222395,
+        "a": 1,
+        "b": 2,
+        "quantitative_comparison_allowed": false
+      },
+      {
+        "peaks_a": 5,
+        "peaks_b": 14,
+        "matched_peaks": 4,
+        "match_radius_pixels": 2.0,
+        "overlap_fraction": 0.8454810495626822,
+        "status": "preliminary",
+        "median_separation_pixels": 0.17836548135527247,
+        "median_separation_arcsec": 1.0920335593179946,
+        "note": "Mutual nearest bright-peak matches within 2 pixels; not catalog-confirmed stationary stars. Masking, blending, wavelength and PSF differences can bias results. Large offsets may be missed by the matching radius.",
+        "median_dx_pixels": -0.04067268742219188,
+        "median_dy_pixels": -0.025782107255661657,
+        "a": 1,
+        "b": 3,
+        "quantitative_comparison_allowed": false
+      },
+      {
+        "peaks_a": 12,
+        "peaks_b": 14,
+        "matched_peaks": 10,
+        "match_radius_pixels": 2.0,
+        "overlap_fraction": 0.9371095376926281,
+        "status": "preliminary",
+        "median_separation_pixels": 0.09438071695240824,
+        "median_separation_arcsec": 0.5778411241984177,
+        "note": "Mutual nearest bright-peak matches within 2 pixels; not catalog-confirmed stationary stars. Masking, blending, wavelength and PSF differences can bias results. Large offsets may be missed by the matching radius.",
+        "median_dx_pixels": 0.018815192689253024,
+        "median_dy_pixels": 0.030715862075654243,
+        "a": 2,
+        "b": 3,
+        "quantitative_comparison_allowed": false
+      }
+    ],
+    "limitations": "Exploratory geometry; wavelength and PSF compatibility not established."
+  },
+  "selection": {
+    "mode": "temporal",
+    "detector_requested": null,
+    "candidate_limit": 6,
+    "candidate_attempts": 6,
+    "processed_candidates": 4,
+    "selected_frames": 4,
+    "method": "Even spacing across discovery times in one detector; DR1 preferred for duplicated acquisitions.",
+    "recommendations": [
+      {
+        "a": 0,
+        "b": 1,
+        "time_separation_days": 211.7919845949074,
+        "absolute_wavelength_difference_um": 0.16285392233520035,
+        "fractional_wavelength_difference": 0.0764153389443121,
+        "approximate_bandwidth_separation": 3.055952445045871,
+        "spectral_metadata": "Approximate field-center WCS-WAVE values, intended for visualization",
+        "quantitative_comparison_allowed": false,
+        "common_coverage": 0.8392336526447314
+      }
+    ],
+    "limitations": "WCS-WAVE is approximate visualization metadata; full CWAVE/CBAND calibration and response/PSF matching are not performed. No quantitative comparison is authorized."
+  },
+  "temporary_session": false,
+  "label": "Epsilon Indi B reference field",
+  "description": "Genuine reference-field sequence; target visibility and motion unverified.",
+  "cached_showcase": true,
+  "manifest_url": "/showcase/74b2cd0949f344a09157f0e71d25babf/manifest.json"
+}

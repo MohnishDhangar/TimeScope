@@ -31,7 +31,7 @@ When live discovery fails transiently, recovery tries a valid 24-hour runtime in
 
 Search has bounded retries and one active scientific job. A Busy response preserves examples and offers retry. Live sessions and their links are temporary; download evidence to retain a readable record. The independent fallback offers bundled exploration, without arbitrary live search. Exact validation results and any remaining failures are in [the repair evidence](docs/discovery-repair-validation.json) and [current status](docs/FINAL-STATUS.md).
 
-The competition tag `submission-v1` is planned but has **not** been created. This remains an incremental release; no official competition submission is claimed. The final competition version should remain unchanged during judging.
+The prior local `submission-v1` tag predates the urgent target/preset update and must not be published as the final version. Use the latest pinned source recorded in the deployment handoff. This remains an incremental release; no official competition submission is claimed. The final competition version should remain unchanged during judging.
 
 ## Processing and architecture
 
@@ -101,3 +101,7 @@ Original TimeScope source is [MIT licensed](LICENSE), approved by the project ow
 Five bundled fields contain 23 genuine frames, including new RW Aurigae (two usable frames; partial) and R Draconis (four frames) reference fields. Named-source visibility and variability remain unverified. Barnard and Epsilon Indi B requests remain blocked by archive timeouts. Fresh public discovery was verified for RA 133.79512917°, Dec −2.24514722°, 5′: 290 records and six fresh FITS frames; no historical metadata used. Archive availability remains intermittent.
 
 [Final acceptance](docs/final-acceptance.md) · [Target evidence](docs/challenge-target-validation.md) · [Compliance](docs/challenge-compliance.md) · [Tests](docs/final-test-report.md) · [Submission checklist](submission/final-submission-checklist.md). The owner records the demo. No organizer waiver or official submission is claimed.
+
+## Urgent final target acceptance
+
+All five named targets now have usable reference-field sequences, with visibility/motion/variability unverified. Seven bundles contain 33 genuine frames, preserving the original three fields. Barnard: six frames; Epsilon Indi B: four usable of six (partial); WISE reference field: six; RW Aurigae: two of four (partial); R Draconis: four. A five-target selector fills verified reference coordinates, with an explicit separate bundled-open action. Barnard’s unpropagated reference-position bundle may omit the contemporary source; the preset uses a wider field. Detailed current results are in docs/challenge-target-validation.md. Earlier blocked-attempt reports are historical.

@@ -82,5 +82,41 @@
     "preview": "/showcase/9225223ed7814c4a871594729d92ef00/0.png",
     "start": "2025-05-16T22:56:23.637",
     "end": "2026-06-12T20:39:42.160"
+  },
+  {
+    "id": "72660530bbee4142b7d4bc7dda56d254",
+    "query": {
+      "ra": 269.4521,
+      "dec": 4.6934,
+      "fov": 6.0,
+      "frames": 6,
+      "detector": null,
+      "selection_mode": "temporal"
+    },
+    "frames": 6,
+    "partial": false,
+    "label": "Barnard's Star reference field",
+    "description": "Genuine reference-field sequence; target visibility and motion unverified.",
+    "preview": "/showcase/72660530bbee4142b7d4bc7dda56d254/0.png",
+    "start": "2025-08-20T23:02:22.517",
+    "end": "2026-09-22T15:04:20.982"
+  },
+  {
+    "id": "74b2cd0949f344a09157f0e71d25babf",
+    "query": {
+      "ra": 331.04570833,
+      "dec": -56.78344444,
+      "fov": 5.0,
+      "frames": 6,
+      "detector": null,
+      "selection_mode": "temporal"
+    },
+    "frames": 4,
+    "partial": true,
+    "label": "Epsilon Indi B reference field",
+    "description": "Genuine reference-field sequence; target visibility and motion unverified.",
+    "preview": "/showcase/74b2cd0949f344a09157f0e71d25babf/0.png",
+    "start": "2025-09-29T13:48:39.400",
+    "end": "2026-09-28T08:04:44.318"
   }
 ]

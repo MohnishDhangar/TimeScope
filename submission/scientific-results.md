@@ -11,3 +11,7 @@ Five bundled sequences contain 23 genuine visualization frames. Local original-F
 Five-target tests: WISE reference field, RW Aurigae field and R Draconis field have usable sequences. RW has two usable frames out of four attempted and retains partial status. Barnard and Epsilon Indi B remain archive-timeout blocked. No target detection or motion/variability is verified.
 
 Fresh arbitrary-coordinate public search returned 290 records and six freshly retrieved FITS frames in 44.799 s, with no retained session or historical inventory reuse. Correct field display, comparison and evidence export were browser-verified. This one successful field does not guarantee all sky positions/services are available.
+
+## Urgent final additions
+
+Seven bundles / 33 frames after preserving user-created successful Barnard (six) and Epsilon Indi B (four usable; partial) sessions. All five named reference fields have usable sequences. This does not validate target visibility; Barnard’s reference-epoch/FOV caveat is material. The five-target preset uses source-verified reference coordinates and an explicit bundle action. Earlier block statuses describe earlier attempts.
