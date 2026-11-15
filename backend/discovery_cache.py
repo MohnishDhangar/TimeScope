@@ -38,7 +38,7 @@ def record(search,rows,retrieved_utc=None):
 
 def save(search,rows,root):
     # Partial saved-inventory subsets are never promoted to complete query caches.
-    if rows.meta.get('discovery_limited'):return
+    if not len(rows) or rows.meta.get('discovery_limited') or rows.meta.get('partial_collections'):return
     runtime_store(root).write_json(Path(root)/'discovery-cache'/f'{query_key(search)}.json',record(search,rows))
 
 

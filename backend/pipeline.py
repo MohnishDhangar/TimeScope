@@ -17,11 +17,10 @@ from urllib3.util.retry import Retry
 import numpy as np
 from astropy.io import fits
 from astropy.wcs import WCS
-from astroquery.ipac.irsa import Irsa
 from reproject import reproject_interp
 from PIL import Image
 from .diagnostics import compare
-from .discovery import direct_sia
+from .discovery import discover, DiscoveryError
 from .discovery_cache import load as cached_discovery, save as save_discovery
 from .storage import runtime_store
 from .errors import PipelineError, FrameUnavailable
@@ -31,6 +30,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA = Path(os.environ.get('TIMESCOPE_DATA_DIR', str(ROOT / 'data'))).expanduser().resolve()
 DEADLINE = ContextVar('pipeline_deadline', default=None)
 CUTOUT_REUSE = ContextVar('cutout_reuse', default=False)
+PROCESSOR_VERSION = 'discovery-repair-v1'
 
 def check_deadline():
     if DEADLINE.get() is not None and time.monotonic() >= DEADLINE.get():
@@ -115,39 +115,38 @@ def download(url, params, dest):
             digest.update(block)
     return digest.hexdigest()
 
-def run(search, job, progress=lambda _: None, *, inventory=None):
+def run(search, job, progress=lambda _: None, *, inventory=None, discovery_budget_s=None):
     store = runtime_store(DATA)
     token = DEADLINE.set(time.monotonic()+240)
     try:
         with store.pin(DATA/job):
             store.cleanup()
-            return _run(search, job, progress, inventory=inventory)
+            return _run(search, job, progress, inventory=inventory,discovery_budget_s=discovery_budget_s)
     finally:
         DEADLINE.reset(token)
 
-def _run(search, job, progress, *, inventory=None):
+def _run(search, job, progress, *, inventory=None, discovery_budget_s=None):
     folder = DATA / job
     folder.mkdir(parents=True, exist_ok=True)
-    progress('Searching IRSA')
-    Irsa.TIMEOUT = 60
     # Circumscribe the square output field. Search cap is disclosed in manifest.
     if inventory is not None:
         rows = inventory
     else:
         try:
-            rows = Irsa.query_sia(pos=(search.ra,search.dec,search.fov/120*math.sqrt(2)),collection=['spherex_dr1','spherex_qr3'],maxrec=1000)
-        except Exception:
-            logging.warning('Archive client discovery failed; trying direct SIA query')
-            progress('Retrying discovery through direct SIA')
-            try:
-                rows = direct_sia(search)
-            except Exception as exc:
-                rows = cached_discovery(search, DATA)
-                if rows is None:
-                    logging.exception('Both IRSA discovery routes failed; no exact-query inventory available')
-                    raise PipelineError('IRSA observation search is unavailable. Try again shortly; your coordinates have not been replaced with example data.', 'archive_search_unavailable', True) from exc
-                logging.warning('Reusing exact-query metadata from %s after discovery failure',rows.meta['inventory_retrieved_utc'])
-                progress('Discovery unavailable: reusing exact-query metadata; retrieving cutouts for this field')
+            rows = discover(search,progress,job_deadline=DEADLINE.get(),budget_s=discovery_budget_s)
+        except DiscoveryError as exc:
+            # Deterministic query/schema errors cannot be repaired by retrying
+            # or silently treating a different metadata response as success.
+            if not exc.retryable:raise
+            rows = cached_discovery(search, DATA)
+            if rows is None:raise
+            rows.meta.update(discovery_failures=exc.attempt_log,
+                             discovery_attempts=len(exc.attempt_log),
+                             discovery_elapsed_seconds=getattr(exc,'elapsed_seconds',None))
+            logging.warning('Reusing %s exact-query metadata from %s after discovery failure',rows.meta['inventory_kind'],rows.meta['inventory_retrieved_utc'])
+            progress('Using historical observation metadata' if rows.meta['inventory_kind']=='bundled-historical' else 'Using cached observation metadata')
+        if not len(rows):
+            raise PipelineError('No matching SPHEREx observations were returned for these coordinates. Your coordinates have been preserved.','insufficient_observations',False)
         if not rows.meta.get('discovery_cached'):
             save_discovery(search, rows, DATA)
     check_deadline()
@@ -236,7 +235,7 @@ def _run(search, job, progress, *, inventory=None):
         check_deadline()
         with runtime_store(DATA).reserve(rgba.nbytes+65536):
             Image.fromarray(rgba[::-1]).save(folder/Path(frame['image']).name)
-    manifest = {'schema_version':1,'processor_version':'bounded-v2','status':'ready','id':job,'query':search.model_dump(),
+    manifest = {'schema_version':1,'processor_version':PROCESSOR_VERSION,'status':'ready','id':job,'query':search.model_dump(),
        'discovery_limited':rows.meta.get('discovery_limited',False),
        'discovery_cached':rows.meta.get('discovery_cached',False),
        'inventory_kind':rows.meta.get('inventory_kind'),

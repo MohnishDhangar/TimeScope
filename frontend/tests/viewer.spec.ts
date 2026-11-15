@@ -58,22 +58,26 @@ test('bundled real showcase works with every API request blocked',async({page})=
  await expect(page.getByRole('img',{name:/Current: SPHEREx/})).toBeVisible()
 })
 
-test('archive failure resets stale metadata and offers retry',async({page})=>{
+test('classified archive failure clears old field and Retry resubmits the new declination',async({page})=>{
  await page.goto('http://127.0.0.1:8000')
  await page.getByRole('button',{name:'Open cached real observations'}).click()
  await expect(page.getByText(/49 × 49 output pixels/)).toBeVisible()
  const id='f'.repeat(32)
- await page.route('**/api/sessions',route=>route.fulfill({status:202,json:{id}}))
- await page.route(`**/api/sessions/${id}`,route=>route.fulfill({json:{id,status:'failed',retryable:true,message:'Only 0 usable observations could be loaded; IRSA is unavailable. Try again shortly.'}}))
- await page.getByLabel('Declination · degrees').fill('-9')
+ const posted:{ra:number;dec:number;fov:number;frames:number}[]=[]
+ await page.route('**/api/sessions',route=>{posted.push(route.request().postDataJSON());return route.fulfill({status:202,json:{id}})})
+ await page.route(`**/api/sessions/${id}`,route=>route.fulfill({json:{id,status:'failed',query:posted.at(-1),code:'archive_http_5xx',retryable:true,message:'IRSA returned HTTP 502 while searching for observations. The archive search service is temporarily unavailable. Please retry in a few minutes.'}}))
+ await page.getByLabel('Declination · degrees').fill('-2.24514722')
  await page.getByRole('button',{name:'Explore coordinates →'}).click()
- await expect(page.getByRole('alert')).toContainText('IRSA is unavailable')
+ await expect(page.getByRole('alert')).toContainText('IRSA returned HTTP 502')
  await expect(page.getByRole('button',{name:'Retry search'})).toBeVisible()
  await expect(page.getByText(/49 × 49 output pixels/)).toHaveCount(0)
  await expect(page.getByRole('img',{name:/SPHEREx observation/})).toHaveCount(0)
  await expect(page.getByRole('alert')).not.toContainText('HTTPSConnectionPool')
  await page.getByRole('button',{name:'Retry search'}).click()
- await expect(page.getByRole('alert')).toContainText('IRSA is unavailable')
+ await expect(page.getByRole('alert')).toContainText('IRSA returned HTTP 502')
+ expect(posted).toHaveLength(2)
+ expect(posted[0]).toEqual({ra:133.79512917,dec:-2.24514722,fov:5,frames:6})
+ expect(posted[1]).toEqual(posted[0])
 })
 
 test('partial sequence is clearly labeled',async({page,request})=>{

@@ -15,7 +15,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import StreamingResponse
 from starlette.background import BackgroundTask
 from .storage import runtime_store
-from .pipeline import DATA, ROOT, Search, run
+from .pipeline import DATA, ROOT, Search, run, PROCESSOR_VERSION
 
 app = FastAPI(title='TimeScope')
 DATA.mkdir(parents=True, exist_ok=True)
@@ -25,7 +25,6 @@ lock = Lock()
 jobs = {}
 state_lock = RLock()
 admissions = deque()
-PROCESSOR_VERSION = 'bounded-v2'
 archive_status = {'status':'not_checked','checked_utc':None}
 
 
@@ -60,11 +59,17 @@ def process(query, identifier):
         jobs[identifier] = state
         persist(identifier, state)
     try:
-        jobs[identifier] = run(query,identifier,update)
+        # Keep the existing one-job policy, but avoid a 90-second discovery
+        # lock-out in public mode. Remaining budget is reserved for FITS work.
+        jobs[identifier] = run(query,identifier,update,discovery_budget_s=60)
         archive_status.update(status='processing_succeeded',checked_utc=jobs[identifier].get('created_utc'))
     except PipelineError as exc:
         archive_status.update(status=exc.code,checked_utc=datetime.now(timezone.utc).isoformat())
         jobs[identifier] = {'status':'failed','id':identifier,'message':str(exc),'code':exc.code,'retryable':exc.retryable,'query':query.model_dump()}
+        if hasattr(exc,'attempt_log'):
+            jobs[identifier].update(http_status=getattr(exc,'status',None),
+                discovery_attempts=len(exc.attempt_log),discovery_failures=exc.attempt_log,
+                discovery_elapsed_seconds=getattr(exc,'elapsed_seconds',None))
     except Exception:
         logging.exception('Processing failed for session %s',identifier)
         jobs[identifier] = {'status':'failed','id':identifier,'message':'This field could not be processed. Try another field or retry; diagnostic details are recorded on the server.','code':'processing_failed','retryable':True,'query':query.model_dump()}
@@ -79,6 +84,7 @@ def process(query, identifier):
 @app.get('/api/health')
 def health():
     return {'status':'ok','mode':'full_application','live_search':'available',
+            'processing':'busy' if lock.locked() else 'idle',
             'archive':dict(archive_status),'storage_limit_bytes':runtime_store(DATA).limit,
             'session_ttl_seconds':runtime_store(DATA).ttl,
             'notice':'Application health does not establish current IRSA availability.'}

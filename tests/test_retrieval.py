@@ -12,7 +12,7 @@ from backend.errors import FrameUnavailable, PipelineError
 def fake_archive(tmp_path,monkeypatch):
     monkeypatch.setattr(p,'DATA',tmp_path)
     rows=Table(rows=[(str(i),'spherex_dr1',float(i),f'https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/2/{i}.fits') for i in range(6)],names=['obs_id','obs_collection','t_min','access_url'])
-    monkeypatch.setattr(p.Irsa,'query_sia',lambda **kw:rows)
+    monkeypatch.setattr(p,'discover',lambda *a,**kw:rows)
     monkeypatch.setattr(p,'selection',lambda rows,count:list(rows)[:count])
     def generate(url,params,dest):
         i=int(Path(url).stem)
@@ -71,12 +71,10 @@ def test_failed_download_leaves_no_partial_file(tmp_path,monkeypatch):
     assert exc.value.status==503
     assert not (tmp_path/'a.part').exists()
 
-def test_failed_capabilities_falls_back_and_keeps_chronological_pairs(fake_archive,monkeypatch):
+def test_discovery_result_keeps_chronological_pairs(fake_archive,monkeypatch):
     rows=Table(rows=[(str(i),'spherex_dr1',float(i),f'https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/2/{i}.fits') for i in (2,0,1)],names=['obs_id','obs_collection','t_min','access_url'])
     rows.meta['discovery_method']='direct-sia-v2'
-    def fail(**kwargs):raise RuntimeError('capabilities unavailable')
-    monkeypatch.setattr(p.Irsa,'query_sia',fail)
-    monkeypatch.setattr(p,'direct_sia',lambda search:rows)
+    monkeypatch.setattr(p,'discover',lambda *a,**kw:rows)
     monkeypatch.setattr(p,'download',fake_archive)
     result=p.run(p.Search(ra=10,dec=20,frames=3),'fallback')
     assert result['discovery_method']=='direct-sia-v2'
@@ -97,9 +95,8 @@ def test_exact_inventory_fallback_fetches_requested_cutouts_and_discloses_reuse(
         bundle=tmp_path/'bundle';bundle.mkdir()
         monkeypatch.setattr(discovery_cache,'SNAPSHOTS',bundle)
         (bundle/f'{discovery_cache.query_key(query)}.json').write_text(json.dumps(discovery_cache.record(query,rows)))
-    def unavailable(*args,**kwargs):raise RuntimeError('synthetic discovery outage')
-    monkeypatch.setattr(p.Irsa,'query_sia',unavailable)
-    monkeypatch.setattr(p,'direct_sia',unavailable)
+    def unavailable(*args,**kwargs):raise p.DiscoveryError('Synthetic HTTP 502 outage','archive_http_5xx',True,status=502)
+    monkeypatch.setattr(p,'discover',unavailable)
     requests=[]
     def download(url,params,dest):
         requests.append(params.copy())
@@ -113,3 +110,26 @@ def test_exact_inventory_fallback_fetches_requested_cutouts_and_discloses_reuse(
     assert result['discovery_provenance']['inventory_kind']==kind
     assert any('This is not a fresh archive discovery query.' in w for w in result['warnings'])
     assert all(not f['cutout_cached'] for f in result['frames'])
+
+
+def test_valid_empty_discovery_never_uses_a_retained_inventory(fake_archive,monkeypatch,tmp_path):
+    """Synthetic empty archive response must not be masked by cached rows."""
+    from backend import discovery_cache
+    query=p.Search(ra=10,dec=20)
+    rows=Table(rows=[('a','spherex_dr1',1.,'https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/2/a.fits')],names=['obs_id','obs_collection','t_min','access_url'])
+    discovery_cache.save(query,rows,tmp_path)
+    monkeypatch.setattr(p,'discover',lambda *a,**kw:rows[:0])
+    def prohibited(*a,**kw):raise AssertionError('Empty live discovery attempted fallback or download')
+    monkeypatch.setattr(p,'cached_discovery',prohibited)
+    monkeypatch.setattr(p,'download',prohibited)
+    with pytest.raises(PipelineError,match='No matching SPHEREx observations') as exc:p.run(query,'empty')
+    assert exc.value.code=='insufficient_observations' and not exc.value.retryable
+
+
+def test_deterministic_query_error_does_not_use_a_snapshot(fake_archive,monkeypatch):
+    def rejected(*a,**kw):raise p.DiscoveryError('Synthetic invalid query','archive_query_rejected')
+    def prohibited(*a,**kw):raise AssertionError('Invalid query attempted cached fallback')
+    monkeypatch.setattr(p,'discover',rejected)
+    monkeypatch.setattr(p,'cached_discovery',prohibited)
+    with pytest.raises(p.DiscoveryError) as exc:p.run(p.Search(ra=10,dec=20),'invalid')
+    assert exc.value.code=='archive_query_rejected'

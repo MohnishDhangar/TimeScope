@@ -1,0 +1,251 @@
+{
+  "schema_version": 1,
+  "updated_utc": "2026-11-15T13:17:41.685829+00:00",
+  "repair_branch": "release/discovery-repair",
+  "base_commit": "043bfd4",
+  "source_commit": null,
+  "baseline": {
+    "python_tests_passed": 52,
+    "frontend_checks_passed": 19,
+    "lint": "passed",
+    "production_build": "passed"
+  },
+  "focused_checks": {
+    "step1_python_passed": 29,
+    "step1_browser_passed": 2,
+    "step2_python_passed": 86,
+    "step2_browser_passed": 3
+  },
+  "local_probe": {
+    "environment": "local",
+    "started_utc": "2026-11-15T13:03:26.994514+00:00",
+    "query": {
+      "ra": 133.79512917,
+      "dec": -2.24514722,
+      "fov_arcmin": 5.0
+    },
+    "repeats": 2,
+    "automatic_retries": 0,
+    "attempts": [
+      {
+        "variant": "sia-baseline",
+        "repeat": 1,
+        "utc": "2026-11-15T13:03:26.994790+00:00",
+        "status": 502,
+        "rows": null,
+        "votable": false,
+        "discovery_success": false,
+        "url": "https://irsa.ipac.caltech.edu/SIA?MAXREC=1000&COLLECTION=spherex_qr3&COLLECTION=spherex_dr1&POS=CIRCLE+133.79512917+-2.24514722+0.05892556509887896",
+        "content_type": "text/html; charset=iso-8859-1",
+        "bytes": 341,
+        "sha256": "6c5cbf315d1e65021bda341d39f2f9126b1e63d3099d07c315894bd11add085b",
+        "response_file": "probe-sia-baseline-1.response",
+        "duration_seconds": 0.995
+      },
+      {
+        "variant": "sia-maxrec100",
+        "repeat": 1,
+        "utc": "2026-11-15T13:03:28.989758+00:00",
+        "status": 502,
+        "rows": null,
+        "votable": false,
+        "discovery_success": false,
+        "url": "https://irsa.ipac.caltech.edu/SIA?MAXREC=100&COLLECTION=spherex_qr3&COLLECTION=spherex_dr1&POS=CIRCLE+133.79512917+-2.24514722+0.05892556509887896",
+        "content_type": "text/html; charset=iso-8859-1",
+        "bytes": 341,
+        "sha256": "6c5cbf315d1e65021bda341d39f2f9126b1e63d3099d07c315894bd11add085b",
+        "response_file": "probe-sia-maxrec100-1.response",
+        "duration_seconds": 0.257
+      },
+      {
+        "variant": "sia-dr1-only",
+        "repeat": 1,
+        "utc": "2026-11-15T13:03:30.247473+00:00",
+        "status": 502,
+        "rows": null,
+        "votable": false,
+        "discovery_success": false,
+        "url": "https://irsa.ipac.caltech.edu/SIA?MAXREC=100&COLLECTION=spherex_dr1&POS=CIRCLE+133.79512917+-2.24514722+0.05892556509887896",
+        "content_type": "text/html; charset=iso-8859-1",
+        "bytes": 341,
+        "sha256": "6c5cbf315d1e65021bda341d39f2f9126b1e63d3099d07c315894bd11add085b",
+        "response_file": "probe-sia-dr1-only-1.response",
+        "duration_seconds": 0.322
+      },
+      {
+        "variant": "sia-qr3-only",
+        "repeat": 1,
+        "utc": "2026-11-15T13:03:31.569438+00:00",
+        "status": 502,
+        "rows": null,
+        "votable": false,
+        "discovery_success": false,
+        "url": "https://irsa.ipac.caltech.edu/SIA?MAXREC=100&COLLECTION=spherex_qr3&POS=CIRCLE+133.79512917+-2.24514722+0.05892556509887896",
+        "content_type": "text/html; charset=iso-8859-1",
+        "bytes": 341,
+        "sha256": "6c5cbf315d1e65021bda341d39f2f9126b1e63d3099d07c315894bd11add085b",
+        "response_file": "probe-sia-qr3-only-1.response",
+        "duration_seconds": 0.435
+      },
+      {
+        "variant": "sia-no-cache-header",
+        "repeat": 1,
+        "utc": "2026-11-15T13:03:33.005579+00:00",
+        "status": 502,
+        "rows": null,
+        "votable": false,
+        "discovery_success": false,
+        "url": "https://irsa.ipac.caltech.edu/SIA?MAXREC=1000&COLLECTION=spherex_qr3&COLLECTION=spherex_dr1&POS=CIRCLE+133.79512917+-2.24514722+0.05892556509887896",
+        "content_type": "text/html; charset=iso-8859-1",
+        "bytes": 341,
+        "sha256": "6c5cbf315d1e65021bda341d39f2f9126b1e63d3099d07c315894bd11add085b",
+        "response_file": "probe-sia-no-cache-header-1.response",
+        "duration_seconds": 1.619
+      },
+      {
+        "variant": "tap-point",
+        "repeat": 1,
+        "utc": "2026-11-15T13:03:35.625070+00:00",
+        "status": 502,
+        "rows": null,
+        "votable": false,
+        "discovery_success": false,
+        "url": "https://irsa.ipac.caltech.edu/TAP/sync?REQUEST=doQuery&LANG=ADQL&FORMAT=csv&QUERY=SELECT+TOP+100+a.uri%2C+p.time_bounds_lower%2C+p.energy_bandpassname%0AFROM+spherex.artifact+a+JOIN+spherex.plane+p+ON+a.planeid+%3D+p.planeid%0AWHERE+1+%3D+CONTAINS%28POINT%28%27ICRS%27%2C+133.79512917%2C+-2.24514722%29%2C+p.poly%29%0AORDER+BY+p.time_bounds_lower",
+        "content_type": "text/html; charset=iso-8859-1",
+        "bytes": 341,
+        "sha256": "6c5cbf315d1e65021bda341d39f2f9126b1e63d3099d07c315894bd11add085b",
+        "response_file": "probe-tap-point-1.response",
+        "duration_seconds": 0.276
+      },
+      {
+        "variant": "sia-baseline",
+        "repeat": 2,
+        "utc": "2026-11-15T13:03:36.901189+00:00",
+        "status": 502,
+        "rows": null,
+        "votable": false,
+        "discovery_success": false,
+        "url": "https://irsa.ipac.caltech.edu/SIA?MAXREC=1000&COLLECTION=spherex_qr3&COLLECTION=spherex_dr1&POS=CIRCLE+133.79512917+-2.24514722+0.05892556509887896",
+        "content_type": "text/html; charset=iso-8859-1",
+        "bytes": 341,
+        "sha256": "6c5cbf315d1e65021bda341d39f2f9126b1e63d3099d07c315894bd11add085b",
+        "response_file": "probe-sia-baseline-2.response",
+        "duration_seconds": 0.308
+      },
+      {
+        "variant": "sia-maxrec100",
+        "repeat": 2,
+        "utc": "2026-11-15T13:03:38.209807+00:00",
+        "status": 502,
+        "rows": null,
+        "votable": false,
+        "discovery_success": false,
+        "url": "https://irsa.ipac.caltech.edu/SIA?MAXREC=100&COLLECTION=spherex_qr3&COLLECTION=spherex_dr1&POS=CIRCLE+133.79512917+-2.24514722+0.05892556509887896",
+        "content_type": "text/html; charset=iso-8859-1",
+        "bytes": 341,
+        "sha256": "6c5cbf315d1e65021bda341d39f2f9126b1e63d3099d07c315894bd11add085b",
+        "response_file": "probe-sia-maxrec100-2.response",
+        "duration_seconds": 0.309
+      },
+      {
+        "variant": "sia-dr1-only",
+        "repeat": 2,
+        "utc": "2026-11-15T13:03:39.519600+00:00",
+        "status": 502,
+        "rows": null,
+        "votable": false,
+        "discovery_success": false,
+        "url": "https://irsa.ipac.caltech.edu/SIA?MAXREC=100&COLLECTION=spherex_dr1&POS=CIRCLE+133.79512917+-2.24514722+0.05892556509887896",
+        "content_type": "text/html; charset=iso-8859-1",
+        "bytes": 341,
+        "sha256": "6c5cbf315d1e65021bda341d39f2f9126b1e63d3099d07c315894bd11add085b",
+        "response_file": "probe-sia-dr1-only-2.response",
+        "duration_seconds": 0.321
+      },
+      {
+        "variant": "sia-qr3-only",
+        "repeat": 2,
+        "utc": "2026-11-15T13:03:40.840904+00:00",
+        "status": 502,
+        "rows": null,
+        "votable": false,
+        "discovery_success": false,
+        "url": "https://irsa.ipac.caltech.edu/SIA?MAXREC=100&COLLECTION=spherex_qr3&POS=CIRCLE+133.79512917+-2.24514722+0.05892556509887896",
+        "content_type": "text/html; charset=iso-8859-1",
+        "bytes": 341,
+        "sha256": "6c5cbf315d1e65021bda341d39f2f9126b1e63d3099d07c315894bd11add085b",
+        "response_file": "probe-sia-qr3-only-2.response",
+        "duration_seconds": 0.266
+      },
+      {
+        "variant": "sia-no-cache-header",
+        "repeat": 2,
+        "utc": "2026-11-15T13:03:42.109462+00:00",
+        "status": 502,
+        "rows": null,
+        "votable": false,
+        "discovery_success": false,
+        "url": "https://irsa.ipac.caltech.edu/SIA?MAXREC=1000&COLLECTION=spherex_qr3&COLLECTION=spherex_dr1&POS=CIRCLE+133.79512917+-2.24514722+0.05892556509887896",
+        "content_type": "text/html; charset=iso-8859-1",
+        "bytes": 341,
+        "sha256": "6c5cbf315d1e65021bda341d39f2f9126b1e63d3099d07c315894bd11add085b",
+        "response_file": "probe-sia-no-cache-header-2.response",
+        "duration_seconds": 0.382
+      },
+      {
+        "variant": "tap-point",
+        "repeat": 2,
+        "utc": "2026-11-15T13:03:43.491675+00:00",
+        "status": 502,
+        "rows": null,
+        "votable": false,
+        "discovery_success": false,
+        "url": "https://irsa.ipac.caltech.edu/TAP/sync?REQUEST=doQuery&LANG=ADQL&FORMAT=csv&QUERY=SELECT+TOP+100+a.uri%2C+p.time_bounds_lower%2C+p.energy_bandpassname%0AFROM+spherex.artifact+a+JOIN+spherex.plane+p+ON+a.planeid+%3D+p.planeid%0AWHERE+1+%3D+CONTAINS%28POINT%28%27ICRS%27%2C+133.79512917%2C+-2.24514722%29%2C+p.poly%29%0AORDER+BY+p.time_bounds_lower",
+        "content_type": "text/html; charset=iso-8859-1",
+        "bytes": 341,
+        "sha256": "6c5cbf315d1e65021bda341d39f2f9126b1e63d3099d07c315894bd11add085b",
+        "response_file": "probe-tap-point-2.response",
+        "duration_seconds": 0.302
+      }
+    ],
+    "finished_utc": "2026-11-15T13:03:44.798139+00:00"
+  },
+  "prior_cloud_log_evidence": {
+    "environment": "Cloud Run",
+    "revision": "timescope-00002-8kk",
+    "command": "gcloud run services logs read timescope --project=timescope-spaceapps-2026 --region=us-central1 --limit=200 --freshness=2h",
+    "query": {
+      "ra": 133.79512917,
+      "dec": -2.24514722,
+      "fov": 5
+    },
+    "session_id": "d8c8b5b168094915bdd8fb7f2631267b",
+    "observed_terminal_log_utc": "2026-11-15T12:44:16Z",
+    "routes": [
+      {
+        "route": "SIA/capabilities",
+        "http_status": 502,
+        "exception_class": "DALServiceError",
+        "votable": false
+      },
+      {
+        "route": "direct SIA",
+        "http_status": 502,
+        "exception_class": "HTTPError",
+        "votable": false
+      }
+    ],
+    "per_request_duration_seconds": null,
+    "duration_note": "Per-request duration was not recorded in these historical logs. Do not infer a latency from sparse log timestamps.",
+    "response_note": "Logs contain HTTP 502 Proxy Error and an HTML error body, not an observation VOTable.",
+    "cause_established": false
+  },
+  "conditional_route_decision": {
+    "status": "skipped; blocked by archive",
+    "reason": "All five SIA variants and the TAP point query returned HTTP 502 on both repeats. No successful real TAP response exists to validate an adapter."
+  },
+  "release_tests": null,
+  "public_fields": [],
+  "public_browser": null,
+  "deployment": null
+}
