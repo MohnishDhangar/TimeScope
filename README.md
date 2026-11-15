@@ -95,3 +95,7 @@ The bundled examples use **SPHEREx DR1 and QR3 Spectral Images** from NASA/IPAC 
 AI tools assisted planning, implementation, debugging, documentation and test design. AI output is not evidence of scientific validity; the reproducible checks and actual observation provenance are recorded separately. The project owner confirmed that no earlier project code was reused. Final submission disclosure should identify all tools actually used.
 
 Original TimeScope source is [MIT licensed](LICENSE), approved by the project owner. Scientific data and third-party dependencies retain their own terms and acknowledgements.
+
+## Competition acceptance package
+
+[Final acceptance](docs/final-acceptance.md) · [Five-target evidence](docs/challenge-target-validation.md) · [Challenge compliance](docs/challenge-compliance.md) · [Final tests](docs/final-test-report.md) · [Submission assets](submission/final-submission-checklist.md). Three bundled real sequences contain 17 frames. Four further named-target requests were blocked by archive timeouts; the WISE 0855 reference field is verified without confirming the object. No target requirement waiver or official submission is claimed. The owner records and uploads the demo manually.

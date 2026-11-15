@@ -95,7 +95,7 @@ class AttemptSession(requests.Session):
             raise DiscoveryError('Unexpected archive client request was blocked.','archive_invalid_response')
         if remaining<MIN_REQUEST_S:raise requests.Timeout('Discovery deadline reached before request')
         self.sent+=1
-        kwargs.update(timeout=(min(5,remaining/3),min(20,remaining*2/3)),
+        kwargs.update(timeout=(min(5,remaining/3),min(35,remaining*2/3)),
                       stream=True,allow_redirects=False)
         try:
             with super().request(method,url,**kwargs) as response:

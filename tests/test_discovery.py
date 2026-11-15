@@ -240,3 +240,11 @@ def test_response_byte_cap(wire,clock,monkeypatch):
     calls=wire([response()])
     with pytest.raises(d.DiscoveryError) as exc:d.discover(QUERY)
     assert exc.value.code=='archive_invalid_response' and len(calls)==1
+
+
+def test_read_timeout_accommodates_observed_25_second_responses(wire,clock):
+    """Synthetic transport verifies room for real probe latency, without sleeping."""
+    calls=wire([response()])
+    d.discover(QUERY,budget_s=60)
+    assert calls[0]['timeout'][1]>=25
+    assert sum(calls[0]['timeout'])<=60

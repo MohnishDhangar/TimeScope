@@ -1,0 +1,77 @@
+[
+  {
+    "label": "Original comparison field",
+    "id": "23577cd786a24f24bedec59e7c5366ae",
+    "frames": 6,
+    "dates": [
+      "2025-05-06T02:33:29.930",
+      "2026-05-14T06:53:35.614"
+    ],
+    "coverage": [
+      0.882548937942524,
+      0.9221157850895461
+    ],
+    "wavelength": [
+      1.1256184987050306,
+      1.5911141183870146
+    ],
+    "query": {
+      "ra": 133.79512917,
+      "dec": -7.24514722,
+      "fov": 5,
+      "frames": 6
+    },
+    "partial": false,
+    "discovery_limited": false
+  },
+  {
+    "label": "Southern comparison field",
+    "id": "57b2c1c4360a4ca8a2486e8b6c97077f",
+    "frames": 6,
+    "dates": [
+      "2025-05-06T02:33:29.930",
+      "2026-05-14T06:53:35.614"
+    ],
+    "coverage": [
+      0.8630778842149105,
+      0.9163890045814244
+    ],
+    "wavelength": [
+      1.2120636095665327,
+      1.4394129945107612
+    ],
+    "query": {
+      "ra": 134.4,
+      "dec": -8.5,
+      "fov": 10.0,
+      "frames": 6
+    },
+    "partial": false,
+    "discovery_limited": true
+  },
+  {
+    "label": "M101 field",
+    "id": "d943f95d272546aa8a2a01e656fc3c32",
+    "frames": 5,
+    "dates": [
+      "2025-05-10T17:04:37.742",
+      "2026-05-23T16:52:04.655"
+    ],
+    "coverage": [
+      0.7629991381786843,
+      0.9669635162309681
+    ],
+    "wavelength": [
+      3.8185950586788007,
+      4.392173362859824
+    ],
+    "query": {
+      "ra": 210.80227,
+      "dec": 54.34895,
+      "fov": 6.0,
+      "frames": 6
+    },
+    "partial": true,
+    "discovery_limited": false
+  }
+]
