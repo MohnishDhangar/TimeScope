@@ -371,3 +371,130 @@ body:has(.observatory-app) { overflow: hidden; }
   .fixed-viewer .viewer-field { font-size: 8px; }
   .viewer-stage .empty p { display: none; }
 }
+
+
+/* Dedicated analysis workspace, compact scientific typography. */
+.observatory-app { font-size: 13px; }
+.observatory-app .site-header { min-height: 55px; }
+.observatory-app .brand { font-size: 18px; }
+.observatory-app .brand-symbol { width: 26px; height: 26px; }
+.observatory-app .workspace-navigation { gap: 6px; align-self: stretch; }
+.workspace-navigation button {
+  background: transparent; color: #b9b9be; border: 0;
+  border-bottom: 2px solid transparent; padding: 0 12px;
+  font-size: 12px; font-weight: 650; white-space: nowrap;
+}
+.workspace-navigation button:hover:not(:disabled) { background: #1e1e20; color: #fff; }
+.workspace-navigation button[aria-current=page] { color: #fff; border-bottom-color: var(--accent); }
+.observatory-layout { grid-template-columns: minmax(320px,39%) minmax(0,1fr); }
+.control-column { padding-inline: clamp(15px,1.8vw,30px); }
+.control-column h1 { font-size: clamp(25px,2.25vw,34px); letter-spacing: -.045em; }
+.control-column h2 { font-size: 18px; margin-bottom: 11px; letter-spacing: -.025em; }
+.control-column .section-heading>p { font-size: 12px; }
+.control-column .search-section { padding-top: 20px; }
+.control-column .analysis-workspace { padding: 19px 0 24px; }
+.control-column .analysis-heading { margin: 0 0 12px; }
+.control-column .evidence-toolbar {
+  padding: 11px; margin: 0 0 12px; gap: 8px; align-items: center;
+}
+.evidence-toolbar .evidence-title { flex: 1 1 100%; }
+.evidence-toolbar .evidence-title strong { font-size: 12px; }
+.evidence-toolbar .evidence-actions { flex: 1 1 100%; gap: 7px; }
+.evidence-toolbar .evidence-actions button {
+  font-size: 11px; padding: 9px 11px; min-height: 34px;
+}
+.evidence-toolbar .evidence-actions button:first-child {
+  background: transparent; border-color: #67676b; color: #eee; order: 2;
+}
+.evidence-toolbar .evidence-actions button:last-child {
+  background: var(--accent); border-color: var(--accent); color: white; order: 1;
+}
+.evidence-toolbar .evidence-actions button:last-child:hover:not(:disabled) { background: #bb1821; }
+.evidence-toolbar .share-help { font-size: 10px; line-height: 1.4; }
+.control-column .offline, .control-column .alert {
+  font-size: 11px; line-height: 1.5; padding: 9px 11px; margin: 8px 0;
+}
+.control-column .observation-chart { padding-top: 13px; margin: 12px 0 0; }
+.control-column .observation-chart h3 { font-size: 16px; margin-bottom: 5px; }
+.control-column .observation-chart p { font-size: 11px; margin: 5px 0; line-height: 1.45; }
+.control-column .observation-chart small { font-size: 10px; }
+.control-column .metadata-panel { padding: 16px 0; }
+.control-column .metadata-panel dt,.control-column .metadata-panel dd { padding: 7px 0; font-size: 11px; }
+.control-column .metadata-panel .notice { margin-top: 12px; padding-top: 10px; }
+.control-column .notice summary { cursor: pointer; color: var(--warning); font-size: 11px; font-weight: 650; }
+.control-column .metadata-panel p { font-size: 11px; margin: 7px 0; }
+.control-column .metadata-panel>a { font-size: 11px; margin-top: 10px; }
+.control-column .analysis-panel { padding: 15px 0; }
+.control-column .comparison-evidence h3 { font-size: 15px; }
+.control-column .comparison-evidence p,.control-column .comparison-evidence dd { font-size: 11px; }
+.control-column label { font-size: 11px; gap: 6px; }
+.control-column input[type=number],.control-column select { padding: 9px; font-size: 12px; }
+.control-column form { gap: 9px; padding: 12px; }
+.control-column form>button { font-size: 12px; min-height: 36px; padding: 10px 12px; }
+.control-column .filmstrip button { flex-basis: 91px; padding: 6px; }
+.control-column .filmstrip img { width: 77px; height: 56px; }
+.control-column .filmstrip span,.control-column .filmstrip small { font-size: 9px; margin-top: 4px; }
+.fixed-viewer { padding: clamp(9px,1.25vw,20px); gap: 7px; }
+.fixed-viewer .instrument-header { font-size: 10px; padding-bottom: 8px; }
+.viewer-field { font-size: 10px; }
+.viewer-options {
+  display: flex; align-items: end; gap: 8px; flex-wrap: wrap; flex: 0 0 auto;
+  padding: 6px 0 2px; min-width: 0;
+}
+.viewer-options .view-options { flex: 1 1 245px; margin: 0; gap: 6px; }
+.viewer-options .view-options label { min-width: 82px; font-size: 10px; gap: 4px; }
+.viewer-options select { padding: 6px 8px; font-size: 11px; }
+.viewer-options .extended-controls { flex: 1 1 auto; justify-content: flex-end; margin: 0; gap: 5px; }
+.viewer-options .extended-controls button { padding: 6px 9px; font-size: 10px; min-height: 28px; }
+.viewer-options .extended-controls button:nth-child(2) { background: #252527; border-color: #414145; }
+.viewer-options .extended-controls label { margin-left: 0; gap: 5px; font-size: 10px; }
+.viewer-options .extended-controls select { width: auto; }
+.viewer-zoom { grid-column: 1/-1; }
+.viewer-zoom .zoom-controls {
+  margin: 0; gap: 10px; flex-wrap: nowrap; justify-content: flex-start; font-size: 10px;
+}
+.viewer-zoom .zoom-controls label { flex: 1 1 auto; font-size: 10px; gap: 9px; }
+.viewer-zoom .zoom-controls input { flex: 1 1 auto; width: 100%; min-width: 50px; }
+.viewer-zoom .zoom-controls .quiet { white-space: nowrap; font-size: 10px; padding: 3px 0; }
+.viewer-playback .controls button { padding: 7px 11px; font-size: 11px; }
+.viewer-date { font-size: 9px; }
+@media(min-width:1500px) {
+  .observatory-layout { grid-template-columns: minmax(480px,37%) minmax(0,1fr); }
+}
+@media(max-width:800px) {
+  .observatory-app .site-header { padding: 8px 12px 0; gap: 5px 10px; }
+  .observatory-app .workspace-navigation { width: 100%; gap: 2px; flex-wrap: wrap; }
+  .workspace-navigation button { font-size: 10px; padding: 9px 8px; }
+  .observatory-layout { grid-template-columns: minmax(0,1fr); grid-template-rows: minmax(0,48%) minmax(0,1fr); }
+  .fixed-viewer { padding: 6px 9px; gap: 4px; }
+  .fixed-viewer .instrument-header { font-size: 9px; padding-bottom: 4px; }
+  .viewer-options { gap: 5px; padding: 0; }
+  .viewer-options .view-options { flex-basis: 170px; }
+  .viewer-options .view-options label { min-width: 65px; font-size: 9px; }
+  .viewer-options select { padding: 4px 5px; font-size: 10px; }
+  .viewer-options .extended-controls { flex-basis: auto; }
+  .viewer-options .extended-controls button { padding: 5px 6px; font-size: 9px; min-height: 23px; }
+  .viewer-options .extended-controls label { font-size: 9px; }
+  .viewer-playback .controls button { padding: 5px 8px; font-size: 10px; }
+  .viewer-playback { gap: 2px 8px; }
+  .viewer-zoom .zoom-controls label,.viewer-zoom .zoom-controls .quiet { font-size: 9px; }
+  .control-column { padding-inline: 13px; }
+  .control-column .analysis-workspace { padding-top: 14px; }
+}
+@media(max-width:520px) {
+  .viewer-options .extended-controls { justify-content: flex-start; }
+  .viewer-options .view-options { flex-basis: 100%; }
+  .viewer-stage .empty h2 { font-size: 13px; }
+  .viewer-stage .empty p { font-size: 10px; }
+}
+@media(max-height:600px) {
+  .fixed-viewer .viewer-options .view-options label { gap: 2px; }
+  .fixed-viewer .viewer-options select { padding-block: 3px; }
+  .fixed-viewer .viewer-options .extended-controls button { min-height: 22px; padding-block: 3px; }
+  .fixed-viewer .viewer-date { display: none; }
+}
+@media(max-height:480px) and (max-width:800px) {
+  .observatory-app .workspace-navigation { display: flex; }
+  .observatory-layout { grid-template-rows: minmax(0,53%) minmax(0,1fr); }
+  .fixed-viewer .instrument-header { display: none; }
+}
