@@ -1,3 +1,19 @@
+# Latest release: approved observatory integration
+
+**Current application:** https://timescope-331427520592.us-central1.run.app/ . Integrated source `2ec672dabb10bd2a47dad442e1c9423196af4950` is published on GitHub main. Serving revision `timescope-00004-q59`; image digest and build are in `cloud-deployment-record.json`. One successful deployment, unchanged service resources, previous revision retained.
+
+**Verified in this integration:** 121 backend tests; 26 frontend checks locally and against the public application; production build and lint; actual Cloud Build success. All prior discovery/storage/provenance protections and previously preserved detector/wavelength-selection work are integrated with the approved graphite/red fixed-viewer interface. Eight viewport sizes manually inspected; four fixed-viewer regression scenarios added. Original real-FITS wavelength metrics reproduced exactly offline.
+
+**Latest public search:** session `8caa38ba3b5e4341af5fbeb90d77a014`, original field, four frames. Three discovery timeouts, disclosed bundled historical metadata, four fresh FITS downloads, four usable frames, API readiness observed 64.35 s, automatic navigation and evidence export passed. Fresh arbitrary-coordinate discovery remains unverified because the official archive returned errors during validation.
+
+**Limitations:** existing combined DR1+QR3 discovery retained; DR1-first and AWS adapters are not implemented. No calibrated difference view, spectra, catalog overlays, source measurements or detections. Named-target testing remains incomplete; a WISE 0855 field is not its detection. See `target-testing-status.md`.
+
+**Submission:** MIT approved; no earlier code reused per owner. Demo captions/script updated for the exact new interface. Final recording/presentation public links, official form submission, final AI disclosure confirmation, billing verification and competition freeze/tag remain outstanding. Do not claim an official submission or a published video until confirmed. Independent static fallback unchanged.
+
+Detailed current evidence: `FRONTEND-INTEGRATION.md` and `frontend-integration-validation.json`. The preceding repair report below is retained as historical evidence, not the current deployment status.
+
+---
+
 # TimeScope — discovery repair handoff, November 15, 2026
 
 This is a verified availability milestone, **not the final competition freeze or official submission**. Deadline remains 23:59 IST tonight. Full measured evidence has one source of truth: [discovery-repair-validation.json](discovery-repair-validation.json).

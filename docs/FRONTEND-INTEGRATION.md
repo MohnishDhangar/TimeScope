@@ -11,3 +11,7 @@ All three genuine bundles passed browser coverage. Four added browser scenarios 
 Original FITS checksums and all three wavelength-validation results were reproduced exactly offline. The southern field recommendation remains 0.232% approximate center-wavelength separation versus 4.707% at temporal endpoints, with shorter baseline and lower common coverage. These are candidate-pool heuristics, not validated photometric/spectral compatibility.
 
 Deployment/public verification are recorded in `frontend-integration-validation.json` and `cloud-deployment-record.json` after the committed source is published. No fresh target discovery or detection is inferred from bundled fields. Named-target audit remains incomplete; record archive-failed attempts separately from successful sequences.
+
+## Deployed and publicly verified
+
+Source `2ec672dabb10bd2a47dad442e1c9423196af4950`, revision `timescope-00004-q59`, build `e6c906a0-43ad-4374-9b03-87f1e4869724` **SUCCESS**. All 26 checks passed again against the public URL. Actual original-field search recovered through historical metadata and four fresh FITS in 64.35 s; automatic viewer navigation, comparison and evidence export passed. Full results/configuration are in the linked JSON records.

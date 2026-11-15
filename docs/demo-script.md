@@ -46,3 +46,5 @@ No PPT/PDF artifact or public presentation URL has been produced in this repair 
 ## Approved observatory interface recording
 
 Use the integrated release after public verification. Open **Observation library**, select the southern field, then use **Inspect recommended pair**. The viewer remains fixed; scroll the analysis column to the date–wavelength graph and metadata. Show the 0.232% approximate center-wavelength separation, keep the qualitative limitations visible and download the evidence card. The original six-frame comparison and partial M101 field remain available. Caption the recording as bundled genuine SPHEREx observations; do not imply fresh coordinate discovery. Target-specific motion/variability validation remains incomplete.
+
+The owner will record the demo manually. No automated recording is included in the release; use the caption file and verify that the recording shows the serving competition revision.
