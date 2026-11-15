@@ -6,7 +6,7 @@ TimeScope is a public scientific web application for exploring the same sky regi
 
 Built for the **2026 NASA Space Apps Challenge — Planet X and SPHEREx**.
 
-[Live application](https://timescope-331427520592.us-central1.run.app/) · [Independent real-data showcase](https://timescope-spherex.roanpaste16.chatgpt.site/) · [Challenge](https://hackathlone.com/challenges/planet-x-and-spherex)
+[Live application](https://timescope-331427520592.us-central1.run.app/) · [Challenge](https://hackathlone.com/challenges/planet-x-and-spherex)
 
 ![TimeScope observation workspace](docs/img/observatory-desktop.png)
 
@@ -70,7 +70,7 @@ The pipeline preserves original FITS URLs, SHA-256 checksums, cutout parameters,
 
 Live searches depend on the NASA/IPAC archive. Direct SIA discovery has succeeded despite intermittent HTTP 502 responses and timeouts on archive access routes. If discovery fails, TimeScope may reuse a validated inventory for the exact query, with its original date and scope disclosed. This is not fresh discovery. FITS retrieval, cached FITS reuse and completed-session reuse are distinguished.
 
-Bundled observations remain usable without fresh archive discovery. Live sessions are temporary; evidence cards preserve the selected images and metadata for offline review. The independent static showcase is a separate, earlier bundled-data release and does not support arbitrary live searches.
+Bundled observations remain usable without fresh archive discovery. Live sessions are temporary; evidence cards preserve the selected images and metadata for offline review.
 
 SPHEREx's wavelength varies with detector position. Wavelength-prioritized selection ranks approximate center-wavelength separation; it does not establish identical spectral response. Different wavelengths, PSFs, calibration, noise and coverage can alter image appearance. The time–wavelength graph is neither a spectrum nor a light curve. Bright-peak alignment diagnostics are preliminary, not catalog-validated precision astrometry. Smooth display interpolation adds no resolution.
 
@@ -121,4 +121,6 @@ TimeScope acknowledges NASA funding, the joint JPL/Caltech SPHEREx mission, NASA
 
 **Development disclosure:** OpenAI ChatGPT and Codex assisted planning, implementation, debugging, documentation and test design. Scientific claims are supported by the recorded observations and validation evidence, not by generated text. The project owner confirmed that no earlier personal-project code was reused.
 
-Original TimeScope source is available under the [MIT license](LICENSE). Scientific data and third-party software retain their own terms.
+## License
+
+TimeScope's original application source code is open source under the [MIT License](LICENSE). You may use, modify and redistribute the software, including commercially, subject to the license terms. Scientific data and third-party software retain their own terms and attribution requirements.
