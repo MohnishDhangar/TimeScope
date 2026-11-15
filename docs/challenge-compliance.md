@@ -18,7 +18,7 @@ Basis: https://hackathlone.com/challenges/planet-x-and-spherex . Official NASA p
 | Consideration | Status | Actual implementation / limitation |
 |---|---|---|
 | Future releases | Partial | Existing DR1/QR3 discovery; adapting a new schema/release still needs work |
-| 102-band visualization / stacking / spectra | Partial | Approximate center-wavelength chart, detector constraint and pair ranking; no full-band explorer, stack or spectrum |
+| 102-band visualization / stacking / spectra | Partial | Official DR1 mosaic channel explorer with 102 metadata-defined centers and blank channels 51/52; three actual channels verified. Approximate temporal center-wavelength chart, detector constraint and pair ranking. No stacking or calibrated spectrum extraction |
 | Add/subtract images | Not implemented | No calibrated residuals |
 | Field of view | Implemented and verified | 1–15′ square field; enclosing discovery circle |
 | Other telescope overlays | Not implemented | Catalog references in audit are not overlays |

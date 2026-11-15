@@ -74,7 +74,7 @@ Bundled observations remain usable without fresh archive discovery. Live session
 
 SPHEREx's wavelength varies with detector position. Wavelength-prioritized selection ranks approximate center-wavelength separation; it does not establish identical spectral response. Different wavelengths, PSFs, calibration, noise and coverage can alter image appearance. The time–wavelength graph is neither a spectrum nor a light curve. Bright-peak alignment diagnostics are preliminary, not catalog-validated precision astrometry. Smooth display interpolation adds no resolution.
 
-No discovery of Planet X, confirmed source detection, measured proper motion, calibrated photometry, validated difference imaging or automated candidate detection is claimed. The all-sky spectral cube and external catalog overlays are not part of the verified repository release described here.
+No discovery of Planet X, confirmed source detection, measured proper motion, calibrated photometry, validated difference imaging or automated candidate detection is claimed. External catalog overlays remain unimplemented. The separate spectral explorer displays official all-sky mosaic channels as visualization, with no calibrated spectrum extraction.
 
 [Scientific comparison methodology](docs/comparison-validation.md) · [Wavelength validation](docs/wavelength-validation.md) · [Archive recovery](docs/discovery-recovery.md)
 
@@ -108,7 +108,7 @@ Run the application on port 8000 before the browser suite.
 
 The seven-field source candidate at commit `81a7275` recorded 122 passing backend tests and 31 frontend checks (30 Chromium scenarios and one metadata-logic check); production build and lint passed. See the [final test report](docs/final-test-report.md). Synthetic fixtures are used for software verification, not as astronomical evidence.
 
-The latest verified Cloud Run deployment before the spectral update is revision `timescope-00007-hhw`, built from `81a7275` with seven bundled fields and 33 frames; consult the [deployment record](docs/cloud-deployment-record.json) for the exact deployed version rather than assuming every repository update is already live. [Cloud deployment guide](docs/CLOUD-DEPLOYMENT.md).
+The verified Cloud Run deployment is revision `timescope-00008-s5w`, built from `6998261`, including the spectral explorer and seven bundled fields with 33 frames; consult the [deployment record](docs/cloud-deployment-record.json) for the exact deployed version rather than assuming every repository update is already live. [Cloud deployment guide](docs/CLOUD-DEPLOYMENT.md).
 
 ## Data, credits and license
 

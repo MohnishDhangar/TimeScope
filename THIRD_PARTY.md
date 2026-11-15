@@ -19,7 +19,7 @@ The current repository contains 33 bundled previews across seven fields, all gen
 - [Mission and publication-acknowledgement requirements](https://irsa.ipac.caltech.edu/Missions/spherex.html).
 - [Official archive access documentation](https://caltech-ipac.github.io/spherex-archive-documentation/spherex-data-access/) and [cutouts tutorial](https://caltech-ipac.github.io/irsa-tutorials/spherex-cutouts/).
 
-TimeScope acknowledges NASA funding, the joint JPL/Caltech SPHEREx mission, NASA/IPAC IRSA's data service and the instrument, calibration and archive teams. The official release pages require their prescribed publication acknowledgement and the appropriate release DOI; use that source text for publications and presentation credits. No spectral all-sky cube or external Gaia/SIMBAD catalog data are used in this release. References checked November 15, 2026.
+TimeScope acknowledges NASA funding, the joint JPL/Caltech SPHEREx mission, NASA/IPAC IRSA's data service and the instrument, calibration and archive teams. The official release pages require their prescribed publication acknowledgement and the appropriate release DOI; use that source text for publications and presentation credits. The spectral explorer additionally uses official DR1 all-sky cube visualization tiles, credited below. No external Gaia/SIMBAD catalog data are used. References checked November 15, 2026.
 
 NASA/SPHEREx names identify the data and challenge; no agency endorsement or discovery claim is implied. Any future catalog, imagery, code or asset integration needs its own provenance and applicable notices.
 

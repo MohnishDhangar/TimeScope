@@ -1,0 +1,35 @@
+{
+  "checked_utc": "2026-11-15T18:36:12.048Z",
+  "base": "https://timescope-331427520592.us-central1.run.app",
+  "tiles": [
+    {
+      "url": "https://irsa.ipac.caltech.edu/irsaviewer/servlet/Download?downloadSessionId=FF-Session-1794767788506&hipsUrl=https%3A%2F%2Firsa.ipac.caltech.edu%2Fdata%2Fhips%2FSPHEREx%2Fspherex_allsky_cube%2FNorder5%2FDir10000%2FNpix10226_26.png&alwaysUseCached=true",
+      "status": 200
+    },
+    {
+      "url": "https://irsa.ipac.caltech.edu/irsaviewer/servlet/Download?downloadSessionId=FF-Session-1794767788506&hipsUrl=https%3A%2F%2Firsa.ipac.caltech.edu%2Fdata%2Fhips%2FSPHEREx%2Fspherex_allsky_cube%2FNorder5%2FDir10000%2FNpix10226_62.png&alwaysUseCached=true",
+      "status": 200
+    },
+    {
+      "url": "https://irsa.ipac.caltech.edu/irsaviewer/servlet/Download?downloadSessionId=FF-Session-1794767788506&hipsUrl=https%3A%2F%2Firsa.ipac.caltech.edu%2Fdata%2Fhips%2FSPHEREx%2Fspherex_allsky_cube%2FNorder5%2FDir10000%2FNpix10226_99.png&alwaysUseCached=true",
+      "status": 200
+    }
+  ],
+  "channels": [
+    {
+      "index": 26,
+      "body": "3\n\nPlane:\n\n1.378 μm\n\n/ 102\n\nHiPS / MOC\nEqu / Spherical\nSPHEREx DR1 all-sky data cube\nFOV:5.0'"
+    },
+    {
+      "index": 62,
+      "body": "3\n\nPlane:\n\n3.293 μm\n\n/ 102\n\nHiPS / MOC\nEqu / Spherical\nSPHEREx DR1 all-sky data cube\nFOV:5.0'"
+    },
+    {
+      "index": 99,
+      "body": "3\n\nPlane:\n\n4.915 μm\n\n/ 102\n\nHiPS / MOC\nEqu / Spherical\nSPHEREx DR1 all-sky data cube\nFOV:5.0'"
+    }
+  ],
+  "errors": [],
+  "mobile_no_overflow": true,
+  "temporal_return": true
+}

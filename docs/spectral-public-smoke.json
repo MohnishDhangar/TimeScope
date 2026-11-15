@@ -1,0 +1,45 @@
+{
+  "checked_utc": "2026-11-15T18:36:12.044Z",
+  "base": "https://timescope-331427520592.us-central1.run.app",
+  "fields": [
+    {
+      "id": "23577cd786a24f24bedec59e7c5366ae",
+      "frames": 6,
+      "loaded": true
+    },
+    {
+      "id": "57b2c1c4360a4ca8a2486e8b6c97077f",
+      "frames": 6,
+      "loaded": true
+    },
+    {
+      "id": "d943f95d272546aa8a2a01e656fc3c32",
+      "frames": 5,
+      "loaded": true
+    },
+    {
+      "id": "2af3251746ec498ea3d371439fb37f0e",
+      "frames": 2,
+      "loaded": true
+    },
+    {
+      "id": "9225223ed7814c4a871594729d92ef00",
+      "frames": 4,
+      "loaded": true
+    },
+    {
+      "id": "72660530bbee4142b7d4bc7dda56d254",
+      "frames": 6,
+      "loaded": true
+    },
+    {
+      "id": "74b2cd0949f344a09157f0e71d25babf",
+      "frames": 4,
+      "loaded": true
+    }
+  ],
+  "errors": [],
+  "evidence_embedded": true,
+  "share_restored": true,
+  "mobile_no_overflow": true
+}
