@@ -258,14 +258,28 @@ test('expired live link retains frame count and allows an explicit retry',async(
  await expect(page.getByRole('alert')).toContainText('Another scientific job is active')
 })
 
-test('metadata cache reuse is visible and distinct from cached FITS images',async({page,request})=>{
+for(const kind of ['runtime-cache','bundled-historical'])test(`${kind} metadata reuse and original timestamp persist in evidence`,async({page,request})=>{
  const id='23577cd786a24f24bedec59e7c5366ae'
  const manifest=await (await request.get(`http://127.0.0.1:8000/showcase/${id}/manifest.json`)).json()
  manifest.discovery_cached=true
- manifest.discovery_provenance={inventory_retrieved_utc:'2026-11-15T12:28:44Z'}
+ manifest.inventory_kind=kind
+ manifest.discovery_provenance={inventory_retrieved_utc:'2026-11-15T12:28:44Z',inventory_kind:kind}
  manifest.frames[0].cutout_cached=false
+ manifest.frames[1].cutout_cached=true
  await page.route('**/api/sessions/*',route=>route.fulfill({json:manifest}))
  await page.goto(`http://127.0.0.1:8000?session=${id}`)
- await expect(page.getByRole('status').filter({hasText:'Exact-query metadata'})).toContainText('not a fresh discovery query')
- await expect(page.getByText('Downloaded for this session',{exact:true})).toBeVisible()
+ await expect(page.getByRole('status').filter({hasText:'Archive metadata snapshot'})).toContainText('2026-11-15T12:28:44Z. Observations released after that date may be missing. This is not a fresh archive discovery query.')
+ await expect(page.getByRole('status').filter({hasText:'Archive metadata snapshot'})).toContainText(kind)
+ await expect(page.getByText('FITS cutouts retrieved for this request',{exact:true})).toBeVisible()
+ const downloadEvent=page.waitForEvent('download')
+ await page.getByRole('button',{name:'Download evidence card'}).click()
+ const download=await downloadEvent
+ const fs=await import('node:fs/promises')
+ const html=await fs.readFile((await download.path())!,'utf8')
+ expect(html).toContain('Archive metadata snapshot retrieved 2026-11-15T12:28:44Z')
+ expect(html).toContain(`Inventory kind: ${kind}`)
+ expect(html).toContain('This is not a fresh archive discovery query.')
+ await page.getByRole('button',{name:'Next frame'}).click()
+ await expect(page.getByText('Exact-request FITS cache',{exact:true})).toBeVisible()
+ await expect(page.getByText('FITS cutouts retrieved for this request',{exact:true})).toHaveCount(0)
 })

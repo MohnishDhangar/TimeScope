@@ -85,12 +85,18 @@ def test_failed_capabilities_falls_back_and_keeps_chronological_pairs(fake_archi
     assert [(p['a'],p['b']) for p in result['diagnostics']['pairs']]==[(0,1),(0,2),(1,2)]
 
 
-def test_exact_inventory_fallback_fetches_requested_cutouts_and_discloses_reuse(fake_archive,monkeypatch,tmp_path):
+@pytest.mark.parametrize('kind',['runtime-cache','bundled-historical'])
+def test_exact_inventory_fallback_fetches_requested_cutouts_and_discloses_reuse(fake_archive,monkeypatch,tmp_path,kind):
     from backend import discovery_cache
     from datetime import datetime,timezone
+    import json
     query=p.Search(ra=10,dec=20,frames=3)
     rows=Table(rows=[(str(i),'spherex_dr1',float(i),f'https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/2/{i}.fits') for i in range(3)],names=['obs_id','obs_collection','t_min','access_url'])
-    discovery_cache.save(query,rows,tmp_path)
+    if kind=='runtime-cache':discovery_cache.save(query,rows,tmp_path)
+    else:
+        bundle=tmp_path/'bundle';bundle.mkdir()
+        monkeypatch.setattr(discovery_cache,'SNAPSHOTS',bundle)
+        (bundle/f'{discovery_cache.query_key(query)}.json').write_text(json.dumps(discovery_cache.record(query,rows)))
     def unavailable(*args,**kwargs):raise RuntimeError('synthetic discovery outage')
     monkeypatch.setattr(p.Irsa,'query_sia',unavailable)
     monkeypatch.setattr(p,'direct_sia',unavailable)
@@ -103,5 +109,7 @@ def test_exact_inventory_fallback_fetches_requested_cutouts_and_discloses_reuse(
     assert result['status']=='ready' and result['discovery_cached']
     assert all(r['center']=='10.0,20.0d' for r in requests)
     assert len(requests)==3
-    assert any('not a new discovery query' in w for w in result['warnings'])
+    assert result['inventory_kind']==kind
+    assert result['discovery_provenance']['inventory_kind']==kind
+    assert any('This is not a fresh archive discovery query.' in w for w in result['warnings'])
     assert all(not f['cutout_cached'] for f in result['frames'])

@@ -239,6 +239,7 @@ def _run(search, job, progress, *, inventory=None):
     manifest = {'schema_version':1,'processor_version':'bounded-v2','status':'ready','id':job,'query':search.model_dump(),
        'discovery_limited':rows.meta.get('discovery_limited',False),
        'discovery_cached':rows.meta.get('discovery_cached',False),
+       'inventory_kind':rows.meta.get('inventory_kind'),
        'discovery_provenance':dict(rows.meta),
        'discovery_method':rows.meta.get('discovery_method','astroquery-sia-v2'),
        'created_utc':datetime.now(timezone.utc).isoformat(),'rows_found':len(rows),
@@ -250,7 +251,7 @@ def _run(search, job, progress, *, inventory=None):
     if manifest['discovery_limited']:
         manifest['warnings'].append('Selected from a saved inventory whose footprints contain the requested center; this is not a complete archive search.')
     if manifest['discovery_cached']:
-        manifest['warnings'].append('Archive discovery was unavailable. Exact-query metadata from '+rows.meta['inventory_retrieved_utc']+' was reused; this is not a new discovery query. Cutouts were requested for the submitted field.')
+        manifest['warnings'].append('Archive metadata snapshot retrieved '+rows.meta['inventory_retrieved_utc']+'. Observations released after that date may be missing. This is not a fresh archive discovery query.')
     reports = []
     for a in range(len(arrays)):
         for b in range(a+1, len(arrays)):

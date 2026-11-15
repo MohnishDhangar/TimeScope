@@ -2,6 +2,7 @@
 from datetime import datetime, timezone
 import hashlib
 import json
+import math
 from pathlib import Path
 import time
 from urllib.parse import urlsplit
@@ -45,23 +46,35 @@ def load(search,root):
     key=query_key(search)
     store=runtime_store(root)
     with store.mutex,store.pin(Path(root)/'discovery-cache'):
-        for source in [Path(root)/'discovery-cache'/f'{key}.json', SNAPSHOTS/f'{key}.json']:
+        for source,kind in [(Path(root)/'discovery-cache'/f'{key}.json','runtime-cache'),
+                            (SNAPSHOTS/f'{key}.json','bundled-historical')]:
             try:
-                if source.is_symlink() or source.stat().st_size>16*1024*1024:continue
-                data=json.loads(source.read_text())
-                if data['schema_version']!=1 or data['query']!=query_identity(search):continue
-                age=time.time()-datetime.fromisoformat(data['retrieved_utc']).timestamp()
-                if not 0<=age<=MAX_AGE_SECONDS:continue
-                if len(data['rows'])>1000:continue
+                if source.is_symlink() or source.parent.is_symlink() or source.stat().st_size>16*1024*1024:continue
+                payload=source.read_bytes()
+                data=json.loads(payload)
+                if type(data['schema_version']) is not int or data['schema_version']!=1 or data['query']!=query_identity(search):continue
+                retrieved=datetime.fromisoformat(data['retrieved_utc'])
+                if retrieved.tzinfo is None:continue
+                age=time.time()-retrieved.timestamp()
+                # Bundled inventories are fixed historical evidence, not a rolling
+                # cache. Never update their original timestamp or content hash.
+                if age<0 or (kind=='runtime-cache' and age>MAX_AGE_SECONDS):continue
+                if not isinstance(data['rows'],list) or not 1<=len(data['rows'])<=1000:continue
+                if not isinstance(data['discovery_method'],str) or not data['discovery_method']:continue
+                if type(data.get('query_overflow',False)) is not bool:continue
+                if any(not isinstance(r,list) or len(r)!=4 or
+                       not all(isinstance(r[i],str) and r[i] for i in (0,1,3)) or
+                       isinstance(r[2],bool) or not isinstance(r[2],(int,float)) or not math.isfinite(r[2])
+                       for r in data['rows']):continue
                 rows=Table(rows=data['rows'],names=['obs_id','obs_collection','t_min','access_url'])
                 validated=record(search,rows)
                 if len(validated['rows'])!=len(rows):continue
                 if any(str(row['obs_collection']) not in data['query']['collections'] for row in rows):continue
                 rows.meta.update(discovery_method='exact-query-cached-inventory',
-                    discovery_cached=True,inventory_retrieved_utc=data['retrieved_utc'],
+                    discovery_cached=True,inventory_kind=kind,inventory_retrieved_utc=data['retrieved_utc'],
                     inventory_age_seconds=round(age,1),original_discovery_method=data['discovery_method'],
                     query_overflow=data.get('query_overflow',False),
-                    inventory_snapshot_sha256=hashlib.sha256(source.read_bytes()).hexdigest())
+                    inventory_snapshot_sha256=hashlib.sha256(payload).hexdigest())
                 return rows
             except (OSError,ValueError,KeyError,TypeError,OverflowError):continue
     return None
