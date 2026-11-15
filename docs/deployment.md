@@ -56,3 +56,7 @@ This completes publication of the additional-examples milestone. The hosted site
 ## Version 4 — comparison workspace
 
 Source commit `5e0d5c6562af7d39e5633285c11c6cf12892b387`. Public URL unchanged. Includes time/wavelength chart, automatic selected-pair blinking and exportable comparison evidence. Public Chromium smoke check verified these interactions on real bundled observations. No hosted live search or quantitative subtraction is implied.
+
+## Superseding deployment decision
+
+The master task selects Google Cloud Run with ephemeral sessions. See [CLOUD-DEPLOYMENT.md](CLOUD-DEPLOYMENT.md) for the authoritative current configuration and status. Earlier persistent-volume and provider guidance in this document is historical.
