@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_utc": "2026-11-15T13:17:41.685829+00:00",
+  "updated_utc": "2026-11-15T13:26:36.866446+00:00",
   "repair_branch": "release/discovery-repair",
   "base_commit": "043bfd4",
   "source_commit": null,
@@ -244,7 +244,35 @@
     "status": "skipped; blocked by archive",
     "reason": "All five SIA variants and the TAP point query returned HTTP 502 on both repeats. No successful real TAP response exists to validate an adapter."
   },
-  "release_tests": null,
+  "release_tests": {
+    "python": {
+      "passed": 106,
+      "warnings": 1,
+      "seconds": 4.18,
+      "result": "passed"
+    },
+    "frontend": {
+      "passed": 20,
+      "browser_scenarios": 19,
+      "metadata_logic_checks": 1,
+      "seconds": 16.3,
+      "result": "passed"
+    },
+    "lint": "passed",
+    "production_build": "passed",
+    "container_build": "pending",
+    "environment": {
+      "python": "3.14.7",
+      "node": "26.10.0",
+      "npm": "12.1.0"
+    },
+    "source_upload": {
+      "file_count": 107,
+      "bundled_pngs": 17,
+      "prohibited_paths": [],
+      "note": "Checked before judging documentation was added; upload excludes unchanged."
+    }
+  },
   "public_fields": [],
   "public_browser": null,
   "deployment": null
