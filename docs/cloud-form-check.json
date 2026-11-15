@@ -1,0 +1,15 @@
+{
+  "created_via": "public browser coordinate form",
+  "id": "6d3dacef8cbc4869bb4c0a3c56ea4dec",
+  "post_status": 202,
+  "status": "failed",
+  "query": {
+    "ra": 133.79512917,
+    "dec": -7.24514722,
+    "fov": 5.0,
+    "frames": 4
+  },
+  "frames": 0,
+  "message": "IRSA observation search is unavailable. Try again shortly; your coordinates have not been replaced with example data.",
+  "test_note": "Browser POST succeeded. Follow-up script had a relative-URL error; this absolute-URL status check recovered the result without another archive request."
+}

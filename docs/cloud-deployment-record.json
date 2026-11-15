@@ -1,0 +1,60 @@
+{
+  "service_url": "https://timescope-i5f5ud46pa-uc.a.run.app",
+  "revision": "timescope-00001-v78",
+  "service_annotations": {
+    "run.googleapis.com/maxScale": "1",
+    "run.googleapis.com/minScale": "1"
+  },
+  "revision_annotations": {
+    "run.googleapis.com/client-name": "gcloud",
+    "run.googleapis.com/client-version": "593.0.0",
+    "run.googleapis.com/cpu-throttling": "false",
+    "run.googleapis.com/execution-environment": "gen2",
+    "run.googleapis.com/startup-cpu-boost": "true"
+  },
+  "resources": {
+    "limits": {
+      "cpu": "1",
+      "memory": "4Gi"
+    }
+  },
+  "concurrency": 10,
+  "timeout": 300,
+  "port": [
+    {
+      "containerPort": 8000,
+      "name": "http1"
+    }
+  ],
+  "environment": [
+    {
+      "name": "TIMESCOPE_DATA_DIR",
+      "value": "/app/data"
+    },
+    {
+      "name": "TIMESCOPE_MAX_CACHE_MB",
+      "value": "512"
+    },
+    {
+      "name": "TIMESCOPE_SESSION_TTL_SECONDS",
+      "value": "21600"
+    },
+    {
+      "name": "TIMESCOPE_MAX_JOBS_PER_HOUR",
+      "value": "12"
+    }
+  ],
+  "runtime_identity": "timescope-runtime@timescope-spaceapps-2026.iam.gserviceaccount.com",
+  "traffic": [
+    {
+      "latestRevision": true,
+      "percent": 100,
+      "revisionName": "timescope-00001-v78"
+    }
+  ],
+  "image_digest": "us-central1-docker.pkg.dev/timescope-spaceapps-2026/cloud-run-source-deploy/timescope@sha256:780c5730a072c8d5fda05b52e1fbf8e04cb083eaef1d971bf18c3c2a2f35623d",
+  "build_status": "SUCCESS",
+  "source_commit": "e304f036088963376bddde6538cbf85b8673931e",
+  "build_id": "06026b3f-36e1-4bbe-8193-9c8a6a2cc449",
+  "deployment_timestamp_utc": "2026-11-15T11:20:26Z"
+}

@@ -23,3 +23,8 @@ The configured release default is 512 MiB aggregate runtime storage to leave con
 `local-live-check.json` records a genuine fresh four-frame search at RA 133.79512917°, Dec −7.24514722°, FOV 5′. Both discovery routes failed. It was observed terminal at the first poll after five seconds; this is an observation bound, not an exact failure duration. No usable frames were returned. Three bundled examples remained accessible (HTTP 200). A second admission succeeded because the first job had already failed; that run therefore does not establish concurrent Busy behavior. Controlled worker tests independently verify Busy and reader access without archive traffic.
 
 Successful cold/warm live-query latencies: **not measured**. Peak Cloud Run memory, image build performance, storage behavior in Cloud Run and background progress on Cloud Run: **not yet verified**.
+
+
+## Initial Cloud Run observations
+
+Actual remote Docker build succeeded. Cloud Monitoring `run.googleapis.com/container/memory/usage` samples for revision `timescope-00001-v78` ranged from 114,855,936 to 117,026,816 bytes at 11:22–11:24 UTC (~110–112 MiB distribution means). The two genuine public search attempts failed at discovery with HTTP 502; no calibrated FITS-processing workload completed. Consequently these memory samples must not be used as a scientific-job peak or proof of the 4 GiB resource gate. Raw data: `cloud-memory-observation.json` and `cloud-live-check.json`.

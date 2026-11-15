@@ -6,7 +6,7 @@ Updated 2026-11-15. This guide supersedes older hosting proposals. The independe
 
 Project `timescope-spaceapps-2026` was verified active through gcloud. Billing is enabled. The user's console screenshot showed ₹28,569 remaining free-trial credits and ₹0 accrued charges. The user confirmed expiry 90 days from November 15: projected February 13, 2027. This is user-confirmed relative timing, not an API-retrieved expiry timestamp. No paid upgrade is authorized or performed.
 
-Cloud deployment/build status is recorded separately after it actually completes. Do not treat the commands below as evidence they succeeded. No container build was possible locally because Docker/Podman are absent.
+Cloud Build succeeded and revision `timescope-00001-v78` is serving 100% of traffic. Primary URL: https://timescope-331427520592.us-central1.run.app . The source commit and immutable image digest are in `cloud-deployment-record.json`. Docker/Podman are absent locally, but the actual remote Docker build succeeded without dependency or Python-version changes.
 
 ## Fixed configuration
 
@@ -25,6 +25,8 @@ gcloud run deploy timescope --project timescope-spaceapps-2026 --source . \
   --region us-central1 --execution-environment gen2 --allow-unauthenticated \
   --port 8000 --cpu 1 --memory 4Gi --no-cpu-throttling --min 1 --max 1 \
   --concurrency 10 --timeout 300 \
+  --build-service-account projects/timescope-spaceapps-2026/serviceAccounts/timescope-build@timescope-spaceapps-2026.iam.gserviceaccount.com \
+  --service-account timescope-runtime@timescope-spaceapps-2026.iam.gserviceaccount.com \
   --update-env-vars TIMESCOPE_DATA_DIR=/app/data,TIMESCOPE_MAX_CACHE_MB=512,TIMESCOPE_SESSION_TTL_SECONDS=21600,TIMESCOPE_MAX_JOBS_PER_HOUR=12
 ```
 
@@ -46,7 +48,7 @@ The 240-second processing deadline is cooperative: checks occur after discovery,
 
 Pricing retrieved 2026-11-15: instance-based us-central1 CPU $0.000018/vCPU-second and memory $0.000002/GiB-second. One continuously allocated CPU + 4 GiB: $67.39 per 30 days, $202.18 per 90 days gross compute, before free tier or ancillary costs. Gross credit margin against $300 is $97.82. This is a planning estimate, not measured spend or a guaranteed cap.
 
-Instance-based monthly free allowances are 240,000 vCPU-seconds and 450,000 GiB-seconds, aggregated across the billing account. Do not rely on them for the credit budget. Monitor Cloud Build, Artifact Registry, logs and egress too. Configure budget notifications around $50/$100/$150/$200/$250 (or billing-currency equivalents); alerts are not spending caps. Budget notifications are not yet verified configured. Do not change to two CPUs, scale to zero, upgrade billing or create another warm service without an authorized revised budget.
+Instance-based monthly free allowances are 240,000 vCPU-seconds and 450,000 GiB-seconds, aggregated across the billing account. Do not rely on them for the credit budget. Monitor Cloud Build, Artifact Registry, logs and egress too. Configure budget notifications around $50/$100/$150/$200/$250 (or billing-currency equivalents); alerts are not spending caps. A project-filtered ₹25,000 gross-usage budget was created for November 15–February 14, excluding credits from spend calculation, with thresholds at 20/40/60/80/100% (₹5,000 steps). Default billing notification recipients were retained. Delivery of an actual threshold email is not tested. Do not change to two CPUs, scale to zero, upgrade billing or create another warm service without an authorized revised budget.
 
 ## Evidence and remaining gates
 
@@ -58,3 +60,14 @@ Official references (retrieved 2026-11-15):
 - https://cloud.google.com/run/pricing
 - https://docs.cloud.google.com/run/docs/configuring/billing-settings
 - https://docs.cloud.google.com/run/docs/container-contract
+
+
+## Deployment evidence and unresolved acceptance
+
+Cloud Build initially failed to read its staging source object. Created dedicated build/runtime identities and granted the builder only the documented `roles/run.builder`; the runtime has no added project role. No Owner/Editor grant was made. A short service-account/IAM propagation delay caused another pre-build rejection; the subsequent build succeeded. Cloud Run startup CPU boost is enabled by default; the steady configured CPU is one. Service-level min/max annotations are both 1; CPU throttling is false, gen2, 4 GiB, concurrency 10 and timeout 300 verified from the API.
+
+A fresh unauthenticated Chromium browser verified all three real-data bundles, comparison, zoom, shared URL restoration, evidence export and mobile layout. A separate public form submission created a genuine search; both public live attempts failed at IRSA discovery with HTTP 502, confirmed in Cloud Run logs. No successful public FITS retrieval or cold/warm live-search benchmark is claimed. Controlled local tests establish Busy/readers/background completion; those gates remain unverified on a successful cloud scientific job. No forced cloud restart was performed. Public 404 behavior for internal artifacts was verified.
+
+`cloud-memory-observation.json` preserves Cloud Monitoring samples around the failed jobs (approximately 110–112 MiB). These are sampled distribution means, not a measured peak for a completed scientific workload. Actual paid usage/remaining credit after deployment has not yet been measured; the screenshot credit balance predates deployment. No automatic asynchronous monitoring is promised.
+
+The competition tag has not been created; this is the initial release milestone, not the final competition freeze. Future scientific changes require their own tests and a verified deployment update.
