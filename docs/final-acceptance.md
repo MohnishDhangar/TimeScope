@@ -44,3 +44,9 @@ Presentation: `../submission/TimeScope-presentation.pptx` (seven slides; XML str
 4. Review and complete the official submission before 23:59 IST; preserve the confirmation.
 
 No official submission has been performed. Budget notifications are not spending caps. Keep the frozen application/image through judging; future features belong on a separate branch.
+
+## Final deployment identity
+
+Application source `92dbf60b58ed085bc119e202182a9598dcfde215`; serving revision `timescope-00006-rzk`; build `c22c1c59-22e4-411c-8f86-ac955251f079` SUCCESS. Image `us-central1-docker.pkg.dev/timescope-spaceapps-2026/cloud-run-source-deploy/timescope@sha256:598a9b1a4a591d12de405a8a887bc06555fc116bb15da124e0cde20694522429`. Public HTTPS: https://timescope-331427520592.us-central1.run.app . Full traffic and configuration were compared before/after; required settings unchanged. Independent fallback returned HTTP 200 and displayed a real preview at 2026-11-15T17:20:33.894Z. The previous ephemeral live-session link returned 404 after replacement, confirming the documented lifecycle. No source code changes are planned after this freeze.
+
+Final production verification: 28 checks passed against timescope-00006-rzk (1.6 minutes), including both newly bundled target sequences with APIs blocked. Final backend: 122 passed; production build and lint passed. Source upload filename footprint matched 182 tracked source files and all 23 showcase PNGs. No credentials, raw FITS, node_modules or runtime caches were included. Current publication is frozen after the documentation commit; tag publication status is reported explicitly in the final handoff.

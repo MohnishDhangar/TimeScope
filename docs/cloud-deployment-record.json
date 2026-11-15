@@ -3,16 +3,16 @@
   "project": "timescope-spaceapps-2026",
   "region": "us-central1",
   "service": "timescope",
-  "revision": "timescope-00004-q59",
-  "image_digest": "us-central1-docker.pkg.dev/timescope-spaceapps-2026/cloud-run-source-deploy/timescope@sha256:0bd74110905a097c215e620188301cc5eae79925e93f1a0b96fc412def5b3070",
-  "source_commit": "2ec672dabb10bd2a47dad442e1c9423196af4950",
+  "revision": "timescope-00006-rzk",
+  "image_digest": "us-central1-docker.pkg.dev/timescope-spaceapps-2026/cloud-run-source-deploy/timescope@sha256:598a9b1a4a591d12de405a8a887bc06555fc116bb15da124e0cde20694522429",
+  "source_commit": "92dbf60b58ed085bc119e202182a9598dcfde215",
   "source_branch": "release/final-integration",
   "source_worktree_clean_at_deployment": true,
-  "deployment_timestamp_utc": "2026-11-15T16:35:31.445623Z",
+  "deployment_timestamp_utc": "2026-11-15T17:19:54.369426Z",
   "deployment_timestamp_source": "Cloud Run revision Ready condition",
   "build_status": "SUCCESS",
-  "build_id": "e6c906a0-43ad-4374-9b03-87f1e4869724",
-  "build_finished_utc": "2026-11-15T16:34:45.632373Z",
+  "build_id": "c22c1c59-22e4-411c-8f86-ac955251f079",
+  "build_finished_utc": "2026-11-15T17:19:05.232661Z",
   "resources": {
     "limits": {
       "cpu": "1",
@@ -53,14 +53,14 @@
     {
       "latestRevision": true,
       "percent": 100,
-      "revisionName": "timescope-00004-q59"
+      "revisionName": "timescope-00006-rzk"
     }
   ],
-  "retained_rollback_revision": "timescope-00003-t87",
+  "retained_rollback_revision": "timescope-00005-p88",
   "deployment_count_this_repair": 1,
-  "competition_tag": null,
+  "competition_tag": "submission-v1 (prepared locally after acceptance; remote publication requires authenticated Git push)",
   "competition_submission_completed": false,
-  "note": "The integrated application source is the commit above. A following documentation-only commit records acceptance and does not change the deployed code. Competition freeze/tag and official submission are still pending.",
+  "note": "Final application/data image is the source commit above. Subsequent documentation/media changes record acceptance and preserve the same backend/frontend application code. No official competition submission performed.",
   "deployment_count_this_integration": 1,
   "prior_deployment": {
     "source_commit": "a11ae4e35c0b44aa118e1ab8ebf2987108fa072b",

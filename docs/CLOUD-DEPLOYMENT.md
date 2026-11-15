@@ -1,23 +1,27 @@
 # Cloud Run deployment — authoritative competition guide
 
-Updated November 15, 2026, after the approved observatory integration. This replaces earlier conflicting hosting instructions. Deployment identity is machine-readable in [cloud-deployment-record.json](cloud-deployment-record.json); current scientific/browser acceptance is in [frontend-integration-validation.json](frontend-integration-validation.json); [discovery-repair-validation.json](discovery-repair-validation.json) preserves earlier repair evidence.
+## Final serving identity
 
-## Current service and source
+- Public app: https://timescope-331427520592.us-central1.run.app/
+- Independent static showcase: https://timescope-spherex.roanpaste16.chatgpt.site/ (unchanged)
+- Source: `92dbf60b58ed085bc119e202182a9598dcfde215`; branch `release/final-integration`; published on GitHub main.
+- Serving revision: `timescope-00006-rzk`, 100% traffic.
+- Image: `us-central1-docker.pkg.dev/timescope-spaceapps-2026/cloud-run-source-deploy/timescope@sha256:598a9b1a4a591d12de405a8a887bc06555fc116bb15da124e0cde20694522429`.
+- Build: `c22c1c59-22e4-411c-8f86-ac955251f079`, **SUCCESS**.
+- Deployment Ready timestamp: `2026-11-15T17:19:54.369426Z`.
+- Rollback revision: `timescope-00005-p88`; image retained.
 
-Public app: https://timescope-331427520592.us-central1.run.app/ . Independent static fallback: https://timescope-spherex.roanpaste16.chatgpt.site/ .
+Final library: five genuine SPHEREx bundles, 23 frames. RW Aurigae has two frames with partial-result disclosure; R Draconis has four frames; source visibility/variability are unverified. Both are independent of fresh discovery. Original 17 frames unchanged. Viewer and evidence exports explicitly identify bundled use.
 
-- Project/service/region: `timescope-spaceapps-2026` / `timescope` / `us-central1`.
-- Ready serving revision: `timescope-00004-q59`, 100% traffic; no split.
-- Deployed source: `2ec672dabb10bd2a47dad442e1c9423196af4950`, branch `release/final-integration`, clean at source upload.
-- Actual Dockerfile build: `e6c906a0-43ad-4374-9b03-87f1e4869724`, **SUCCESS**.
-- Immutable image: `us-central1-docker.pkg.dev/timescope-spaceapps-2026/cloud-run-source-deploy/timescope@sha256:0bd74110905a097c215e620188301cc5eae79925e93f1a0b96fc412def5b3070`.
-- One deployment in this integration. Previous revision `timescope-00003-t87` retained for emergency rollback. The integrated code is published on GitHub main. A subsequent documentation-only commit records these observed results. No competition tag has been created.
+Fresh public search was verified on revision 00005, source 71a09ee: 290 rows and six fresh FITS; no historical metadata or retained-session reuse. Backend/discovery code is byte-identical in this final image. The original temporary live session expired after revision replacement (404), as designed; its previews and manifest are preserved under docs/target-evidence. No new archive query was required solely for this data-library rollout. Public browser/lifecycle verification and final test results are in final-acceptance.md and final-test-report.md.
+
+The rest of this guide retains configuration/budget policy and labels earlier acceptance evidence as historical. Full identity is in cloud-deployment-record.json. No official submission claimed.
 
 ## Verified unchanged configuration
 
 Gen2, 1 vCPU, 4 GiB, instance-based billing / CPU throttling disabled, service minimum 1 and maximum 1 instance, HTTP concurrency 10, request timeout 300 seconds, container port 8000 and one Uvicorn worker. These were re-read from Cloud Run after deployment. No hosting/resource/billing changes or duplicate budgets were made.
 
-Cloud Run injects PORT; the entry point binds 0.0.0.0. Full frontend mode is explicitly built with `VITE_SHOWCASE_ONLY=false`. Source upload was inspected against the deployed commit: 130 files, all 17 genuine showcase PNGs, no virtual environment, node_modules, runtime cache, raw FITS or credentials. Local Docker is absent; the actual remote Docker build succeeded with existing pinned dependencies and Python 3.14, without changing versions.
+Cloud Run injects PORT; the entry point binds 0.0.0.0. Full frontend mode is explicitly built with `VITE_SHOWCASE_ONLY=false`. Source upload was inspected against the deployed commit: 182 files, all 23 genuine showcase PNGs, no virtual environment, node_modules, runtime cache, raw FITS or credentials. Local Docker is absent; the actual remote Docker build succeeded with existing pinned dependencies and Python 3.14, without changing versions.
 
 Continuous CPU supports the background thread between HTTP polls. A maximum of one instance is not a distributed singleton guarantee: instance replacement can lose memory jobs/files. Do not deploy over an active scientific job. Predeployment log/session inspection found no observed active jobs. No forced restart was performed during this acceptance.
 
@@ -41,10 +45,10 @@ If a blocking release defect requires rollback after jobs finish:
 
 ```sh
 gcloud run services update-traffic timescope --project timescope-spaceapps-2026 \
-  --region us-central1 --to-revisions timescope-00003-t87=100
+  --region us-central1 --to-revisions timescope-00005-p88=100
 ```
 
-The rollback revision retains discovery hardening but has the earlier interface and no wavelength controls. Do not delete either image digest until the competition version is frozen and verified.
+The rollback revision retains the same backend/interface but has the earlier 17-frame library. Retain its image for emergency rollback; do not delete submitted images during judging.
 
 ## Discovery, storage and admission policies
 
@@ -64,7 +68,7 @@ Revision `timescope-00004-q59` passed all **26 frontend checks** against the pub
 
 One genuine public form submission requested RA 133.79512917°, Dec −7.24514722°, width 5′, four frames, Auto detector, temporal selection. Session `8caa38ba3b5e4341af5fbeb90d77a014` completed; readiness was observed after **64.35 seconds**. Three live discovery requests timed out; the exact bundled-historical 289-row inventory retrieved 2026-11-15T12:28:44.186124+00:00 was disclosed. Four fresh FITS cutouts, zero FITS-cache hits and four usable frames. The browser navigated automatically to the viewer with no alert; comparison and evidence download passed. This was historical metadata recovery, not fresh discovery. Full manifest and events are in `frontend-integration-validation.json`.
 
-Source upload: 130 tracked files including all 17 genuine showcase PNGs. Pre/post configuration comparison verified CPU/memory/billing/scaling/concurrency/timeouts/port/environment/runtime identity unchanged. No independent-static-showcase deployment or modification occurred. Named-target validation remains incomplete; see `target-testing-status.md`.
+Earlier integration source upload: 130 tracked files including the original 17 showcase PNGs. Pre/post configuration comparison verified CPU/memory/billing/scaling/concurrency/timeouts/port/environment/runtime identity unchanged. No independent-static-showcase deployment or modification occurred. Named-target validation remains incomplete; see `target-testing-status.md`.
 
 ## Earlier discovery-repair acceptance (historical)
 
@@ -79,7 +83,7 @@ Exactly two fresh public search submissions were made:
 
 The first Field A browser attempt lost automatic polling and displayed the unavailable-session error although independent API polling observed completion. Its cause was not captured. Reopening the **same** retained session, without another search, passed snapshot disclosure, comparison, mobile layout and standalone evidence export. This reliability limitation is retained in the evidence, not hidden as a clean first-pass success. Public Retry was verified with a synthetic intercepted Busy response so it made no third archive request; the changed declination was preserved.
 
-Fresh arbitrary-coordinate discovery remains unverified because the official archive returned errors during validation. No cause for the archive 502s was established. Local probes and Cloud Run observations are labeled separately. Existing historical background/Busy verification is in `discovery-recovery-cloud.json`; the repair's controlled worker tests passed, but a new public concurrent scientific submission was not attempted beyond the two-query allowance.
+At the earlier repair gate, fresh arbitrary-coordinate discovery was unverified because archive requests failed; that historical limitation is superseded by the later six-frame public PASS described above. No cause for the archive 502s was established. Local probes and Cloud Run observations are labeled separately. Existing historical background/Busy verification is in `discovery-recovery-cloud.json`; the repair's controlled worker tests passed, but a new public concurrent scientific submission was not attempted beyond the two-query allowance.
 
 ## Billing reminder and judging availability
 

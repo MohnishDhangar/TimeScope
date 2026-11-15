@@ -7,3 +7,5 @@ Sources: https://irsa.ipac.caltech.edu/Missions/spherex.html ; https://caltech-i
 Scientific software: Astropy, Astroquery, NumPy, SciPy, reproject, Pillow, PyVO. Application: React, TypeScript, Vite, FastAPI, Uvicorn. See THIRD_PARTY.md and dependency license records. Source license: MIT, approved by the owner. NASA and third-party data are not relicensed by the source-code license.
 
 AI tools assisted planning, coding, debugging, documentation and test design. The team is responsible for the submitted work. Owner confirmation of the final tool list/review wording remains needed. Owner confirmed no previous project code was reused.
+
+Named-target validation used CDS SIMBAD reference positions for Barnard’s Star, RW Aurigae and R Draconis, and the published Epsilon Indi Ba position cited in the target register. These catalog/reference positions support field selection only; no catalog overlay or measured SPHEREx source identification was added.
