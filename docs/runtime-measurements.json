@@ -1,0 +1,48 @@
+{
+  "kind": "offline real FITS processing, no network; neither cold nor warm live-search latency",
+  "python": "3.14.7 (main, Aug 10 2026, 07:46:56) [GCC 16.1.1 20260728]",
+  "fixture_sha256": "629f5b475b2540173806e9d0ab366d3b6a1f652b09f114afd4b6a50534c66bf8",
+  "runtime_limit_bytes": 134217728,
+  "measurements": [
+    {
+      "job": 1,
+      "elapsed_seconds": 0.335,
+      "frames": 6,
+      "peak_process_rss_kib": 236052,
+      "runtime_bytes": 24257178,
+      "evictions": 0
+    },
+    {
+      "job": 2,
+      "elapsed_seconds": 0.377,
+      "frames": 6,
+      "peak_process_rss_kib": 236052,
+      "runtime_bytes": 48514356,
+      "evictions": 0
+    },
+    {
+      "job": 3,
+      "elapsed_seconds": 0.329,
+      "frames": 6,
+      "peak_process_rss_kib": 236052,
+      "runtime_bytes": 72771534,
+      "evictions": 0
+    },
+    {
+      "job": 4,
+      "elapsed_seconds": 0.302,
+      "frames": 6,
+      "peak_process_rss_kib": 236052,
+      "runtime_bytes": 97028712,
+      "evictions": 0
+    },
+    {
+      "job": 5,
+      "elapsed_seconds": 0.304,
+      "frames": 6,
+      "peak_process_rss_kib": 236052,
+      "runtime_bytes": 121285890,
+      "evictions": 0
+    }
+  ]
+}

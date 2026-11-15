@@ -1,11 +1,20 @@
 from concurrent.futures import ThreadPoolExecutor
-from threading import Lock
+from threading import Lock, RLock
+from collections import deque
+from contextlib import ExitStack
+import os
+import re
+import time
+from datetime import datetime, timezone
 import json
 import uuid
 import logging
 from .errors import PipelineError
 from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import StreamingResponse
+from starlette.background import BackgroundTask
+from .storage import runtime_store
 from .pipeline import DATA, ROOT, Search, run
 
 app = FastAPI(title='TimeScope')
@@ -14,13 +23,35 @@ SHOWCASE = ROOT/'frontend/dist/showcase'
 executor = ThreadPoolExecutor(max_workers=1)
 lock = Lock()
 jobs = {}
+state_lock = RLock()
+admissions = deque()
+PROCESSOR_VERSION = 'bounded-v1'
+archive_status = {'status':'not_checked','checked_utc':None}
+
+
+def identifier_valid(identifier):
+    return bool(re.fullmatch('[a-f0-9]{32}', identifier))
+
+
+def maintain():
+    store = runtime_store(DATA)
+    try:
+        store.cleanup()
+    except PipelineError:
+        pass  # Readers remain available when all eviction candidates are leased.
+    with state_lock:
+        # Disk remains the source of truth when an inactive memory record is pruned.
+        for key in list(jobs):
+            if not store._protected(DATA/key) and not (DATA/key).exists():
+                jobs.pop(key, None)
+        for key in list(jobs):
+            if len(jobs) <= 64:break
+            if jobs[key]['status'] not in ('queued','running'):
+                jobs.pop(key, None)
+
 
 def persist(identifier, state):
-    folder = DATA / identifier
-    folder.mkdir(parents=True, exist_ok=True)
-    temporary = folder / 'job.json.tmp'
-    temporary.write_text(json.dumps(state, allow_nan=False))
-    temporary.replace(folder / 'job.json')
+    runtime_store(DATA).write_json(DATA/identifier/'job.json',state)
 
 
 def process(query, identifier):
@@ -30,7 +61,9 @@ def process(query, identifier):
         persist(identifier, state)
     try:
         jobs[identifier] = run(query,identifier,update)
+        archive_status.update(status='processing_succeeded',checked_utc=jobs[identifier].get('created_utc'))
     except PipelineError as exc:
+        archive_status.update(status=exc.code,checked_utc=datetime.now(timezone.utc).isoformat())
         jobs[identifier] = {'status':'failed','id':identifier,'message':str(exc),'code':exc.code,'retryable':exc.retryable,'query':query.model_dump()}
     except Exception:
         logging.exception('Processing failed for session %s',identifier)
@@ -38,41 +71,80 @@ def process(query, identifier):
     finally:
         try:
             persist(identifier, jobs[identifier])
-        except OSError:
+        except (OSError, PipelineError):
             logging.exception('Could not persist status for session %s', identifier)
         finally:
             lock.release()
 
 @app.get('/api/health')
 def health():
-    return {'status':'ok','mode':'development','live_search':'available'}
+    return {'status':'ok','mode':'full_application','live_search':'available',
+            'archive':dict(archive_status),'storage_limit_bytes':runtime_store(DATA).limit,
+            'session_ttl_seconds':runtime_store(DATA).ttl,
+            'notice':'Application health does not establish current IRSA availability.'}
 
 @app.post('/api/sessions',status_code=202)
 def create(query: Search):
-    if not lock.acquire(blocking=False):
-        raise HTTPException(429,'A processing job is running. Try again shortly.')
-    identifier = uuid.uuid4().hex
-    jobs[identifier] = {'status':'queued','id':identifier,'message':'Waiting for processing','query':query.model_dump()}
     try:
-        persist(identifier, jobs[identifier])
-        executor.submit(process,query,identifier)
-    except Exception:
-        jobs.pop(identifier, None)
-        lock.release()
-        logging.exception('Could not queue session %s', identifier)
-        raise HTTPException(503,'Processing could not start. Please retry shortly.')
-    return {'id':identifier}
+        maintain()
+    except PipelineError as exc:
+        raise HTTPException(503, str(exc))
+    with state_lock:
+        store = runtime_store(DATA)
+        with store.mutex:
+            for path in DATA.glob('*/manifest.json'):
+                cached = read_example(path)
+                if cached and cached.get('processor_version') == PROCESSOR_VERSION and cached.get('query') == query.model_dump():
+                    return {'id':path.parent.name,'reused':True,'message':'Reusing a retained exact-query session; no new archive retrieval.'}
+        now = time.monotonic()
+        while admissions and now-admissions[0] >= 3600:admissions.popleft()
+        if len(admissions) >= int(os.getenv('TIMESCOPE_MAX_JOBS_PER_HOUR','12')):
+            raise HTTPException(429,'The global hourly search limit is reached. Explore a bundled field or retry later.',headers={'Retry-After':'300'})
+        if not lock.acquire(blocking=False):
+            raise HTTPException(429,'Another scientific job is active. Existing examples remain available; retry shortly.',headers={'Retry-After':'15'})
+        identifier = uuid.uuid4().hex
+        jobs[identifier] = {'status':'queued','id':identifier,'message':'Waiting for processing','query':query.model_dump()}
+        try:
+            persist(identifier, jobs[identifier])
+            # Pin before submit so HTTP cleanup cannot evict a queued job.
+            lease = store.pin(DATA/identifier)
+            lease.__enter__()
+            def execute():
+                try:process(query,identifier)
+                finally:lease.__exit__(None,None,None)
+            try:
+                executor.submit(execute)
+            except Exception:
+                lease.__exit__(None,None,None)
+                raise
+            admissions.append(now)
+        except Exception:
+            jobs.pop(identifier, None)
+            lock.release()
+            logging.exception('Could not queue session %s', identifier)
+            raise HTTPException(503,'Processing could not start. Please retry shortly.')
+    return {'id':identifier,'reused':False}
 
 @app.get('/api/sessions/{identifier}')
 def get(identifier: str):
-    if len(identifier)!=32 or any(c not in '0123456789abcdef' for c in identifier):
+    if not identifier_valid(identifier):
         raise HTTPException(404,'Unknown session')
+    maintain()
+    if (DATA/identifier).is_symlink():
+        raise HTTPException(404,'Unknown session')
+    store = runtime_store(DATA)
+    with store.mutex, store.pin(DATA/identifier):
+        return get_retained(identifier)
+
+def get_retained(identifier):
     if identifier in jobs:
         return jobs[identifier]
     path = DATA/identifier/'manifest.json'
+    if path.is_symlink():raise HTTPException(404,'Unknown session')
     if path.exists():
         return json.loads(path.read_text())
     status_path = DATA/identifier/'job.json'
+    if status_path.is_symlink():raise HTTPException(404,'Unknown session')
     if status_path.exists():
         state = json.loads(status_path.read_text())
         if state['status'] in ('queued','running'):
@@ -83,10 +155,11 @@ def get(identifier: str):
     bundled = read_example(SHOWCASE/identifier/'manifest.json')
     if bundled is not None:
         return bundled
-    raise HTTPException(404,'Unknown session; submit again.')
+    raise HTTPException(404,'This temporary session has expired or is unavailable. Retry the saved coordinates; bundled examples remain available.')
 
 def read_example(path):
     try:
+        if path.is_symlink() or path.parent.is_symlink():return None
         manifest = json.loads(path.read_text())
         if manifest.get('status') != 'ready' or len(manifest.get('frames', [])) < 2:
             return None
@@ -103,6 +176,7 @@ def read_example(path):
 
 @app.get('/api/examples')
 def examples():
+    maintain()
     results = {}
     # Local sequences override bundled copies with the same identity.
     for root in (SHOWCASE, DATA):
@@ -118,6 +192,37 @@ def examples():
                 'start':manifest['frames'][0].get('date'), 'end':manifest['frames'][-1].get('date')}
     return sorted(results.values(), key=lambda item: (item['partial'], -item['frames'], item['id']))
 
-app.mount('/artifacts', StaticFiles(directory=DATA), name='artifacts')
+@app.get('/artifacts/{identifier}/{name}')
+def artifact(identifier: str, name: str):
+    if not identifier_valid(identifier) or not (name == 'manifest.json' or re.fullmatch(r'[0-9]{1,2}\.png',name)):
+        raise HTTPException(404,'Unknown public artifact')
+    store = runtime_store(DATA)
+    stack = ExitStack()
+    try:
+        with store.mutex:
+            try:store.cleanup()
+            except PipelineError:pass
+            folder = DATA/identifier
+            path = folder/name
+            if folder.is_symlink() or path.is_symlink() or not path.resolve().is_relative_to(DATA.resolve()):
+                raise HTTPException(404,'Unknown public artifact')
+            stack.enter_context(store.pin(folder))
+            handle = stack.enter_context(path.open('rb'))
+            length = path.stat().st_size
+    except FileNotFoundError:
+        stack.close()
+        raise HTTPException(404,'Artifact expired or unavailable')
+    except Exception:
+        stack.close()
+        raise
+    def chunks():
+        try:
+            while block := handle.read(65536):yield block
+        finally:
+            stack.close()
+    return StreamingResponse(chunks(),media_type='application/json' if name=='manifest.json' else 'image/png',
+        headers={'Content-Length':str(length),'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'},
+        background=BackgroundTask(stack.close))
+
 if (ROOT/'frontend/dist').exists():
     app.mount('/',StaticFiles(directory=ROOT/'frontend/dist',html=True),name='frontend')

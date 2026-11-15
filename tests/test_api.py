@@ -119,3 +119,105 @@ def test_local_example_deduplicates_bundled_identity(monkeypatch, tmp_path):
     entries = client.get('/api/examples').json()
     matches = [item for item in entries if item['id'] == entry['id']]
     assert len(matches) == 1 and not matches[0]['bundled']
+
+
+def test_public_artifacts_allowlist_and_symlink_escape(monkeypatch,tmp_path):
+    from backend import app as module
+    monkeypatch.setattr(module,'DATA',tmp_path)
+    identifier='1'*32
+    folder=tmp_path/identifier;folder.mkdir()
+    (folder/'0.png').write_bytes(b'public fixture')
+    (folder/'manifest.json').write_text('{}')
+    for name in ['job.json','0.fits','discovery.ecsv','aligned.npz','0.part']:
+        (folder/name).write_bytes(b'internal')
+        assert client.get(f'/artifacts/{identifier}/{name}').status_code==404
+    assert client.get(f'/artifacts/{identifier}/0.png').content==b'public fixture'
+    assert client.get(f'/artifacts/{identifier}/manifest.json').status_code==200
+    assert client.get(f'/artifacts/{identifier}/%2e%2e/job.json').status_code==404
+    (folder/'1.png').symlink_to(folder/'job.json')
+    assert client.get(f'/artifacts/{identifier}/1.png').status_code==404
+
+
+def test_hourly_global_admission_limit(monkeypatch,tmp_path):
+    from collections import deque
+    from backend import app as module
+    import time
+    monkeypatch.setattr(module,'DATA',tmp_path)
+    monkeypatch.setattr(module,'admissions',deque([time.monotonic()]*12))
+    response=client.post('/api/sessions',json={'ra':1,'dec':2})
+    assert response.status_code==429
+    assert 'global hourly' in response.json()['detail']
+    assert not module.lock.locked()
+
+
+def test_exact_query_reuse_is_not_live_retrieval(monkeypatch,tmp_path):
+    import json
+    from backend import app as module
+    from backend.pipeline import Search
+    monkeypatch.setattr(module,'DATA',tmp_path)
+    folder=tmp_path/('2'*32);folder.mkdir()
+    query=Search(ra=10,dec=20).model_dump()
+    frames=[]
+    for i in range(2):
+        (folder/f'{i}.png').write_bytes(b'test preview')
+        frames.append({'image':f'/artifacts/{folder.name}/{i}.png'})
+    (folder/'manifest.json').write_text(json.dumps({'status':'ready','query':query,'frames':frames,'processor_version':module.PROCESSOR_VERSION}))
+    result=client.post('/api/sessions',json=query)
+    assert result.status_code==202 and result.json()['reused']
+    assert 'no new archive retrieval' in result.json()['message']
+
+
+def test_health_never_claims_upstream_checked_by_polling():
+    health=client.get('/api/health').json()
+    assert 'status' in health['archive'] and 'checked_utc' in health['archive']
+    assert 'does not establish' in health['notice']
+
+
+def test_one_job_runs_between_polls_while_readers_stay_available(monkeypatch,tmp_path):
+    from threading import Event
+    from backend import app as module
+    monkeypatch.setattr(module,'DATA',tmp_path)
+    monkeypatch.setattr(module,'jobs',{})
+    monkeypatch.setattr(module,'admissions',__import__('collections').deque())
+    started,release,finished=Event(),Event(),Event()
+    def controlled_run(query,identifier,update):
+        update('Synthetic controlled job started')
+        started.set()
+        assert release.wait(5)
+        finished.set()
+        return {'id':identifier,'status':'ready','query':query.model_dump(),'frames':[]}
+    monkeypatch.setattr(module,'run',controlled_run)
+    response=client.post('/api/sessions',json={'ra':10,'dec':20})
+    assert response.status_code==202 and started.wait(2)
+    try:
+        second=client.post('/api/sessions',json={'ra':11,'dec':20})
+        assert second.status_code==429 and 'active' in second.json()['detail']
+        assert client.get('/api/examples').status_code==200
+        assert client.get('/api/health').status_code==200
+        release.set()  # Work completes without any polling request.
+        assert finished.wait(2)
+    finally:
+        release.set()
+        for _ in range(100):
+            if not module.lock.locked():break
+            __import__('time').sleep(.01)
+    assert not module.lock.locked()
+    result=client.get('/api/sessions/'+response.json()['id']).json()
+    assert result['status']=='ready'
+
+
+def test_expired_session_does_not_survive_in_memory(monkeypatch,tmp_path):
+    from backend import app as module
+    from backend.storage import RuntimeStore
+    import time,os
+    monkeypatch.setattr(module,'DATA',tmp_path)
+    identifier='3'*32
+    folder=tmp_path/identifier;folder.mkdir()
+    (folder/'job.json').write_text('{"status":"failed"}')
+    os.utime(folder,(time.time()-100,time.time()-100))
+    monkeypatch.setattr(module,'jobs',{identifier:{'status':'failed'}})
+    monkeypatch.setattr(module,'runtime_store',lambda root:store)
+    store=RuntimeStore(tmp_path,limit=1000,ttl=10)
+    result=client.get('/api/sessions/'+identifier)
+    assert result.status_code==404 and 'expired' in result.json()['detail']
+    assert identifier not in module.jobs

@@ -9,6 +9,8 @@ import math
 import time
 import shutil
 import logging
+import io
+from contextvars import ContextVar
 import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
@@ -20,11 +22,18 @@ from reproject import reproject_interp
 from PIL import Image
 from .diagnostics import compare
 from .discovery import direct_sia
+from .storage import runtime_store
 from .errors import PipelineError, FrameUnavailable
 from pydantic import BaseModel, Field
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = Path(os.environ.get('TIMESCOPE_DATA_DIR', str(ROOT / 'data'))).expanduser().resolve()
+DEADLINE = ContextVar('pipeline_deadline', default=None)
+
+def check_deadline():
+    if DEADLINE.get() is not None and time.monotonic() >= DEADLINE.get():
+        raise PipelineError('Processing time budget reached. Retry with fewer frames or a smaller field.', 'job_timeout', True)
+
 class Search(BaseModel):
     ra: float = Field(ge=0, lt=360, allow_inf_nan=False)
     dec: float = Field(ge=-90, le=90, allow_inf_nan=False)
@@ -60,12 +69,16 @@ def download(url, params, dest):
     key = hashlib.sha256(json.dumps([url,params],sort_keys=True).encode()).hexdigest()
     cache = DATA/'cutout-cache'/f'{key}.fits'
     cache.parent.mkdir(parents=True,exist_ok=True)
-    if cache.exists():
-        shutil.copyfile(cache,dest)
+    store = runtime_store(DATA)
+    check_deadline()
+    with store.mutex:
+        if cache.exists():
+            with store.pin(cache), store.pin(dest.parent), store.reserve(cache.stat().st_size):
+                shutil.copyfile(cache,dest)
     if not dest.exists():
         tmp = dest.with_suffix('.part')
         try:
-            with requests.Session() as client:
+            with store.pin(dest.parent), store.reserve(64*1024*1024), requests.Session() as client:
                 client.mount('https://', HTTPAdapter(max_retries=Retry(total=2, backoff_factor=1,
                     status_forcelist=[429,502,503,504],raise_on_status=False,respect_retry_after_header=False)))
                 with client.get(url, params=params, timeout=(10,30), stream=True, allow_redirects=False) as response:
@@ -74,6 +87,7 @@ def download(url, params, dest):
                     size = 0
                     with tmp.open('wb') as out:
                         for chunk in response.iter_content(65536):
+                            check_deadline()
                             size += len(chunk)
                             if size > 64*1024*1024:
                                 raise FrameUnavailable('This cutout exceeds the 64 MiB download limit.')
@@ -85,14 +99,29 @@ def download(url, params, dest):
             except (OSError,ValueError) as exc:
                 raise FrameUnavailable('IRSA returned an unreadable FITS cutout.') from exc
             tmp.replace(dest)
-            shutil.copyfile(dest,cache)
+            with store.pin(cache), store.pin(dest.parent), store.reserve(dest.stat().st_size):
+                shutil.copyfile(dest,cache)
         except requests.RequestException as exc:
             raise FrameUnavailable('IRSA did not respond successfully before the download retry limit.') from exc
         finally:
             tmp.unlink(missing_ok=True)
-    return hashlib.sha256(dest.read_bytes()).hexdigest()
+    digest = hashlib.sha256()
+    with dest.open('rb') as original:
+        for block in iter(lambda:original.read(1024*1024), b''):
+            digest.update(block)
+    return digest.hexdigest()
 
 def run(search, job, progress=lambda _: None, *, inventory=None):
+    store = runtime_store(DATA)
+    token = DEADLINE.set(time.monotonic()+240)
+    try:
+        with store.pin(DATA/job):
+            store.cleanup()
+            return _run(search, job, progress, inventory=inventory)
+    finally:
+        DEADLINE.reset(token)
+
+def _run(search, job, progress, *, inventory=None):
     folder = DATA / job
     folder.mkdir(parents=True, exist_ok=True)
     progress('Searching IRSA')
@@ -111,7 +140,13 @@ def run(search, job, progress=lambda _: None, *, inventory=None):
             except Exception as exc:
                 logging.exception('Both IRSA discovery routes failed')
                 raise PipelineError('IRSA observation search is unavailable. Try again shortly; your coordinates have not been replaced with example data.', 'archive_search_unavailable', True) from exc
-    rows.write(folder/'discovery.ecsv',overwrite=True)
+    check_deadline()
+    inventory_text = io.StringIO()
+    rows.write(inventory_text,format='ascii.ecsv')
+    inventory_bytes = inventory_text.getvalue().encode()
+    with runtime_store(DATA).reserve(len(inventory_bytes)):
+        (folder/'discovery.ecsv').write_bytes(inventory_bytes)
+    del inventory_text, inventory_bytes
     try:
         selected = selection(rows,search.frames)
     except ValueError as exc:
@@ -126,6 +161,7 @@ def run(search, job, progress=lambda _: None, *, inventory=None):
     consecutive_failures = 0
     started = time.monotonic()
     for i,row in enumerate(selected):
+        check_deadline()
         if consecutive_failures >= 3 or time.monotonic()-started > 240:
             failures.extend({'obs_id':str(r['obs_id']),'source_url':str(r['access_url']),'reason':'Not attempted: archive failure/time budget reached.'} for r in selected[i:])
             break
@@ -143,6 +179,8 @@ def run(search, job, progress=lambda _: None, *, inventory=None):
         consecutive_failures = 0
         with fits.open(path) as h:
             head = h['IMAGE'].header
+            if head.get('NAXIS1',0)*head.get('NAXIS2',0) > 1024**2:
+                raise PipelineError('Cutout dimensions exceed the bounded preview limit. Try a smaller field.', 'cutout_too_large', True)
             w = WCS(head,h).celestial
             values = h['IMAGE'].data.astype(float)
             flags = h['FLAGS'].data.astype(np.int64)
@@ -172,7 +210,7 @@ def run(search, job, progress=lambda _: None, *, inventory=None):
               'sha256':digest,'wavelength_um_at_center':center_wave,'coverage':float(valid.mean()),
               'wcs_roundtrip_pixels':float(np.hypot(rx-x,ry-y)),
               'image':f'/artifacts/{job}/{i}.png'})
-    (folder/'retrieval-report.json').write_text(json.dumps({'query':search.model_dump(),'usable_frames':len(frames),'failed_frames':failures},indent=2))
+    runtime_store(DATA).write_json(folder/'retrieval-report.json', {'query':search.model_dump(),'usable_frames':len(frames),'failed_frames':failures})
     if len(frames) < 2:
         raise PipelineError(f'Only {len(frames)} usable observation(s) could be loaded; at least two are needed. {len(failures)} were skipped due to retrieval or coverage problems. Try again shortly. Successfully downloaded cutouts are cached.', 'insufficient_usable_frames', True)
     ordered = sorted(zip(frames, arrays), key=lambda item: item[0]['date'])
@@ -184,8 +222,10 @@ def run(search, job, progress=lambda _: None, *, inventory=None):
         gray = (np.nan_to_num(level)*255).astype('uint8')
         rgba = np.dstack([gray,gray,gray,np.isfinite(array).astype('uint8')*255])
         # FITS row 0 is the south edge for this north-up TAN grid.
-        Image.fromarray(rgba[::-1]).save(folder/Path(frame['image']).name)
-    manifest = {'schema_version':1,'status':'ready','id':job,'query':search.model_dump(),
+        check_deadline()
+        with runtime_store(DATA).reserve(rgba.nbytes+65536):
+            Image.fromarray(rgba[::-1]).save(folder/Path(frame['image']).name)
+    manifest = {'schema_version':1,'processor_version':'bounded-v1','status':'ready','id':job,'query':search.model_dump(),
        'discovery_limited':rows.meta.get('discovery_limited',False),
        'discovery_provenance':dict(rows.meta),
        'discovery_method':rows.meta.get('discovery_method','astroquery-sia-v2'),
@@ -205,5 +245,7 @@ def run(search, job, progress=lambda _: None, *, inventory=None):
             reports.append(report)
     manifest['diagnostics'] = {'method':'bright-peak-centroids-v1', 'pairs':reports,
         'limitations':'Exploratory geometry; wavelength and PSF compatibility not established.'}
-    (folder/'manifest.json').write_text(json.dumps(manifest,indent=2,allow_nan=False))
+    manifest['temporary_session'] = True
+    manifest['expires_utc'] = datetime.fromtimestamp(time.time()+runtime_store(DATA).ttl, timezone.utc).isoformat()
+    runtime_store(DATA).write_json(folder/'manifest.json',manifest)
     return manifest

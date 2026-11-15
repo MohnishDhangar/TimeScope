@@ -246,3 +246,14 @@ test('southern field opens fresh cutouts and discloses saved-inventory scope',as
  await page.setViewportSize({width:390,height:844})
  await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true)
 })
+
+test('expired live link retains frame count and allows an explicit retry',async({page})=>{
+ let posted:unknown=null
+ await page.route('**/api/sessions',async route=>{posted=route.request().postDataJSON();await route.fulfill({status:429,json:{detail:'Another scientific job is active. Retry shortly.'}})})
+ await page.goto('http://127.0.0.1:8000?session=ffffffffffffffffffffffffffffffff&ra=42&dec=-30&fov=8&frames=4')
+ await expect(page.getByRole('alert')).toContainText('expired')
+ await expect(page.getByLabel('Observation count',{exact:true})).toHaveValue('4')
+ await page.getByRole('button',{name:'Retry search',exact:true}).click()
+ await expect.poll(()=>posted).toEqual({ra:42,dec:-30,fov:8,frames:4})
+ await expect(page.getByRole('alert')).toContainText('Another scientific job is active')
+})
